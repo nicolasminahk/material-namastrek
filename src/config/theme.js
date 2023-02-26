@@ -1,13 +1,51 @@
-import { createTheme } from '@mui/material'
-import { blue, red } from '@mui/material/colors'
+import React from 'react'
+import { createTheme, ThemeProvider } from '@material-ui/core/styles'
 
-export const theme = createTheme({
-    palette: {
+const Theme = () => {
+    const palette = {
         primary: {
-            main: '#e91e63',
+            main: '#00B4D8',
         },
         secondary: {
-            main: blue,
+            main: '#0077B6',
         },
-    },
-})
+        text: {
+            primary: '#1A202C',
+        },
+        background: {
+            default: '#F0F4F8',
+            paper: 'white',
+        },
+    }
+
+    const theme = createTheme({
+        palette,
+        overrides: {
+            MuiButton: {
+                root: {
+                    borderRadius: '4px',
+                    textTransform: 'none',
+                },
+                containedPrimary: {
+                    backgroundColor: palette.primary.main,
+                    color: 'white',
+                    '&:hover': {
+                        backgroundColor: palette.secondary.main,
+                    },
+                },
+            },
+            MuiPaper: {
+                root: {
+                    backgroundColor: palette.background.paper,
+                    borderRadius: '4px',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                    padding: '24px',
+                },
+            },
+        },
+    })
+
+    return <ThemeProvider theme={theme} />
+}
+
+export default Theme
