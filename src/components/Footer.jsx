@@ -5,24 +5,37 @@ function Footer() {
     return (
         <footer
             sx={{
+                display: 'flex',
                 width: '100%',
                 height: 'auto',
                 backgroundColor: 'secondary.main',
-                paddingTop: '1rem',
-                paddingBottom: '1rem',
+                padding: '1rem 0',
+                position: 'absolute',
+                bottom: 0,
+                flexDirection: 'colum',
             }}
         >
             <Typography variant="h6" align="center" gutterBottom>
-                My Footer
+                Namastrek
             </Typography>
             <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
                 Copyright &copy; {new Date().getFullYear()}
             </Typography>
             <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                Made with ❤️ by <Link href="https://example.com/">Your Name</Link>
+                Realizado por <Link href="https://example.com/">Nicolas Minahk</Link>
             </Typography>
         </footer>
     )
 }
 
 export default Footer
+
+// style={{
+//     flexDirection: 'row-reverse',
+//     paddingTop: '200px',
+//     marginTop: 1,
+//     padding: '1em 0',
+//     position: 'absolute',
+//     bottom: 0,
+//     width: '100% ',
+// }}

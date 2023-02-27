@@ -15,7 +15,7 @@ function UserProfile({ name, outputs, benefits }) {
                         Outputs
                     </Typography>
                     <Carousel>
-                        {outputs.map((output, index) => (
+                        {outputs?.map((output, index) => (
                             <div key={index}>
                                 <img src={output.image} alt={output.title} />
                                 <Typography variant="body1">{output.title}</Typography>
@@ -30,7 +30,7 @@ function UserProfile({ name, outputs, benefits }) {
                         Benefits
                     </Typography>
                     <Carousel>
-                        {benefits.map((benefit, index) => (
+                        {benefits?.map((benefit, index) => (
                             <div key={index}>
                                 <img src={benefit.image} alt={benefit.title} />
                                 <Typography variant="body1">{benefit.title}</Typography>

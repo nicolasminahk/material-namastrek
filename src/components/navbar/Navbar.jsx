@@ -17,7 +17,7 @@ const user = {
 export default function Navbar() {
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="fixed" sx={{ bgcolor: 'black' }}>
+            <AppBar position="fixed" sx={{ bgcolor: 'white' }}>
                 <Toolbar>
                     <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
                         <MenuIcon />
@@ -26,7 +26,7 @@ export default function Navbar() {
                         Namastrek
                     </Typography>
 
-                    {!user.email && (
+                    {/* {!user.email && (
                         <LoginIcon color="white">
                             <Typography>Login</Typography>
                         </LoginIcon>
@@ -35,7 +35,7 @@ export default function Navbar() {
                         <LogoutIcon color="white" position="fixed">
                             <Typography>Logout</Typography>
                         </LogoutIcon>
-                    )}
+                    )} */}
                     <AccountCircleIcon>
                         {/* <Typography variant="x-small">{user.email}</Typography> */}
                     </AccountCircleIcon>
