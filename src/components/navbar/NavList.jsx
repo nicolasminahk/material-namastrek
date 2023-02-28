@@ -2,39 +2,45 @@ import { Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } f
 import { Box } from '@mui/material'
 import React from 'react'
 import { Inbox } from '@mui/icons-material'
+import HikingIcon from '@mui/icons-material/Hiking'
+import LoyaltyIcon from '@mui/icons-material/Loyalty'
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import { useNavigate } from 'react-router-dom'
 
 const NavList = () => {
+    const navigate = useNavigate()
     return (
         <Box sx={{ width: 250, borderRadius: 3 }}>
             <nav>
                 <List>
-                    <ListItem>
+                    <ListItem onClick={() => navigate('/')}>
                         <ListItemIcon>
                             <Inbox />
                         </ListItemIcon>
-                        <ListItemText primary="Menu" />
+                        <ListItemText primary="Inicio" />
                     </ListItem>
-                    <ListItem>
+                    <ListItem onClick={() => navigate('/activitys')}>
                         <ListItemIcon>
-                            <Inbox />
+                            <HikingIcon color="green" />
                         </ListItemIcon>
                         <ListItemText primary="Salidas" />
                     </ListItem>
-                    <ListItem>
+                    <ListItem onClick={() => navigate('/benefits')}>
                         <ListItemIcon>
-                            <Inbox />
+                            <LoyaltyIcon />
                         </ListItemIcon>
                         <ListItemText primary="Beneficios" />
                     </ListItem>
-                    <ListItem>
+                    <ListItem onClick={() => navigate('/tips')}>
                         <ListItemIcon>
-                            <Inbox />
+                            <TipsAndUpdatesIcon />
                         </ListItemIcon>
                         <ListItemText primary="Tips" />
                     </ListItem>
-                    <ListItem>
+                    <ListItem onClick={() => navigate('/profile')}>
                         <ListItemIcon>
-                            <Inbox />
+                            <AccountCircleIcon />
                         </ListItemIcon>
                         <ListItemText primary="Perfil" />
                     </ListItem>

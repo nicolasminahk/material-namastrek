@@ -4,7 +4,8 @@ import { Card, CardContent, Typography } from '@mui/material'
 const BenefitsList = ({ benefits }) => {
     return (
         <div>
-            {benefits.map((benefit, index) => (
+            <Typography>Tus Beneficios</Typography>
+            {benefits?.map((benefit, index) => (
                 <Card
                     key={index}
                     sx={{

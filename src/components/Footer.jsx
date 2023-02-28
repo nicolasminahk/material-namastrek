@@ -3,18 +3,7 @@ import { Typography, Link } from '@mui/material'
 
 function Footer() {
     return (
-        <footer
-            sx={{
-                display: 'flex',
-                width: '100%',
-                height: 'auto',
-                backgroundColor: 'secondary.main',
-                padding: '1rem 0',
-                position: 'absolute',
-                bottom: 0,
-                flexDirection: 'colum',
-            }}
-        >
+        <footer>
             <Typography variant="h6" align="center" gutterBottom>
                 Namastrek
             </Typography>

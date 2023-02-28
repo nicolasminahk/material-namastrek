@@ -9,12 +9,3 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
-
-.calendar {
-    max-width: 600px;
-    margin: auto;
-    margin-top: 20px;
-    background-color: #d4f7d4;
-    padding: 10px;
-    border-radius: 3px;
-}

@@ -6,6 +6,7 @@ import { Typography, Box, Card, CardContent } from '@mui/material'
 function UserProfile({ name, outputs, benefits }) {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Typography>Tu perfil</Typography>
             <Typography variant="h4" sx={{ mb: 4 }}>
                 {name}
             </Typography>
