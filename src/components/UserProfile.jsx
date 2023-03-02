@@ -2,6 +2,7 @@ import React from 'react'
 import { Carousel } from 'react-responsive-carousel'
 // import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Typography, Box, Card, CardContent } from '@mui/material'
+import { useAuth0 } from '@auth0/auth0-react'
 
 function UserProfile({ name, outputs, benefits }) {
     return (
@@ -13,7 +14,7 @@ function UserProfile({ name, outputs, benefits }) {
             <Card variant="outlined" sx={{ mb: 4 }}>
                 <CardContent>
                     <Typography variant="h5" sx={{ mb: 2 }}>
-                        Outputs
+                        Salidas
                     </Typography>
                     <Carousel>
                         {outputs?.map((output, index) => (
@@ -28,7 +29,7 @@ function UserProfile({ name, outputs, benefits }) {
             <Card variant="outlined">
                 <CardContent>
                     <Typography variant="h5" sx={{ mb: 2 }}>
-                        Benefits
+                        Beneficios
                     </Typography>
                     <Carousel>
                         {benefits?.map((benefit, index) => (

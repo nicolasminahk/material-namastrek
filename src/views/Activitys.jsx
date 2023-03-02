@@ -2,6 +2,7 @@ import { Box, Card, CardContent, Typography } from '@mui/material'
 import React from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import ExitView from '../components/ExitView'
+import Footer from '../components/Footer'
 import Navbar from '../components/navbar/Navbar'
 
 const Activitys = () => {
@@ -45,6 +46,7 @@ const Activitys = () => {
                     <ExitView />
                 </Box>
             </Box>
+            <Footer />
         </>
     )
 }

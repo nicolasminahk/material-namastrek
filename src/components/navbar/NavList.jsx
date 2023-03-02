@@ -49,9 +49,9 @@ const NavList = () => {
             <Divider />
             <nav>
                 <List>
-                    <ListItem disablePadding>
+                    <ListItem disablePadding onClick={() => navigate('/about')}>
                         <ListItemButton component="a" href="#link">
-                            <ListItemText primary="guardar" />
+                            <ListItemText primary="Sobre Nosotros" />
                         </ListItemButton>
                     </ListItem>
                 </List>

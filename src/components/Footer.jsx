@@ -1,19 +1,46 @@
 import React from 'react'
-import { Typography, Link } from '@mui/material'
+import { Typography, Box, IconButton } from '@mui/material'
+import { Facebook, WhatsApp } from '@mui/icons-material'
 
 function Footer() {
     return (
-        <footer>
-            <Typography variant="h6" align="center" gutterBottom>
-                Namastrek
-            </Typography>
-            <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                Copyright &copy; {new Date().getFullYear()}
-            </Typography>
-            <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                Realizado por <Link href="https://example.com/">Nicolas Minahk</Link>
-            </Typography>
-        </footer>
+        <Box
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#E5F6E5',
+                py: 2,
+                '& > *': {
+                    margin: '0 10px',
+                },
+                '@media screen and (max-width: 600px)': {
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    '& > *': {
+                        margin: '10px 0',
+                    },
+                },
+            }}
+        >
+            <Box sx={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+                <Typography sx={{ flexGrow: 1, fontWeight: 'bold', mr: 2 }}>Namastrek</Typography>
+                <IconButton
+                    aria-label="Facebook"
+                    onClick={() => window.open('https://www.facebook.com/')}
+                    sx={{ mr: 1 }}
+                >
+                    <Facebook />
+                </IconButton>
+                <IconButton aria-label="WhatsApp" onClick={() => window.open('https://www.whatsapp.com/')}>
+                    <WhatsApp />
+                </IconButton>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography sx={{ mr: 2 }}>Hecho con ❤️ por el equipo de Namastrek</Typography>
+                <Typography sx={{ fontSize: '12px', fontWeight: 'bold' }}>© 2023 All rights reserved</Typography>
+            </Box>
+        </Box>
     )
 }
 
