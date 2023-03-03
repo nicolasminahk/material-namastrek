@@ -40,9 +40,9 @@ function ExitView({ name, description, image, price, rating }) {
                         <Typography variant="body1" sx={{ mb: 2 }}>
                             Price: {price}
                         </Typography>
-                        <Typography variant="body1" sx={{ mb: 2 }}>
+                        {/* <Typography variant="body1" sx={{ mb: 2 }}>
                             Rating: <Rating value={rating} precision={0.5} readOnly />
-                        </Typography>
+                        </Typography> */}
                         <Button
                             variant="contained"
                             color="secondary"

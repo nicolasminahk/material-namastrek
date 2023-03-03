@@ -1,11 +1,27 @@
 import { Box, Card, CardContent, Typography } from '@mui/material'
 import React from 'react'
 import { Carousel } from 'react-responsive-carousel'
+import { gql, useQuery, useMutation } from '@apollo/client'
+
 import ExitView from '../components/ExitView'
 import Footer from '../components/Footer'
 import Navbar from '../components/navbar/Navbar'
 
+const ALL_SALIDAS = gql`
+    query AllSalidas {
+        allSalidas {
+            date
+            description
+            id
+            name
+            price
+        }
+    }
+`
+
 const Activitys = () => {
+    const { loading, error, data } = useQuery(ALL_SALIDAS)
+
     return (
         <>
             <Navbar />
@@ -25,6 +41,7 @@ const Activitys = () => {
                 </Typography>
                 <Box
                     sx={{
+                        flex: 1,
                         width: '100%',
                         maxWidth: '600px',
                         bgcolor: '#FFFFFF',
@@ -43,7 +60,18 @@ const Activitys = () => {
                         },
                     }}
                 >
-                    <ExitView />
+                    <>
+                        {data?.allSalidas.map((view) => {
+                            return (
+                                <ExitView
+                                    name={view.name}
+                                    description={view.description}
+                                    price={view.price}
+                                    image={view.image}
+                                />
+                            )
+                        })}
+                    </>
                 </Box>
             </Box>
             <Footer />
