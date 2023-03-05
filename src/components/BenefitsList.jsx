@@ -18,7 +18,7 @@ const BenefitsList = ({ benefits }) => {
     return (
         <div>
             <Typography>Tus Beneficios</Typography>
-            {data.allBeneficos?.map((benefit, index) => (
+            {data?.allBeneficos?.map((benefit, index) => (
                 <Card
                     key={index}
                     sx={{
