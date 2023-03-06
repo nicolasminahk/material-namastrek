@@ -5,6 +5,7 @@ import { Facebook, WhatsApp } from '@mui/icons-material'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import Footer from '../components/Footer'
 // import CompanyLogo from './CompanyLogo';
+import logo from '../assets/namastrek.png'
 
 const AboutUs = () => {
     return (
@@ -20,6 +21,11 @@ const AboutUs = () => {
                     backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39)',
                 }}
             >
+                <img
+                    src={logo}
+                    alt="Company Logo"
+                    style={{ width: 320, height: 200, borderRadius: 30, paddingBottom: 20 }}
+                />
                 <Box sx={{ my: 3 }}>{/* <CompanyLogo width="150" height="150" /> */}</Box>
                 <Typography variant="h4" sx={{ color: 'white', textAlign: 'center', mb: 2 }}>
                     "Camina besando la tierra con tus pies"

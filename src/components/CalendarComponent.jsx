@@ -3,6 +3,9 @@ import { Calendar } from 'react-calendar'
 import { Card } from '@mui/material'
 import styled from 'styled-components'
 
+import { format } from 'date-fns'
+import { DayPicker } from 'react-day-picker'
+
 function getActivities(date) {
     // Remplazar por la llamada a la base de datos
     const activities = [
@@ -32,12 +35,24 @@ function getActivities(date) {
 }
 
 const CalendarComponent = ({ activities }) => {
-    const [selectedDate, setSelectedDate] = useState(new Date())
+    const [selectedDate, setSelectedDate] = useState(null)
+
+    let footer = <p>Please pick a day.</p>
+    if (selectedDate) {
+        footer = <p>You picked {format(selectedDate, 'PP')}.</p>
+    }
 
     return (
         <div style={{ marginTop: '100px', flexDirection: 'row' }}>
             <CalendarContainer>
                 <Calendar value={selectedDate} onChange={setSelectedDate} locale="es" />
+                {/* <DayPicker
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={setSelectedDate}
+                    footer={footer}
+                    locale="es"
+                /> */}
             </CalendarContainer>
             <div>
                 {activities?.map((activity) => (

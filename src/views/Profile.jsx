@@ -1,9 +1,11 @@
 import React from 'react'
-import { Box } from '@mui/material'
+import { Box, Typography, Button, Modal } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import Navbar from '../components/navbar/Navbar'
 import UserProfile from '../components/UserProfile'
 import Footer from '../components/Footer'
+import ContactForm from '../components/ContactForm'
+import { useNavigate } from 'react-router-dom'
 
 const UserProfileContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -19,10 +21,15 @@ const UserProfileContainer = styled(Box)(({ theme }) => ({
 }))
 
 const Profile = () => {
+    const navigate = useNavigate()
     return (
         <>
             <Navbar />
             <UserProfileContainer>
+                <>
+                    <Typography>Para poder realizar Actividades debe llenar el siguiente formulario:</Typography>
+                    <Button onClick={() => navigate('/form')}>Formulario</Button>
+                </>
                 <UserProfile />
             </UserProfileContainer>
             <Footer />

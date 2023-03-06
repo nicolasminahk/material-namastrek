@@ -7,6 +7,7 @@ import { LogoutButtom } from '../Logout'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Link } from 'react-router-dom'
 import PersonPinIcon from '@mui/icons-material/PersonPin'
+import logo from '../../assets/namastrek.png'
 
 function Navbar() {
     const [drawer, setDrawer] = React.useState(false)
@@ -37,9 +38,10 @@ function Navbar() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <img src={logo} alt="Company Logo" style={{ height: 50, marginRight: 'auto', marginLeft: 16 }} />
+                    {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Namastrek
-                    </Typography>
+                    </Typography> */}
 
                     <Box>
                         {!isAuthenticated && (

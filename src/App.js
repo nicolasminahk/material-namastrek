@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
+import ContactForm from './components/ContactForm'
 import AboutUs from './views/AboutUs'
 import Activitys from './views/Activitys'
 import Benefits from './views/Benefits'
@@ -15,6 +16,7 @@ function App() {
             <Route path="/activitys" element={<Activitys />} />
             <Route path="/tips" element={<TipsView />} />
             <Route path="/about" element={<AboutUs />} />
+            <Route path="/form" element={<ContactForm />} />
         </Routes>
     )
 }
