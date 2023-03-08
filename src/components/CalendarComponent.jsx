@@ -11,22 +11,22 @@ function getActivities(date) {
     const activities = [
         {
             title: 'Actividad 1',
-            date: '2023-02-15',
+            date: '2023-03-15',
             description: 'Descripción de la actividad 1',
         },
         {
             title: 'Actividad 2',
-            date: '2023-02-20',
+            date: '2023-03-20',
             description: 'Descripción de la actividad 2',
         },
         {
             title: 'Actividad 3',
-            date: '2023-02-22',
+            date: '2023-03-22',
             description: 'Descripción de la actividad 3',
         },
         {
             title: 'Actividad 4',
-            date: '2023-02-28',
+            date: '2023-03-28',
             description: 'Descripción de la actividad 4',
         },
     ]
@@ -46,13 +46,6 @@ const CalendarComponent = ({ activities }) => {
         <div style={{ marginTop: '100px', flexDirection: 'row' }}>
             <CalendarContainer>
                 <Calendar value={selectedDate} onChange={setSelectedDate} locale="es" />
-                {/* <DayPicker
-                    mode="single"
-                    selected={selectedDate}
-                    onSelect={setSelectedDate}
-                    footer={footer}
-                    locale="es"
-                /> */}
             </CalendarContainer>
             <div>
                 {activities?.map((activity) => (
@@ -142,3 +135,91 @@ const CalendarContainer = styled.div`
 `
 
 export default CalendarComponent
+
+// import React, { useState } from 'react'
+// import { Calendar } from 'react-modern-calendar-datepicker'
+// import dayjs from 'dayjs'
+// import styled from '@mui/material/styles/styled'
+// import Box from '@mui/material/Box'
+// import { isSameDay } from 'date-fns'
+// import 'react-modern-calendar-datepicker/lib/DatePicker.css'
+// // import '@fortawesome/fontawesome-free/css/all.css'
+
+// const utils = {
+//     getToday: () => {
+//         const now = new Date()
+//         return {
+//             year: now.getFullYear(),
+//             month: now.getMonth() + 1,
+//             day: now.getDate(),
+//         }
+//     },
+// }
+
+// const CalendarContainer = styled(Box)(({ theme }) => ({
+//     margin: theme.spacing(0, 2),
+//     height: 'fit-content',
+// }))
+
+// const ActivityBox = styled(Box)(({ theme }) => ({
+//     padding: theme.spacing(1),
+//     borderRadius: '4px',
+//     backgroundColor: '#f4f4f4',
+//     boxShadow: '0px 2px 3px rgba(0, 0, 0, 0.15)',
+//     marginTop: theme.spacing(1),
+// }))
+
+// const CalendarComponent = ({ activities }) => {
+//     const [selectedDate, setSelectedDate] = useState(utils.getToday())
+//     const [selectedActivity, setSelectedActivity] = useState(null)
+
+//     const onDateClick = (date) => {
+//         setSelectedDate(date)
+//         setSelectedActivity(activities.find((activity) => dayjs(activity.date).isSame(date, 'day')))
+//     }
+
+//     return (
+//         <div style={{ marginTop: '100px', flexDirection: 'row' }}>
+//             <CalendarContainer>
+//                 <Calendar
+//                     value={selectedDate}
+//                     onChange={setSelectedDate}
+//                     utils={utils}
+//                     shouldHighlightWeekends
+//                     locale="es"
+//                     onDisabledDayError={() => {}}
+//                     renderDayContent={({ day, isSelected, isToday, isDisabled }) => {
+//                         const activity = activities.find((activity) => dayjs(activity.date).isSame(day, 'day'))
+//                         const hasActivity = !!activity
+//                         const isDaySelected = isSelected || isSameDay(day, selectedDate.date)
+//                         const isDayToday = isToday && !hasActivity
+//                         const isDayDisabled = isDisabled && !hasActivity
+
+//                         return (
+//                             <div
+//                                 className={`calendar-day ${isDaySelected ? 'calendar-day-selected' : ''} ${
+//                                     isDayToday ? 'calendar-day-today' : ''
+//                                 } ${isDayDisabled ? 'calendar-day-disabled' : ''}`}
+//                                 onClick={() => !isDayDisabled && onDateClick(day)}
+//                             >
+//                                 <div className="calendar-day-number">{day.day}</div>
+//                                 {hasActivity && <div className="calendar-day-activity-dot" />}
+//                             </div>
+//                         )
+//                     }}
+//                 />
+//             </CalendarContainer>
+//             <div>
+//                 {selectedActivity && (
+//                     <ActivityBox>
+//                         <div>{selectedActivity.title}</div>
+//                         <div>{selectedActivity.description}</div>
+//                         <div>{selectedActivity.date}</div>
+//                     </ActivityBox>
+//                 )}
+//             </div>
+//         </div>
+//     )
+// }
+
+// export default CalendarComponent
