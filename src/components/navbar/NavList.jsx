@@ -6,6 +6,7 @@ import HikingIcon from '@mui/icons-material/Hiking'
 import LoyaltyIcon from '@mui/icons-material/Loyalty'
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import { useNavigate } from 'react-router-dom'
 
 const NavList = () => {
@@ -16,7 +17,7 @@ const NavList = () => {
                 <List>
                     <ListItem onClick={() => navigate('/')}>
                         <ListItemIcon>
-                            <Inbox />
+                            <CalendarMonthIcon />
                         </ListItemIcon>
                         <ListItemText primary="Inicio" />
                     </ListItem>

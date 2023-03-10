@@ -6,38 +6,10 @@ import styled from 'styled-components'
 import { format } from 'date-fns'
 import { DayPicker } from 'react-day-picker'
 
-function getActivities(date) {
-    // Remplazar por la llamada a la base de datos
-    const activities = [
-        {
-            title: 'Actividad 1',
-            date: '2023-03-15',
-            description: 'Descripción de la actividad 1',
-        },
-        {
-            title: 'Actividad 2',
-            date: '2023-03-20',
-            description: 'Descripción de la actividad 2',
-        },
-        {
-            title: 'Actividad 3',
-            date: '2023-03-22',
-            description: 'Descripción de la actividad 3',
-        },
-        {
-            title: 'Actividad 4',
-            date: '2023-03-28',
-            description: 'Descripción de la actividad 4',
-        },
-    ]
-
-    return activities.filter((activity) => activity.date === date.toISOString().slice(0, 10))
-}
-
 const CalendarComponent = ({ activities }) => {
     const [selectedDate, setSelectedDate] = useState(null)
 
-    let footer = <p>Please pick a day.</p>
+    let footer = <p>Seleccione un día</p>
     if (selectedDate) {
         footer = <p>You picked {format(selectedDate, 'PP')}.</p>
     }
@@ -136,14 +108,20 @@ const CalendarContainer = styled.div`
 
 export default CalendarComponent
 
+// // import React, { useState } from 'react'
 // import React, { useState } from 'react'
-// import { Calendar } from 'react-modern-calendar-datepicker'
+// import { Calendar } from 'react-calendar'
+// // import { Calendar } from 'react-calendar'
+// // import dayjs from 'dayjs'
 // import dayjs from 'dayjs'
-// import styled from '@mui/material/styles/styled'
-// import Box from '@mui/material/Box'
+// // import styled from 'styled-components'
+// import styled from 'styled-components'
+// // import { Box } from '@mui/material'
+// import { Box } from '@mui/material'
 // import { isSameDay } from 'date-fns'
-// import 'react-modern-calendar-datepicker/lib/DatePicker.css'
-// // import '@fortawesome/fontawesome-free/css/all.css'
+// import 'react-modern-calendar-datepicker'
+// // import { isSameDay } from 'date-fns'
+// // import 'react-modern-calendar-datepicker/lib/DatePicker.css'
 
 // const utils = {
 //     getToday: () => {

@@ -21,7 +21,6 @@ const ALL_SALIDAS = gql`
 
 const Activitys = () => {
     const { loading, error, data } = useQuery(ALL_SALIDAS)
-
     return (
         <>
             <Navbar />
@@ -32,11 +31,10 @@ const Activitys = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     pt: 8,
-                    backgroundColor: '#F7F7F7',
                     minHeight: '100vh',
                 }}
             >
-                <Typography variant="h3" sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold' }}>
+                <Typography variant="h3" sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold', paddingTop: '25px' }}>
                     Salidas
                 </Typography>
                 <Box

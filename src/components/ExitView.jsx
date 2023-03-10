@@ -19,8 +19,6 @@ function ExitView({ name, description, image, price, rating }) {
                 flexDirection: 'column',
                 alignItems: 'center',
                 mb: 4,
-                // backgroundImage: `url(${image})`,
-                // backgroundImage: backgroundImage,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 borderRadius: '10px',

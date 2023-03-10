@@ -2,8 +2,23 @@ import { Box, Typography } from '@mui/material'
 import React from 'react'
 import BenefitsList from '../components/BenefitsList'
 import Navbar from '../components/navbar/Navbar'
+import { gql, useQuery, useMutation } from '@apollo/client'
+import { Button } from 'react-day-picker'
+
+const ALL_BENEFICIOS = gql`
+    query AllBeneficios {
+        allBeneficios {
+            date
+            description
+            id
+            name
+        }
+    }
+`
 
 const Benefits = () => {
+    const { loading, error, data } = useQuery(ALL_BENEFICIOS)
+    if (loading) return null
     return (
         <>
             <Navbar />
@@ -39,9 +54,13 @@ const Benefits = () => {
                         '@media (min-width: 600px)': {
                             mx: 'auto',
                         },
+                        margin: '0 auto',
+                        marginTop: 4,
                     }}
                 >
-                    <BenefitsList />
+                    {data?.allBeneficios?.map((benefit) => (
+                        <BenefitsList benefits={benefit} key={benefit.id} />
+                    ))}
                 </Box>
             </Box>
         </>
