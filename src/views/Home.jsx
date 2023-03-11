@@ -3,30 +3,45 @@ import React, { useState } from 'react'
 import CalendarComponent from '../components/CalendarComponent'
 import Footer from '../components/Footer'
 import Navbar from '../components/navbar/Navbar'
+import { gql, useQuery, useMutation } from '@apollo/client'
 
-const activities = [
-    {
-        title: 'Actividad 1',
-        date: '2023-03-15',
-        description: 'Descripción de la actividad 1',
-    },
-    {
-        title: 'Actividad 2',
-        date: '2023-03-20',
-        description: 'Descripción de la actividad 2',
-    },
-    {
-        title: 'Actividad 3',
-        date: '2023-03-22',
-        description: 'Descripción de la actividad 3',
-    },
-    {
-        title: 'Actividad 4',
-        date: '2023-03-28',
-        description: 'Descripción de la actividad 4',
-    },
-]
+const ALL_SALIDAS = gql`
+    query AllSalidas {
+        allSalidas {
+            date
+            description
+            id
+            name
+            price
+        }
+    }
+`
+// const activities = [
+//     {
+//         title: 'Actividad 1',
+//         date: '2023-03-15',
+//         description: 'Descripción de la actividad 1',
+//     },
+//     {
+//         title: 'Actividad 2',
+//         date: '2023-03-20',
+//         description: 'Descripción de la actividad 2',
+//     },
+//     {
+//         title: 'Actividad 3',
+//         date: '2023-03-22',
+//         description: 'Descripción de la actividad 3',
+//     },
+//     {
+//         title: 'Actividad 4',
+//         date: '2023-03-28',
+//         description: 'Descripción de la actividad 4',
+//     },
+// ]
+
 const Home = () => {
+    const { loading, error, data } = useQuery(ALL_SALIDAS)
+    console.log(data?.allSalidas)
     return (
         <>
             <Navbar />
@@ -47,10 +62,9 @@ const Home = () => {
                     Busca <br /> tu mejor <br /> Aventura!
                 </Typography>
             </Box>
-            <CalendarComponent activities={activities} />
-            <div style={{ paddingTop: '400px' }}>
-                <Footer />
-            </div>
+            <CalendarComponent activities={data?.allSalidas} />
+            <div style={{ paddingTop: '400px' }}></div>
+            <Footer />
         </>
     )
 }

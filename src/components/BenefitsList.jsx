@@ -1,8 +1,7 @@
 import React from 'react'
-import { Card, CardContent, CardMedia, Typography } from '@mui/material'
+import { Card, CardActionArea, CardContent, Typography, Button } from '@mui/material'
 
 const BenefitsList = ({ benefits }) => {
-    console.log(benefits)
     return (
         <Card
             key={benefits.id}
@@ -11,6 +10,7 @@ const BenefitsList = ({ benefits }) => {
                 width: '100%',
                 marginTop: 4,
                 backgroundColor: '#90E825',
+                alignItems: 'center',
             }}
         >
             <CardContent>
@@ -24,6 +24,20 @@ const BenefitsList = ({ benefits }) => {
                     {benefits.date}
                 </Typography>
             </CardContent>
+            {/* <CardActionArea> */}
+            <Button
+                variant="contained"
+                color="success"
+                sx={{
+                    mt: 2,
+                    alignSelf: 'flex-end',
+                    '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
+                }}
+            >
+                Adquirir Ahora
+            </Button>
+
+            {/* </CardActionArea> */}
         </Card>
     )
 }

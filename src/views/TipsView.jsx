@@ -68,8 +68,10 @@ const TipsView = () => {
                             <animated.div style={hoverAnimation}>
                                 <CardContent>
                                     <Typography
+                                        variant="h5"
                                         style={{
                                             mb: { xs: 5, md: 10 },
+                                            fontSize: '',
                                             fontFamily: 'Montserrat, sans-serif',
                                             color: 'green',
                                             fontVariant: 'all-petite-caps',

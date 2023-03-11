@@ -33,35 +33,33 @@ const Benefits = () => {
                     minHeight: '100vh',
                 }}
             >
-                <Typography variant="h3" sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold' }}>
-                    My Benefits
+                <Typography variant="h3" sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold', paddingTop: 8 }}>
+                    Beneficios
                 </Typography>
-                <Box
-                    sx={{
-                        width: '100%',
-                        maxWidth: '600px',
-                        bgcolor: '#FFFFFF',
-                        boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.05)',
-                        borderRadius: '10px',
-                        padding: '10px',
-                        mb: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        mt: 4,
-                        mx: 3,
-                        '@media (min-width: 600px)': {
-                            mx: 'auto',
-                        },
-                        margin: '0 auto',
-                        marginTop: 4,
-                    }}
-                >
-                    {data?.allBeneficios?.map((benefit) => (
+                {data?.allBeneficios?.map((benefit) => (
+                    <Box
+                        sx={{
+                            width: '100%',
+                            maxWidth: '600px',
+                            bgcolor: '#FFFFFF',
+                            boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.05)',
+                            borderRadius: '10px',
+                            padding: '10px',
+                            mb: 8,
+                            display: 'flex',
+                            // flexDirection: 'column',
+                            // alignItems: 'center',
+                            // justifyContent: 'center',
+                            mt: 4,
+                            mx: 3,
+                            '@media (min-width: 600px)': {
+                                mx: 'auto',
+                            },
+                        }}
+                    >
                         <BenefitsList benefits={benefit} key={benefit.id} />
-                    ))}
-                </Box>
+                    </Box>
+                ))}
             </Box>
         </>
     )
