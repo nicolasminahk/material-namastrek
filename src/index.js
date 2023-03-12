@@ -15,6 +15,9 @@ const client = new ApolloClient({
     }),
 })
 
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+
+const redirectUri = isMobile ? 'http://192.168.100.5:3000' : window.location.origin
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
     <ThemeProvider theme={theme}>
@@ -23,7 +26,7 @@ root.render(
                 <Auth0Provider
                     domain="dev-v68nrhhmjwsv23p7.us.auth0.com"
                     clientId="9fsPMkB2SKWKHLXntrT1fVHbRXf8l4Pn"
-                    redirectUri={window.location.origin}
+                    redirectUri={redirectUri}
                 >
                     <App />
                 </Auth0Provider>

@@ -1,8 +1,8 @@
-import React, { useForm } from 'react'
-// import { useForm } from 'react-hook-form'
+import React from 'react'
+import { useForm } from 'react-hook-form'
 import { TextField, Select, MenuItem, Button, Box } from '@mui/material'
 
-function ContactForm() {
+const ContactForm = () => {
     const {
         register,
         handleSubmit,
@@ -16,16 +16,36 @@ function ContactForm() {
     }
 
     return (
-        <Box sx={{ backgroundColor: 'green' }}>
+        <Box
+            sx={{
+                flex: 1,
+                width: '100%',
+                maxWidth: '600px',
+                bgcolor: '#FFFFFF',
+                boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.05)',
+                borderRadius: '10px',
+                padding: '30px',
+                mb: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                mt: 4,
+                mx: 3,
+                '@media (min-width: 600px)': {
+                    mx: 'auto',
+                },
+            }}
+        >
             <form onSubmit={handleSubmit(onSubmit)}>
                 <TextField
-                    label="Name"
+                    label="Nombre Completo"
                     variant="outlined"
                     fullWidth
                     sx={{ mb: 2 }}
                     {...register('name', { required: true })}
                     error={errors.name ? true : false}
-                    helperText={errors.name && 'Please enter your name'}
+                    helperText={errors.name && 'Por favor ingrese su nombre'}
                 />
                 <TextField
                     label="Email"
@@ -34,60 +54,60 @@ function ContactForm() {
                     sx={{ mb: 2 }}
                     {...register('email', { required: true })}
                     error={errors.email ? true : false}
-                    helperText={errors.email && 'Please enter a valid email address'}
+                    helperText={errors.email && 'Por favor ingrese un Email Valido'}
                 />
                 <TextField
-                    label="Telephone"
+                    label="Celular"
                     variant="outlined"
                     fullWidth
                     sx={{ mb: 2 }}
                     {...register('telephone', { required: true })}
                     error={errors.telephone ? true : false}
-                    helperText={errors.telephone && 'Please enter your telephone number'}
+                    helperText={errors.telephone && 'Por favor ingrese su número Celular'}
                 />
                 <TextField
-                    label="Address"
+                    label="Dirección"
                     variant="outlined"
                     fullWidth
                     sx={{ mb: 2 }}
                     {...register('address', { required: true })}
                     error={errors.address ? true : false}
-                    helperText={errors.address && 'Please enter your address'}
+                    helperText={errors.address && 'Por favor ingrese su dirección'}
                 />
                 <TextField
-                    label="Drug Allergy"
+                    label="Alergia a Medicamentos"
                     variant="outlined"
                     fullWidth
                     sx={{ mb: 2 }}
                     {...register('drugAllergy')}
                 />
                 <TextField
-                    label="Food Allergy"
+                    label="Alergia a comidas"
                     variant="outlined"
                     fullWidth
                     sx={{ mb: 2 }}
                     {...register('foodAllergy')}
                 />
                 <TextField
-                    label="Profession"
+                    label="Profesion"
                     variant="outlined"
                     fullWidth
                     sx={{ mb: 2 }}
                     {...register('profession', { required: true })}
                     error={errors.profession ? true : false}
-                    helperText={errors.profession && 'Please enter your profession'}
+                    helperText={errors.profession && 'Por favor ingrese su Profesión'}
                 />
                 <TextField
-                    label="Social Security"
+                    label="Obra Social"
                     variant="outlined"
                     fullWidth
                     sx={{ mb: 2 }}
                     {...register('socialSecurity', { required: true })}
                     error={errors.socialSecurity ? true : false}
-                    helperText={errors.socialSecurity && 'Please enter your social security number'}
+                    helperText={errors.socialSecurity && 'Por favor ingrese el nombre de su Obra Social'}
                 />
                 <Select
-                    label="Blood Type"
+                    label="Tipo de Sangre"
                     variant="outlined"
                     fullWidth
                     sx={{ mb: 2 }}

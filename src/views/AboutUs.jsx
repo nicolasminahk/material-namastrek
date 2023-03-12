@@ -27,10 +27,10 @@ const AboutUs = () => {
                     style={{ width: 320, height: 200, borderRadius: 30, paddingBottom: 20 }}
                 />
                 <Box sx={{ my: 3 }}>{/* <CompanyLogo width="150" height="150" /> */}</Box>
-                <Typography variant="h4" sx={{ color: 'white', textAlign: 'center', mb: 2 }}>
+                <Typography variant="h4" fontFamily={'fantasy'} sx={{ color: 'white', textAlign: 'center', mb: 2 }}>
                     "Camina besando la tierra con tus pies"
                 </Typography>
-                <Typography variant="body1" sx={{ color: 'white', textAlign: 'center', mb: 4 }}>
+                <Typography variant="body1" sx={{ color: 'black', textAlign: 'center', mb: 4 }}>
                     Somos una empresa dedicada a promover las actividades al aire libre y la exploración de la
                     naturaleza.
                 </Typography>

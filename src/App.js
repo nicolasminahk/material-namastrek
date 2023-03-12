@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 import ContactForm from './components/ContactForm'
 import AboutUs from './views/AboutUs'
 import Activitys from './views/Activitys'
+import Admin from './views/Admin'
 import Benefits from './views/Benefits'
 import Home from './views/Home'
 import Profile from './views/Profile'
@@ -17,6 +18,7 @@ function App() {
             <Route path="/tips" element={<TipsView />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/form" element={<ContactForm />} />
+            <Route path="/admin" element={<Admin />} />
         </Routes>
     )
 }

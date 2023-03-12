@@ -4,6 +4,7 @@ import CalendarComponent from '../components/CalendarComponent'
 import Footer from '../components/Footer'
 import Navbar from '../components/navbar/Navbar'
 import { gql, useQuery, useMutation } from '@apollo/client'
+import fondoTip from '../assets/fondoTip.png'
 
 const ALL_SALIDAS = gql`
     query AllSalidas {
@@ -59,7 +60,7 @@ const Home = () => {
                         animation: 'pulse 2s ease-in-out infinite',
                     }}
                 >
-                    Busca <br /> tu mejor <br /> Aventura!
+                    Busca tu mejor <br /> Aventura!
                 </Typography>
             </Box>
             <CalendarComponent activities={data?.allSalidas} />
