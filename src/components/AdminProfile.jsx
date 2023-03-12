@@ -1,124 +1,121 @@
 import React, { useState } from 'react'
-import { Button, TextField, Typography } from '@mui/material'
+import { Card, CardContent, Typography, TextField, Button, Box } from '@material-ui/core'
+import { gql, useQuery, useMutation } from '@apollo/client'
+import { Divider, List, ListItem } from '@mui/material'
 
-const AdministratorProfile = () => {
-    const [outputs, setOutputs] = useState([])
-    const [benefits, setBenefits] = useState([])
-    const [tips, setTips] = useState([])
+const ALL_TIPS = gql`
+    query Tips {
+        allTips {
+            id
+            name
+            description
+        }
+    }
+`
+const ADD_TIP = gql`
+    mutation Mutation($name: String!, $description: String!) {
+        addTips(name: $name, description: $description) {
+            description
+            id
+            name
+        }
+    }
+`
 
-    const [newOutput, setNewOutput] = useState('')
-    const [newBenefit, setNewBenefit] = useState('')
-    const [newTip, setNewTip] = useState('')
+const DELETE_TIP = gql`
+    mutation Mutation($name: String!) {
+        deleteTips(name: $name) {
+            name
+        }
+    }
+`
 
-    const addOutput = () => {
-        setOutputs([...outputs, newOutput])
-        setNewOutput('')
+const Tips = () => {
+    const { loading, error, data, refetch } = useQuery(ALL_TIPS, { pollInterval: 500 })
+    const [deleteTips, setDeleteTips] = useState('')
+    const [formState, setFormState] = useState({
+        name: '',
+        description: '',
+    })
+
+    const [createTip] = useMutation(ADD_TIP, {
+        variables: {
+            name: formState.name,
+            description: formState.description,
+        },
+    })
+
+    const [deleteTip] = useMutation(DELETE_TIP, {
+        variables: {
+            name: deleteTips,
+        },
+    })
+
+    const handleDelete = (name) => {
+        setDeleteTips(name)
+        deleteTip()
+        refetch()
     }
 
-    const addBenefit = () => {
-        setBenefits([...benefits, newBenefit])
-        setNewBenefit('')
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        createTip()
+        refetch()
+        setFormState({
+            name: '',
+            description: '',
+        })
     }
 
-    const addTip = () => {
-        setTips([...tips, newTip])
-        setNewTip('')
-    }
-
-    const deleteOutput = (index) => {
-        setOutputs(outputs.filter((_, i) => i !== index))
-    }
-
-    const deleteBenefit = (index) => {
-        setBenefits(benefits.filter((_, i) => i !== index))
-    }
-
-    const deleteTip = (index) => {
-        setTips(tips.filter((_, i) => i !== index))
-    }
-
-    const updateOutput = (index, newValue) => {
-        setOutputs(outputs.map((value, i) => (i === index ? newValue : value)))
-    }
-
-    const updateBenefit = (index, newValue) => {
-        setBenefits(benefits.map((value, i) => (i === index ? newValue : value)))
-    }
-
-    const updateTip = (index, newValue) => {
-        setTips(tips.map((value, i) => (i === index ? newValue : value)))
-    }
+    if (loading) return <Typography>Loading</Typography>
+    if (error) return <Typography>{error.message}</Typography>
 
     return (
-        <div sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Typography variant="h4">Administrator Profile</Typography>
-
-            <Typography variant="h5">Outputs</Typography>
-            <div sx={{ display: 'flex', flexDirection: 'column' }}>
-                {outputs.map((output, index) => (
-                    <div key={index} sx={{ display: 'flex', alignItems: 'center' }}>
-                        <TextField
-                            value={output}
-                            onChange={(event) => updateOutput(index, event.target.value)}
-                            sx={{ mr: 2 }}
-                        />
-                        <Button variant="contained" color="error" onClick={() => deleteOutput(index)}>
-                            Delete
-                        </Button>
-                    </div>
-                ))}
-                <div sx={{ display: 'flex', alignItems: 'center' }}>
+        <>
+            <Divider />
+            {data.allTips.map((tip) => {
+                return (
+                    <Box key={tip.id} paddingBottom={2} paddingTop={1}>
+                        <List>
+                            <ListItem>
+                                <Typography variant="h6" style={{ color: 'green' }}>
+                                    {tip.name}
+                                </Typography>
+                                <Button onClick={() => handleDelete(tip.name)} style={{ color: 'red' }}>
+                                    Eliminar
+                                </Button>
+                            </ListItem>
+                        </List>
+                    </Box>
+                )
+            })}
+            <Box justifyContent="center" alignItems="center" flexDirection="column" margin={2}>
+                <Typography variant="h5">Nuevo Tip</Typography>
+                <form onSubmit={handleSubmit}>
                     <TextField
-                        value={newOutput}
-                        onChange={(event) => setNewOutput(event.target.value)}
-                        sx={{ mr: 2 }}
+                        variant="outlined"
+                        label="Nombre"
+                        margin="normal"
+                        fullWidth
+                        value={formState.name}
+                        onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                     />
-                    <Button variant="contained" color="success" onClick={addOutput}>
-                        Add
-                    </Button>
-                </div>
-            </div>
-
-            <div sx={{ display: 'flex', flexDirection: 'column' }}>
-                {benefits.map((benefit, index) => (
-                    <div key={index} sx={{ display: 'flex', alignItems: 'center' }}>
-                        <TextField
-                            value={benefit}
-                            onChange={(event) => updateBenefit(index, event.target.value)}
-                            sx={{ mr: 2 }}
-                        />
-                        <Button variant="contained" color="error" onClick={() => deleteBenefit(index)}>
-                            Delete
-                        </Button>
-                    </div>
-                ))}
-                <div sx={{ display: 'flex', alignItems: 'center' }}>
                     <TextField
-                        value={newOutput}
-                        onChange={(event) => setNewBenefit(event.target.value)}
-                        sx={{ mr: 2 }}
+                        variant="outlined"
+                        label="Descripción"
+                        margin="normal"
+                        fullWidth
+                        value={formState.description}
+                        onChange={(e) => setFormState({ ...formState, description: e.target.value })}
                     />
-                    <Button variant="contained" color="success" onClick={addBenefit}>
-                        Add
+                    <Button variant="contained" color="primary" type="submit">
+                        Subir
                     </Button>
-                </div>
-            </div>
-        </div>
+                </form>
+                <Divider sx={{ padding: 2 }} />
+            </Box>
+        </>
     )
 }
-{
-    /* <Typography variant="h5">Benefits</Typography>
-      <div sx={{ display: 'flex', flexDirection: 'column' }}>
-        {benefits.map((benefit, index) => (
-          <div key={index} sx={{ display: 'flex', alignItems: 'center' }}>
-            <TextField
-              value={benefit}
-              onChange={(event) => updateBenefit(index, event.target.value)}
-              sx={{ mr: 2 }}
-            />
-            <Button variant="contained" color="error" onClick={() => deleteBenefit(index)}>
-              Delete
-            </> */
-}
 
-export default AdministratorProfile
+export default Tips
