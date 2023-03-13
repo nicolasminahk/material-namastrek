@@ -4,6 +4,8 @@ import CalendarComponent from '../components/CalendarComponent'
 import Footer from '../components/Footer'
 import Navbar from '../components/navbar/Navbar'
 import { gql, useQuery, useMutation } from '@apollo/client'
+import { useAuth0 } from '@auth0/auth0-react'
+
 import fondoTip from '../assets/fondoTip.png'
 
 const ALL_SALIDAS = gql`
@@ -42,6 +44,8 @@ const ALL_SALIDAS = gql`
 
 const Home = () => {
     const { loading, error, data } = useQuery(ALL_SALIDAS)
+    const { loginWithRedirect, user, isAuthenticated } = useAuth0()
+
     console.log(data?.allSalidas)
     return (
         <>

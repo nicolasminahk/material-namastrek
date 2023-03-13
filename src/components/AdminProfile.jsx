@@ -30,7 +30,7 @@ const DELETE_TIP = gql`
     }
 `
 
-const Tips = () => {
+const AdminProfile = () => {
     const { loading, error, data, refetch } = useQuery(ALL_TIPS, { pollInterval: 500 })
     const [deleteTips, setDeleteTips] = useState('')
     const [formState, setFormState] = useState({
@@ -75,7 +75,7 @@ const Tips = () => {
             <Divider />
             {data.allTips.map((tip) => {
                 return (
-                    <Box key={tip.id} paddingBottom={2} paddingTop={1}>
+                    <Box key={tip.id} paddingBottom={1} paddingTop={1}>
                         <List>
                             <ListItem>
                                 <Typography variant="h6" style={{ color: 'green' }}>
@@ -118,4 +118,4 @@ const Tips = () => {
     )
 }
 
-export default Tips
+export default AdminProfile

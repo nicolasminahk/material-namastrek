@@ -8,9 +8,12 @@ import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import { useNavigate } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const NavList = () => {
     const navigate = useNavigate()
+    const { loginWithRedirect, user, isAuthenticated } = useAuth0()
+
     return (
         <Box sx={{ width: 250, borderRadius: 3 }}>
             <nav>
@@ -45,6 +48,14 @@ const NavList = () => {
                         </ListItemIcon>
                         <ListItemText primary="Perfil" />
                     </ListItem>
+                    {user?.email === 'nicolasminahk@gmail.com' && (
+                        <ListItem onClick={() => navigate('/admin')}>
+                            <ListItemIcon>
+                                <AccountCircleIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Admin" />
+                        </ListItem>
+                    )}
                 </List>
             </nav>
             <Divider />
