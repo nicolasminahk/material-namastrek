@@ -23,20 +23,22 @@ const ADD_TIP = gql`
 `
 
 const DELETE_TIP = gql`
-    mutation Mutation($name: String!) {
-        deleteTips(name: $name) {
-            name
+    mutation Mutation($id: ID!) {
+        deleteTips(id: $id) {
+            id
         }
     }
 `
 
 const AdminProfile = () => {
     const { loading, error, data, refetch } = useQuery(ALL_TIPS, { pollInterval: 500 })
-    const [deleteTips, setDeleteTips] = useState('')
+    const [deleteTip, setDeleteTips] = useState('')
     const [formState, setFormState] = useState({
         name: '',
         description: '',
     })
+
+    console.log(deleteTip)
 
     const [createTip] = useMutation(ADD_TIP, {
         variables: {
@@ -45,15 +47,15 @@ const AdminProfile = () => {
         },
     })
 
-    const [deleteTip] = useMutation(DELETE_TIP, {
+    const [deleteTips] = useMutation(DELETE_TIP, {
         variables: {
-            name: deleteTips,
+            id: deleteTip,
         },
     })
 
-    const handleDelete = (name) => {
-        setDeleteTips(name)
-        deleteTip()
+    const handleDelete = (id) => {
+        setDeleteTips(id)
+        deleteTips()
         refetch()
     }
 
@@ -81,7 +83,7 @@ const AdminProfile = () => {
                                 <Typography variant="h6" style={{ color: 'green' }}>
                                     {tip.name}
                                 </Typography>
-                                <Button onClick={() => handleDelete(tip.name)} style={{ color: 'red' }}>
+                                <Button onClick={() => handleDelete(tip.id)} style={{ color: 'red' }}>
                                     Eliminar
                                 </Button>
                             </ListItem>

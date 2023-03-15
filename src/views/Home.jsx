@@ -42,6 +42,7 @@ const ALL_SALIDAS = gql`
 //     },
 // ]
 
+//FILTER AQUI PARA ENVIAR AL CALENDARIO
 const Home = () => {
     const { loading, error, data } = useQuery(ALL_SALIDAS)
     const { loginWithRedirect, user, isAuthenticated } = useAuth0()

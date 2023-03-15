@@ -63,7 +63,6 @@ const CalendarComponent = ({ activities }) => {
 
     return (
         // <Box sx={{ marginTop: '100px', display: 'flex', flexDirection: 'row' }}>
-
         <>
             <CalendarContainer>
                 <Calendar
@@ -77,7 +76,7 @@ const CalendarComponent = ({ activities }) => {
                     }}
                     tileClassName={({ date }) => {
                         const activitiesOnDay = getActivities(date)
-
+                        //en vez de activitesONDay seria las activities que ya vienen filtradas
                         return activitiesOnDay.length > 0 ? 'highlight' : null
                     }}
                     calendarType="ISO 8601"

@@ -14,14 +14,14 @@ import { Button } from '@mui/material'
 
 export const LoginButton = () => {
     const { loginWithRedirect, user, isAuthenticated } = useAuth0()
+    console.log(isAuthenticated)
     if (isAuthenticated) {
         console.log(user)
     }
-    // const [createSalida] = useMutation(CREATE_USER, {
+    // const [createUser] = useMutation(CREATE_USER, {
     //     variables: {
     //         id: user
     //     },
-    //     refetchQueries: [{ query: ALL_SALIDAS }],
     // })
     return <Button onClick={() => loginWithRedirect()}>Login</Button>
 }

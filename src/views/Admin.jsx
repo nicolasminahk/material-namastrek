@@ -23,8 +23,17 @@ const Admin = () => {
                 <Typography variant="h3" sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold', paddingTop: '25px' }}>
                     Administrador
                 </Typography>
+                <Typography variant="h4" sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold', paddingTop: '25px' }}>
+                    Salidas
+                </Typography>
                 <AdminExit />
+                <Typography variant="h4" sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold', paddingTop: '25px' }}>
+                    Tips
+                </Typography>
                 <AdminProfile />
+                <Typography variant="h4" sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold', paddingTop: '25px' }}>
+                    Beneficios
+                </Typography>
                 <AdminBenefit />
             </Box>
             <Footer />

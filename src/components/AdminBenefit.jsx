@@ -24,9 +24,9 @@ const ADD_BENEFICIO = gql`
     }
 `
 const DELETE_BENEFICIO = gql`
-    mutation Mutation($name: String!) {
-        deleteBeneficios(name: $name) {
-            name
+    mutation Mutation($id: ID!) {
+        deleteBeneficios(id: $id) {
+            id
         }
     }
 `
@@ -49,7 +49,7 @@ const AdminBenefit = () => {
     })
     const [deleteBeneficios] = useMutation(DELETE_BENEFICIO, {
         variables: {
-            name: deleteBenefit,
+            id: deleteBenefit,
         },
     })
 
@@ -77,8 +77,8 @@ const AdminBenefit = () => {
             date: '',
         })
     }
-    const handleDelete = (name) => {
-        setDeleteBenefit(name)
+    const handleDelete = (id) => {
+        setDeleteBenefit(id)
         deleteBeneficios()
         refetch()
     }
@@ -98,7 +98,7 @@ const AdminBenefit = () => {
                                     <Typography variant="h6" style={{ color: 'green' }}>
                                         {beneficio.name}
                                     </Typography>
-                                    <Button onClick={() => handleDelete(beneficio.name)} style={{ color: 'red' }}>
+                                    <Button onClick={() => handleDelete(beneficio.id)} style={{ color: 'red' }}>
                                         Eliminar
                                     </Button>
                                 </ListItem>
