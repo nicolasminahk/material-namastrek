@@ -195,7 +195,7 @@ const AdminExit = () => {
                     variant="outlined"
                     sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1 }}
                     label="Duración"
-                    value={formState.price}
+                    value={formState.duration}
                     onChange={handleDurationChange}
                 />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
