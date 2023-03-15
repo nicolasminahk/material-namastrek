@@ -108,13 +108,13 @@ const AdminExit = () => {
             description: e.target.value,
         })
     }
-    const handleDescriptionPrice = (e) => {
+    const handlePriceChange = (e) => {
         setFormState({
             ...formState,
             price: e.target.value,
         })
     }
-    const handleDescriptionDuration = (e) => {
+    const handleDurationChange = (e) => {
         setFormState({
             ...formState,
             duration: e.target.value,
@@ -189,14 +189,14 @@ const AdminExit = () => {
                     sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1 }}
                     label="Precio"
                     value={formState.price}
-                    onChange={handleDescriptionPrice}
+                    onChange={handlePriceChange}
                 />
                 <TextField
                     variant="outlined"
                     sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1 }}
                     label="Duración"
                     value={formState.price}
-                    onChange={handleDescriptionDuration}
+                    onChange={handleDurationChange}
                 />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={['DateField']} sx={{ paddingBottom: 2 }}>
