@@ -3,6 +3,7 @@ import { Calendar } from 'react-calendar'
 import { Box, Divider, Typography } from '@mui/material'
 import styled from 'styled-components'
 import { format } from 'date-fns'
+import dayjs from 'dayjs'
 
 const StyledDot = styled(Box)`
     height: 10px;
@@ -11,51 +12,16 @@ const StyledDot = styled(Box)`
     background-color: #1976d2;
 `
 
-function getActivities(date) {
-    // Replace with the database call
-    const activities = [
-        {
-            id: 1,
-            name: 'Activity 1',
-            date: '2023-03-15',
-            description: 'Description of activity 1',
-            price: '$100',
-        },
-        {
-            id: 2,
-            name: 'Activity 2',
-            date: '2023-03-20',
-            description: 'Description of activity 2',
-            price: '$100',
-        },
-        {
-            id: 3,
-            name: 'Activity 3',
-            date: '2023-03-22',
-            description: 'Description of activity 3',
-            price: '$100',
-        },
-        {
-            id: 4,
-            name: 'Activity 4',
-            date: '2023-03-28',
-            description: 'Description of activity 4',
-            price: '$100',
-        },
-    ]
-
-    return activities.filter((activity) => activity.date === date.toISOString().slice(0, 10))
-}
-
 const CalendarComponent = ({ activities }) => {
     const [selectedDate, setSelectedDate] = useState(null)
+    const currentDate = dayjs()
 
     const renderDay = (date) => {
-        const activitiesOnDay = getActivities(date)
+        // const activitiesOnDay = getActivities(date)
 
         return (
             <Box position="relative" height="100%">
-                {activitiesOnDay.length > 0 && <StyledDot position="absolute" top={0} left={0} />}
+                {activities.length > 0 && <StyledDot position="absolute" top={0} left={0} />}
                 <Typography>{date.getDate()}</Typography>
             </Box>
         )
@@ -70,14 +36,14 @@ const CalendarComponent = ({ activities }) => {
                     onChange={setSelectedDate}
                     locale="es"
                     tileContent={({ date }) => {
-                        const activitiesOnDay = getActivities(date)
+                        // const activitiesOnDay = getActivities(date)
 
-                        return activitiesOnDay.length > 0 ? <StyledDot /> : null
+                        return activities.length > 0 ? <StyledDot /> : null
                     }}
                     tileClassName={({ date }) => {
-                        const activitiesOnDay = getActivities(date)
+                        // const activitiesOnDay = getActivities(date)
                         //en vez de activitesONDay seria las activities que ya vienen filtradas
-                        return activitiesOnDay.length > 0 ? 'highlight' : null
+                        return activities.length > 0 ? 'highlight' : null
                     }}
                     calendarType="ISO 8601"
                     showNeighboringMonth={false}
@@ -90,7 +56,7 @@ const CalendarComponent = ({ activities }) => {
             {selectedDate && (
                 <Box sx={{ marginTop: '20px' }}>
                     {/* <Typography>{`Actividades  ${format(selectedDate, 'PP')}:`}</Typography> */}
-                    {getActivities(selectedDate).map((activity) => (
+                    {activities.map((activity) => (
                         // <Box key={activity.id} sx={{ marginTop: '10px', backgroundColor: 'white' }}>
                         <Box
                             key={activity.id}

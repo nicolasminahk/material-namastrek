@@ -1,12 +1,12 @@
-import { Box, Card, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import CalendarComponent from '../components/CalendarComponent'
 import Footer from '../components/Footer'
 import Navbar from '../components/navbar/Navbar'
-import { gql, useQuery, useMutation } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import { useAuth0 } from '@auth0/auth0-react'
-
-import fondoTip from '../assets/fondoTip.png'
+import dayjs from 'dayjs'
+import LeafModel from '../components/LeafModel'
 
 const ALL_SALIDAS = gql`
     query AllSalidas {
@@ -46,8 +46,12 @@ const ALL_SALIDAS = gql`
 const Home = () => {
     const { loading, error, data } = useQuery(ALL_SALIDAS)
     const { loginWithRedirect, user, isAuthenticated } = useAuth0()
+    console.log(isAuthenticated, user)
+    if (loading) return null
+    const currentDate = dayjs()
+    const activities = data?.allSalidas.filter((activity) => activity.date === currentDate.toISOString().slice(0, 10))
+    console.log(activities)
 
-    console.log(data?.allSalidas)
     return (
         <>
             <Navbar />
@@ -68,8 +72,9 @@ const Home = () => {
                     Busca tu mejor <br /> Aventura!
                 </Typography>
             </Box>
-            <CalendarComponent activities={data?.allSalidas} />
+            <CalendarComponent activities={activities} />
             <div style={{ paddingTop: '400px' }}></div>
+
             <Footer />
         </>
     )

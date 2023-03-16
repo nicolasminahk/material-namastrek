@@ -66,6 +66,7 @@ const Activitys = () => {
                                     description={view.description}
                                     price={view.price}
                                     image={view.image}
+                                    date={view.date}
                                 />
                             )
                         })}

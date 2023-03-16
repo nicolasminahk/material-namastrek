@@ -4,7 +4,7 @@ import { Rating } from '@mui/material'
 import { useSpring, animated } from 'react-spring'
 import backgroundImage from '../assets/paisaje3.png'
 
-function ExitView({ name, description, image, price, rating }) {
+function ExitView({ name, description, image, price, date }) {
     const [hovered, setHovered] = React.useState(false)
 
     const hoverAnimation = useSpring({
@@ -66,6 +66,9 @@ function ExitView({ name, description, image, price, rating }) {
                         </Typography>
                         <Typography variant="body1" sx={{ mb: 2, color: 'green' }}>
                             {description}
+                        </Typography>
+                        <Typography variant="body1" sx={{ mb: 2, color: 'green' }}>
+                            {date}
                         </Typography>
                         <Typography variant="body1" sx={{ mb: 2, color: 'green' }}>
                             Price: {price}

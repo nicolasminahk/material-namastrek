@@ -11,7 +11,10 @@ import { Button } from '@mui/material'
 //         }
 //     }
 // `
-
+//PARA EXTRAER LAS LETRAS Y DEJAR LAS LETRAS PARA UTILIZAR COMO ID
+function extractNumbers(inputString) {
+    return inputString.replace(/\D/g, '')
+}
 export const LoginButton = () => {
     const { loginWithRedirect, user, isAuthenticated } = useAuth0()
     console.log(isAuthenticated)

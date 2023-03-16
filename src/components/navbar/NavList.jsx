@@ -7,6 +7,7 @@ import LoyaltyIcon from '@mui/icons-material/Loyalty'
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
+import BuildIcon from '@mui/icons-material/Build'
 import { useNavigate } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
@@ -51,7 +52,7 @@ const NavList = () => {
                     {user?.email === 'nicolasminahk@gmail.com' && (
                         <ListItem onClick={() => navigate('/admin')}>
                             <ListItemIcon>
-                                <AccountCircleIcon />
+                                <BuildIcon />
                             </ListItemIcon>
                             <ListItemText primary="Admin" />
                         </ListItem>

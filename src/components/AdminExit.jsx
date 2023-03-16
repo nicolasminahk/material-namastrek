@@ -56,6 +56,7 @@ const AdminExit = () => {
         price: '',
         id: '',
     })
+    console.log(formState.date)
 
     const [createSalida] = useMutation(ADD_SALIDA, {
         variables: {
@@ -130,10 +131,22 @@ const AdminExit = () => {
     }
 
     const handleFileUpload = () => {
-        // Code to upload the selected file to your server
-        console.log(selectedFile)
-
         //Aca debo pasarlo a base64
+        const reader = new FileReader()
+        const file = selectedFile
+
+        reader.onloadend = () => {
+            const base64String = reader.result.replace('data:', '').replace(/^.+,/, '')
+
+            // Now you can save the base64String in your database
+            console.log(base64String)
+            setFormState({
+                ...formState,
+                image: base64String,
+            })
+        }
+
+        reader.readAsDataURL(file)
     }
 
     if (loading) {
@@ -167,6 +180,7 @@ const AdminExit = () => {
                     alignItems: 'center',
                     flexDirection: 'column',
                     margin: 2,
+                    mb: 1,
                 }}
             >
                 <Typography variant="h6">Nueva Salida</Typography>
@@ -198,21 +212,17 @@ const AdminExit = () => {
                     value={formState.duration}
                     onChange={handleDurationChange}
                 />
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={['DateField']} sx={{ paddingBottom: 2 }}>
                         <DateField label="Fecha" value={formState.date} onChange={handleDateChange} />
                     </DemoContainer>
-                </LocalizationProvider>
-                {/* <DatePicker
-                    sx={{
-                        margin: '10px',
-                        padding: '5px',
-                        borderColor: 'gray',
-                        borderRadius: '5px',
-                        color: 'blue',
-                        backgroundColor: '#f0f0f0',
-                        fontSize: '18px',
-                    }}
+                </LocalizationProvider> */}
+                {/* <TextField
+                    variant="outlined"
+                    sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1 }}
+                    label="Fecha"
+                    value={formState.date}
+                    onChange={handleDateChange}
                 /> */}
                 <TextField
                     label="Output Image"

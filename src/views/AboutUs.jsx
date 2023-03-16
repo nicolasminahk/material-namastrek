@@ -1,10 +1,8 @@
 import React from 'react'
-import { Box, Typography, Link, IconButton } from '@mui/material'
+import { Box, Typography, IconButton } from '@mui/material'
 import Navbar from '../components/navbar/Navbar'
 import { Facebook, WhatsApp } from '@mui/icons-material'
 import InstagramIcon from '@mui/icons-material/Instagram'
-import Footer from '../components/Footer'
-// import CompanyLogo from './CompanyLogo';
 import logo from '../assets/namastrek.png'
 
 const AboutUs = () => {
@@ -26,6 +24,7 @@ const AboutUs = () => {
                     alt="Company Logo"
                     style={{ width: 320, height: 200, borderRadius: 30, paddingBottom: 20 }}
                 />
+
                 <Box sx={{ my: 3 }}>{/* <CompanyLogo width="150" height="150" /> */}</Box>
                 <Typography variant="h4" fontFamily={'fantasy'} sx={{ color: 'white', textAlign: 'center', mb: 2 }}>
                     "Camina besando la tierra con tus pies"
@@ -34,19 +33,7 @@ const AboutUs = () => {
                     Somos una empresa dedicada a promover las actividades al aire libre y la exploración de la
                     naturaleza.
                 </Typography>
-                {/* <Typography variant="body2" sx={{ color: 'white', textAlign: 'center', mb: 4 }}>
-                    "Camina besando la tierra con tus pies"
-                </Typography> */}
                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                    {/* <Link href="#" sx={{ mx: 2 }}>
-                        <i className="fab fa-facebook fa-2x" sx={{ color: 'white' }} />
-                    </Link>
-                    <Link href="#" sx={{ mx: 2 }}>
-                        <i className="fab fa-instagram fa-2x" sx={{ color: 'white' }} />
-                    </Link>
-                    <Link href="#" sx={{ mx: 2 }}>
-                        <i className="fab fa-twitter fa-2x" sx={{ color: 'white' }} />
-                    </Link> */}
                     <IconButton
                         aria-label="Facebook"
                         onClick={() => window.open('https://www.facebook.com/namastrekk')}

@@ -18,18 +18,12 @@ const ContactForm = () => {
     return (
         <Box
             sx={{
-                flex: 1,
-                width: '100%',
-                maxWidth: '600px',
-                bgcolor: '#FFFFFF',
-                boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.05)',
-                borderRadius: '10px',
-                padding: '30px',
-                mb: 8,
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
                 justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+                backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39)',
                 mt: 4,
                 mx: 3,
                 '@media (min-width: 600px)': {
@@ -37,97 +31,119 @@ const ContactForm = () => {
                 },
             }}
         >
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <TextField
-                    label="Nombre Completo"
-                    variant="outlined"
-                    fullWidth
-                    sx={{ mb: 2 }}
-                    {...register('name', { required: true })}
-                    error={errors.name ? true : false}
-                    helperText={errors.name && 'Por favor ingrese su nombre'}
-                />
-                <TextField
-                    label="Email"
-                    variant="outlined"
-                    fullWidth
-                    sx={{ mb: 2 }}
-                    {...register('email', { required: true })}
-                    error={errors.email ? true : false}
-                    helperText={errors.email && 'Por favor ingrese un Email Valido'}
-                />
-                <TextField
-                    label="Celular"
-                    variant="outlined"
-                    fullWidth
-                    sx={{ mb: 2 }}
-                    {...register('telephone', { required: true })}
-                    error={errors.telephone ? true : false}
-                    helperText={errors.telephone && 'Por favor ingrese su número Celular'}
-                />
-                <TextField
-                    label="Dirección"
-                    variant="outlined"
-                    fullWidth
-                    sx={{ mb: 2 }}
-                    {...register('address', { required: true })}
-                    error={errors.address ? true : false}
-                    helperText={errors.address && 'Por favor ingrese su dirección'}
-                />
-                <TextField
-                    label="Alergia a Medicamentos"
-                    variant="outlined"
-                    fullWidth
-                    sx={{ mb: 2 }}
-                    {...register('drugAllergy')}
-                />
-                <TextField
-                    label="Alergia a comidas"
-                    variant="outlined"
-                    fullWidth
-                    sx={{ mb: 2 }}
-                    {...register('foodAllergy')}
-                />
-                <TextField
-                    label="Profesion"
-                    variant="outlined"
-                    fullWidth
-                    sx={{ mb: 2 }}
-                    {...register('profession', { required: true })}
-                    error={errors.profession ? true : false}
-                    helperText={errors.profession && 'Por favor ingrese su Profesión'}
-                />
-                <TextField
-                    label="Obra Social"
-                    variant="outlined"
-                    fullWidth
-                    sx={{ mb: 2 }}
-                    {...register('socialSecurity', { required: true })}
-                    error={errors.socialSecurity ? true : false}
-                    helperText={errors.socialSecurity && 'Por favor ingrese el nombre de su Obra Social'}
-                />
-                <Select
-                    label="Tipo de Sangre"
-                    variant="outlined"
-                    fullWidth
-                    sx={{ mb: 2 }}
-                    {...register('bloodType', { required: true })}
-                    error={errors.bloodType ? true : false}
-                    displayEmpty
-                >
-                    <MenuItem value="">
-                        <em>Select</em>
-                    </MenuItem>
-                    {bloodTypes.map((bloodType) => (
-                        <MenuItem key={bloodType} value={bloodType}>
-                            {bloodType}
+            <Box
+                sx={{
+                    flex: 1,
+                    width: '100%',
+                    maxWidth: '600px',
+                    bgcolor: '#FFFFFF',
+                    boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.05)',
+                    borderRadius: '10px',
+                    padding: '30px',
+                    mb: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mt: 4,
+                    mx: 3,
+                    '@media (min-width: 600px)': {
+                        mx: 'auto',
+                    },
+                }}
+            >
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <TextField
+                        label="Nombre Completo"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mb: 2 }}
+                        {...register('name', { required: true })}
+                        error={errors.name ? true : false}
+                        helperText={errors.name && 'Por favor ingrese su nombre'}
+                    />
+                    <TextField
+                        label="Email"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mb: 2 }}
+                        {...register('email', { required: true })}
+                        error={errors.email ? true : false}
+                        helperText={errors.email && 'Por favor ingrese un Email Valido'}
+                    />
+                    <TextField
+                        label="Celular"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mb: 2 }}
+                        {...register('telephone', { required: true })}
+                        error={errors.telephone ? true : false}
+                        helperText={errors.telephone && 'Por favor ingrese su número Celular'}
+                    />
+                    <TextField
+                        label="Dirección"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mb: 2 }}
+                        {...register('address', { required: true })}
+                        error={errors.address ? true : false}
+                        helperText={errors.address && 'Por favor ingrese su dirección'}
+                    />
+                    <TextField
+                        label="Alergia a Medicamentos"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mb: 2 }}
+                        {...register('drugAllergy')}
+                    />
+                    <TextField
+                        label="Alergia a comidas"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mb: 2 }}
+                        {...register('foodAllergy')}
+                    />
+                    <TextField
+                        label="Profesion"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mb: 2 }}
+                        {...register('profession', { required: true })}
+                        error={errors.profession ? true : false}
+                        helperText={errors.profession && 'Por favor ingrese su Profesión'}
+                    />
+                    <TextField
+                        label="Obra Social"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mb: 2 }}
+                        {...register('socialSecurity', { required: true })}
+                        error={errors.socialSecurity ? true : false}
+                        helperText={errors.socialSecurity && 'Por favor ingrese el nombre de su Obra Social'}
+                    />
+                    <Select
+                        label="Tipo de Sangre"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mb: 2 }}
+                        {...register('bloodType', { required: true })}
+                        error={errors.bloodType ? true : false}
+                        displayEmpty
+                    >
+                        <MenuItem value="">
+                            <em>Select</em>
                         </MenuItem>
-                    ))}
-                </Select>
-                <Button variant="contained" color="primary" type="submit">
-                    Submit
-                </Button>
-            </form>
+                        {bloodTypes.map((bloodType) => (
+                            <MenuItem key={bloodType} value={bloodType}>
+                                {bloodType}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                    <Button variant="contained" color="primary" type="submit">
+                        Guardar
+                    </Button>
+                </form>
+            </Box>
         </Box>
     )
 }
