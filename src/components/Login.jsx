@@ -23,7 +23,7 @@ export const LoginButton = () => {
     }
     // const [createUser] = useMutation(CREATE_USER, {
     //     variables: {
-    //         id: user
+    //         id: extractNumbers(user.sub)
     //     },
     // })
     return <Button onClick={() => loginWithRedirect()}>Login</Button>

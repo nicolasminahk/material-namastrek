@@ -55,7 +55,12 @@ const Home = () => {
     return (
         <>
             <Navbar />
-            <Box sx={{ flexDirection: 'row', marginTop: '100px' }}>
+            <Box
+                sx={{
+                    flexDirection: 'row',
+                    marginTop: '100px',
+                }}
+            >
                 <Typography
                     variant="h4"
                     sx={{

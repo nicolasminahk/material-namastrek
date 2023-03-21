@@ -27,12 +27,12 @@ function Footer() {
                 <Typography sx={{ flexGrow: 1, fontWeight: 'bold', mr: 2 }}>Namastrek</Typography>
                 <IconButton
                     aria-label="Facebook"
-                    onClick={() => window.open('https://www.facebook.com/')}
+                    onClick={() => window.open('https://www.facebook.com/namastrekk')}
                     sx={{ mr: 1 }}
                 >
                     <Facebook />
                 </IconButton>
-                <IconButton aria-label="WhatsApp" onClick={() => window.open('https://www.whatsapp.com/')}>
+                <IconButton aria-label="WhatsApp" onClick={() => window.open('https://wa.me/+543814012014?text=Hola!')}>
                     <WhatsApp />
                 </IconButton>
             </Box>

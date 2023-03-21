@@ -24,20 +24,19 @@ const BenefitsList = ({ benefits }) => {
                     {benefits.date}
                 </Typography>
             </CardContent>
-            {/* <CardActionArea> */}
-            <Button
-                variant="contained"
-                color="success"
-                sx={{
-                    mt: 2,
-                    alignSelf: 'flex-end',
-                    '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
-                }}
-            >
-                Adquirir Ahora
-            </Button>
-
-            {/* </CardActionArea> */}
+            <CardActionArea>
+                <Button
+                    variant="contained"
+                    color="success"
+                    sx={{
+                        mt: 2,
+                        // alignSelf: 'flex-start',
+                        '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
+                    }}
+                >
+                    Adquirir Ahora
+                </Button>
+            </CardActionArea>
         </Card>
     )
 }
