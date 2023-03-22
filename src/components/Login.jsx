@@ -34,7 +34,7 @@ export const LoginButton = () => {
         },
     })
 
-    const handleDelete = () => {
+    const handleCreate = () => {
         createUser()
         refetch()
     }
