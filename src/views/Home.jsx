@@ -53,18 +53,18 @@ const Home = () => {
     console.log(activities)
 
     return (
-        <>
+        <Box sx={{ backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39)' }}>
             <Navbar />
             <Box
                 sx={{
                     flexDirection: 'row',
-                    marginTop: '100px',
+                    // marginTop: '100px',
                 }}
             >
                 <Typography
                     variant="h4"
                     sx={{
-                        color: '#4CAF50',
+                        color: '#E5F6E5',
                         fontWeight: 'bold',
                         textAlign: 'center',
                         marginTop: '2rem',
@@ -72,6 +72,7 @@ const Home = () => {
                         textShadow: '1px 1px rgba(0, 0, 0, 0.2)',
                         letterSpacing: '2px',
                         animation: 'pulse 2s ease-in-out infinite',
+                        paddingTop: '80px',
                     }}
                 >
                     Busca tu mejor <br /> Aventura!
@@ -81,7 +82,7 @@ const Home = () => {
             <div style={{ paddingTop: '400px' }}></div>
 
             <Footer />
-        </>
+        </Box>
     )
 }
 

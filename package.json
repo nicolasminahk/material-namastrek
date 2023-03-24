@@ -31,6 +31,7 @@
     "react-day-picker": "^8.6.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.5",
+    "react-material-ui-theme": "^1.0.9",
     "react-modern-calendar-datepicker": "^3.1.6",
     "react-redux": "^8.0.5",
     "react-responsive-carousel": "^3.2.23",

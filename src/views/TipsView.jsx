@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import { Box, Card, CardContent, CardMedia, Grid, Typography, useTheme } from '@mui/material'
 import NavBar from '../components/navbar/Navbar'
 import { gql, useQuery, useMutation } from '@apollo/client'
 import fondoTip from '../assets/fondoTip.png'
@@ -17,6 +17,7 @@ const ALL_TIPS = gql`
 
 const TipsView = () => {
     const [hovered, setHovered] = React.useState(false)
+    const theme = useTheme()
 
     const hoverAnimation = useSpring({
         transform: hovered ? 'scale(1.02)' : 'scale(1)',
@@ -27,7 +28,26 @@ const TipsView = () => {
     return (
         <>
             <NavBar />
-            <Box sx={{ bgcolor: '#F3F6F9', pt: { xs: 10, md: 15 }, pb: { xs: 6, md: 10 }, marginTop: '4rem' }}>
+            {/* <Box sx={{ bgcolor: '#F3F6F9', pt: { xs: 10, md: 15 }, pb: { xs: 6, md: 10 }, marginTop: '4rem' }}> */}
+            <Box
+                sx={{
+                    bgcolor: '#F3F6F9',
+                    pt: theme.spacing(10),
+                    pb: theme.spacing(6),
+                    [theme.breakpoints.up('md')]: {
+                        pt: theme.spacing(15),
+                        pb: theme.spacing(10),
+                    },
+                    [theme.breakpoints.up('lg')]: {
+                        pt: theme.spacing(20),
+                        pb: theme.spacing(12),
+                    },
+                    marginTop: '4rem',
+                    [theme.breakpoints.down('sm')]: {
+                        marginTop: '2rem',
+                    },
+                }}
+            >
                 <Typography
                     variant="h4"
                     component="h2"
