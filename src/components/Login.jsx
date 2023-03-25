@@ -36,7 +36,14 @@ export const LoginButton = () => {
 
     const handleCreate = () => {
         createUser()
-        refetch()
     }
-    return <Button onClick={() => loginWithRedirect()}>Login</Button>
+    return (
+        <Button
+            onClick={() => {
+                loginWithRedirect(), handleCreate()
+            }}
+        >
+            Login
+        </Button>
+    )
 }

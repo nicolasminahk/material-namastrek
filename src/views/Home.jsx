@@ -48,9 +48,9 @@ const Home = () => {
     const { loginWithRedirect, user, isAuthenticated } = useAuth0()
     console.log(isAuthenticated, user)
     if (loading) return null
-    const currentDate = dayjs()
-    const activities = data?.allSalidas.filter((activity) => activity.date === currentDate.toISOString().slice(0, 10))
-    console.log(activities)
+    // const currentDate = dayjs()
+    // const activities = data?.allSalidas.filter((activity) => activity.date === currentDate.toISOString().slice(0, 10))
+    // console.log(activities)
 
     return (
         <Box sx={{ backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39)' }}>
@@ -58,7 +58,6 @@ const Home = () => {
             <Box
                 sx={{
                     flexDirection: 'row',
-                    // marginTop: '100px',
                 }}
             >
                 <Typography
@@ -78,7 +77,7 @@ const Home = () => {
                     Busca tu mejor <br /> Aventura!
                 </Typography>
             </Box>
-            <CalendarComponent activities={activities} />
+            <CalendarComponent activities={data?.allSalidas} />
             <div style={{ paddingTop: '400px' }}></div>
 
             <Footer />

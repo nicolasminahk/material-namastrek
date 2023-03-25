@@ -14,21 +14,27 @@ const StyledDot = styled(Box)`
 
 const CalendarComponent = ({ activities }) => {
     const [selectedDate, setSelectedDate] = useState(null)
-    const currentDate = dayjs()
 
-    const renderDay = (date) => {
-        // const activitiesOnDay = getActivities(date)
+    const renderDay = (date, _view) => {
+        const activitiesOnDay = activities.filter((activity) => {
+            return dayjs(activity.date).isSame(date, 'day')
+        })
 
         return (
             <Box position="relative" height="100%">
-                {activities.length > 0 && <StyledDot position="absolute" top={0} left={0} />}
+                {activitiesOnDay.length > 0 && <StyledDot position="absolute" top={0} left={0} />}
                 <Typography>{date.getDate()}</Typography>
             </Box>
         )
     }
 
+    const filteredActivities = selectedDate
+        ? activities.filter((activity) => {
+              return dayjs(activity.date).isSame(selectedDate, 'day')
+          })
+        : []
+
     return (
-        // <Box sx={{ marginTop: '100px', display: 'flex', flexDirection: 'row' }}>
         <>
             <CalendarContainer>
                 <Calendar
@@ -36,14 +42,18 @@ const CalendarComponent = ({ activities }) => {
                     onChange={setSelectedDate}
                     locale="es"
                     tileContent={({ date }) => {
-                        // const activitiesOnDay = getActivities(date)
+                        const activitiesOnDay = activities.filter((activity) => {
+                            return dayjs(activity.date).isSame(date, 'day')
+                        })
 
-                        return activities.length > 0 ? <StyledDot /> : null
+                        return activitiesOnDay.length > 0 ? <StyledDot /> : null
                     }}
                     tileClassName={({ date }) => {
-                        // const activitiesOnDay = getActivities(date)
-                        //en vez de activitesONDay seria las activities que ya vienen filtradas
-                        return activities.length > 0 ? 'highlight' : null
+                        const activitiesOnDay = activities.filter((activity) => {
+                            return dayjs(activity.date).isSame(date, 'day')
+                        })
+
+                        return activitiesOnDay.length > 0 ? 'highlight' : null
                     }}
                     calendarType="ISO 8601"
                     showNeighboringMonth={false}
@@ -53,11 +63,9 @@ const CalendarComponent = ({ activities }) => {
                     renderDay={renderDay}
                 />
             </CalendarContainer>
-            {selectedDate && (
+            {filteredActivities.length > 0 && (
                 <Box sx={{ marginTop: '20px' }}>
-                    {/* <Typography>{`Actividades  ${format(selectedDate, 'PP')}:`}</Typography> */}
-                    {activities.map((activity) => (
-                        // <Box key={activity.id} sx={{ marginTop: '10px', backgroundColor: 'white' }}>
+                    {filteredActivities.map((activity) => (
                         <Box
                             key={activity.id}
                             sx={{
@@ -90,7 +98,6 @@ const CalendarComponent = ({ activities }) => {
                 </Box>
             )}
         </>
-        // </Box>
     )
 }
 
