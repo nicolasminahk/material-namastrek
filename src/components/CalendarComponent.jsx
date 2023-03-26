@@ -74,7 +74,7 @@ const CalendarComponent = ({ activities }) => {
                                 maxWidth: '600px',
                                 bgcolor: '#FFFFFF',
                                 boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.05)',
-                                borderRadius: '10px',
+                                borderRadius: '20px',
                                 padding: '30px',
                                 mb: 8,
                                 display: 'flex',
