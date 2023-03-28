@@ -16,7 +16,7 @@ const CalendarComponent = ({ activities }) => {
     const [selectedDate, setSelectedDate] = useState(null)
 
     const renderDay = (date, _view) => {
-        const activitiesOnDay = activities.filter((activity) => {
+        const activitiesOnDay = activities?.filter((activity) => {
             return dayjs(activity.date).isSame(date, 'day')
         })
 
@@ -29,7 +29,7 @@ const CalendarComponent = ({ activities }) => {
     }
 
     const filteredActivities = selectedDate
-        ? activities.filter((activity) => {
+        ? activities?.filter((activity) => {
               return dayjs(activity.date).isSame(selectedDate, 'day')
           })
         : []
@@ -42,18 +42,18 @@ const CalendarComponent = ({ activities }) => {
                     onChange={setSelectedDate}
                     locale="es"
                     tileContent={({ date }) => {
-                        const activitiesOnDay = activities.filter((activity) => {
+                        const activitiesOnDay = activities?.filter((activity) => {
                             return dayjs(activity.date).isSame(date, 'day')
                         })
 
-                        return activitiesOnDay.length > 0 ? <StyledDot /> : null
+                        return activitiesOnDay?.length > 0 ? <StyledDot /> : null
                     }}
                     tileClassName={({ date }) => {
-                        const activitiesOnDay = activities.filter((activity) => {
-                            return dayjs(activity.date).isSame(date, 'day')
+                        const activitiesOnDay = activities?.filter((activity) => {
+                            return dayjs(activity?.date).isSame(date, 'day')
                         })
 
-                        return activitiesOnDay.length > 0 ? 'highlight' : null
+                        return activitiesOnDay?.length > 0 ? 'highlight' : null
                     }}
                     calendarType="ISO 8601"
                     showNeighboringMonth={false}
@@ -63,7 +63,7 @@ const CalendarComponent = ({ activities }) => {
                     renderDay={renderDay}
                 />
             </CalendarContainer>
-            {filteredActivities.length > 0 && (
+            {filteredActivities?.length > 0 && (
                 <Box sx={{ marginTop: '20px' }}>
                     {filteredActivities.map((activity) => (
                         <Box
