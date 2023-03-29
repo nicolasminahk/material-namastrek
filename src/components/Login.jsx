@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Button } from '@mui/material'
 import { gql, useQuery, useMutation } from '@apollo/client'
+import { useEffect } from 'react'
 
 const CREATE_USER = gql`
     mutation Mutation($createUserId: ID!, $email: String!) {
@@ -15,17 +16,20 @@ const CREATE_USER = gql`
 function extractNumbers(inputString) {
     return inputString.replace(/\D/g, '')
 }
+
 export const LoginButton = () => {
     const { loginWithRedirect, user, isAuthenticated } = useAuth0()
     const [userId, setUserID] = useState('')
     const [email, setEmail] = useState('')
-    console.log(isAuthenticated)
-    if (isAuthenticated) {
-        console.log(user)
-        const userIdDepure = extractNumbers(user.sub)
-        setUserID(userIdDepure)
-        setEmail(user.email)
-    }
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            const userIdDepure = extractNumbers(user.sub)
+            setUserID(userIdDepure)
+            setEmail(user.email)
+            console.log(userId)
+        }
+    }, [user])
 
     const [createUser] = useMutation(CREATE_USER, {
         variables: {
@@ -40,7 +44,8 @@ export const LoginButton = () => {
     return (
         <Button
             onClick={() => {
-                loginWithRedirect(), handleCreate()
+                loginWithRedirect()
+                handleCreate()
             }}
         >
             Login
