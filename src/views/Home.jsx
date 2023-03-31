@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import CalendarComponent from '../components/CalendarComponent'
 import Footer from '../components/Footer'
 import Navbar from '../components/navbar/Navbar'
@@ -38,25 +38,75 @@ const Home = () => {
     const [email, setEmail] = useState('')
     console.log(isAuthenticated, user)
 
-    // const [createUser] = useMutation(CREATE_USER, {
-    //     variables: {
-    //         id: userId,
-    //         email: email,
-    //     },
-    // })
-    // useEffect(() => {
-    //     const userIdDepure = extractNumbers(user?.sub)
-    //     setUserID(userIdDepure)
-    //     setEmail(user.email)
-    //     createUser()
-    //     console.log('effect', userId, email)
-    // }, [user])
-    // console.log(userId)
+    const [createUser, { error: createUserError }] = useMutation(CREATE_USER, {
+        variables: {
+            id: userId,
+            email: email,
+        },
+        onError: (error) => console.log('createUser error:', error),
+    })
 
-    // const handleCreate = () => {
-    //     createUser()
+    if (isAuthenticated) {
+        createUser()
+    }
+
+    useEffect(() => {
+        if (user) {
+            const userIdDepure = extractNumbers(user.sub)
+            setUserID(userIdDepure)
+            setEmail(user.email)
+        }
+    }, [user])
+
+    // const ALL_SALIDAS = gql`
+    //     query AllSalidas {
+    //         allSalidas {
+    //             date
+    //             description
+    //             id
+    //             name
+    //             price
+    //         }
+    //     }
+    // `
+
+    // const CREATE_USER = gql`
+    //     mutation Mutation($createUserId: ID!, $email: String!) {
+    //         createUser(id: $createUserId, email: $email) {
+    //             id
+    //             email
+    //         }
+    //     }
+    // `
+    // function extractNumbers(inputString) {
+    //     return inputString.replace(/\D/g, '')
     // }
-    if (loading) return null
+    // const Home = () => {
+    //     const { loading: loadingSalidas, error: errorSalidas, data } = useQuery(ALL_SALIDAS)
+    //     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
+
+    //     const userData = useMemo(() => ({ id: extractNumbers(user?.sub), email: user?.email }), [user])
+
+    //     const [createUser, { error: createUserError }] = useMutation(CREATE_USER, {
+    //         variables: userData,
+    //         onError: (error) => console.log('createUser error:', error),
+    //     })
+
+    //     useEffect(() => {
+    //         const generateUser = async () => {
+    //             console.log({ user, isAuthenticated })
+    //             if (user && isAuthenticated) await createUser()
+    //         }
+    //         generateUser()
+    //     }, [user, createUser])
+
+    //     if (loadingSalidas && loadingAuth0) {
+    //         return <>Cargando...</>
+    //     }
+    //     if (errorSalidas && errorAuth0) {
+    //         return <>error: {(errorSalidas, '\n', errorAuth0)}</>
+    //     }
+    //     // if (loading) return null
 
     return (
         <Box sx={{ backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39)' }}>
