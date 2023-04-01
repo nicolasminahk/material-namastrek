@@ -44,8 +44,9 @@ export const LoginButton = () => {
     return (
         <Button
             onClick={() => {
-                loginWithRedirect()
-                handleCreate()
+                loginWithRedirect().then(() => {
+                    handleCreate()
+                })
             }}
         >
             Login
