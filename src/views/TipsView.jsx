@@ -77,6 +77,8 @@ const TipsView = () => {
                             justifyContent: 'center',
                             mt: 4,
                             mx: 3,
+                            // height: '300px',
+                            // overflow: 'hidden',
                             '@media (min-width: 600px)': {
                                 mx: 'auto',
                             },
