@@ -73,7 +73,7 @@ const CalendarComponent = ({ activities }) => {
     console.log('filter', filteredActivities)
 
     return (
-        <>
+        <Box sx={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'colum' }}>
             {/* <div className="dayOfWeek">{getDayOfWeek()}</div>
             <div className="date">{date.toLocaleDateString()}</div> */}
             <CalendarContainer>
@@ -113,8 +113,8 @@ const CalendarComponent = ({ activities }) => {
                             key={activity.id}
                             sx={{
                                 flex: 1,
-                                width: '100%',
-                                maxWidth: '600px',
+                                width: '50%',
+                                maxWidth: '400px',
                                 bgcolor: '#F9AF5F',
                                 boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.05)',
                                 borderRadius: '20px',
@@ -140,7 +140,7 @@ const CalendarComponent = ({ activities }) => {
                     ))}
                 </Box>
             )}
-        </>
+        </Box>
     )
 }
 
