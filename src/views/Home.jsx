@@ -33,21 +33,11 @@ function extractNumbers(inputString) {
 }
 const Home = () => {
     const { loading: loadingSalidas, error: errorSalidas, data } = useQuery(ALL_SALIDAS)
-    // const { loginWithRedirect, user, isAuthenticated } = useAuth0()
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
-    // const [userId, setUserID] = useState('')
-    // const [email, setEmail] = useState('')
     console.log(isAuthenticated, user)
 
     const userData = useMemo(() => ({ id: extractNumbers(user?.sub) ?? '', email: user?.email ?? '' }), [user])
 
-    // const [createUser, { error: createUserError }] = useMutation(CREATE_USER, {
-    //     variables: {
-    //         id: userId,
-    //         email: email,
-    //     },
-    //     onError: (error) => console.log('createUser error:', error),
-    // })
     const [createUser, { error: createUserError }] = useMutation(CREATE_USER, {
         variables: userData,
         onError: (error) => console.log('createUser error:', error),
@@ -72,60 +62,10 @@ const Home = () => {
         return <>error: {(errorSalidas, '\n', errorAuth0)}</>
     }
 
-    // const ALL_SALIDAS = gql`
-    //     query AllSalidas {
-    //         allSalidas {
-    //             date
-    //             description
-    //             id
-    //             name
-    //             price
-    //         }
-    //     }
-    // `
-
-    // const CREATE_USER = gql`
-    //     mutation Mutation($createUserId: ID!, $email: String!) {
-    //         createUser(id: $createUserId, email: $email) {
-    //             id
-    //             email
-    //         }
-    //     }
-    // `
-    // function extractNumbers(inputString) {
-    //     return inputString.replace(/\D/g, '')
-    // }
-    // const Home = () => {
-    //     const { loading: loadingSalidas, error: errorSalidas, data } = useQuery(ALL_SALIDAS)
-    //     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
-
-    //     const userData = useMemo(() => ({ id: extractNumbers(user?.sub), email: user?.email }), [user])
-
-    //     const [createUser, { error: createUserError }] = useMutation(CREATE_USER, {
-    //         variables: userData,
-    //         onError: (error) => console.log('createUser error:', error),
-    //     })
-
-    //     useEffect(() => {
-    //         const generateUser = async () => {
-    //             console.log({ user, isAuthenticated })
-    //             if (user && isAuthenticated) await createUser()
-    //         }
-    //         generateUser()
-    //     }, [user, createUser])
-
-    //     if (loadingSalidas && loadingAuth0) {
-    //         return <>Cargando...</>
-    //     }
-    //     if (errorSalidas && errorAuth0) {
-    //         return <>error: {(errorSalidas, '\n', errorAuth0)}</>
-    //     }
-    //     // if (loading) return null
-
     return (
         <>
             <Navbar />
-            <Box sx={{ backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39)' }}>
+            <Box sx={{ backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39)', marginTop: '-40px' }}>
                 <Box
                     sx={{
                         flexDirection: 'row',
