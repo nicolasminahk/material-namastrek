@@ -21,42 +21,56 @@ const ALL_SALIDAS = gql`
 `
 
 const CREATE_USER = gql`
-    mutation Mutation($createUserId: ID!, $email: String!) {
-        createUser(id: $createUserId, email: $email) {
-            id
+    mutation Mutation($id: String!, $email: String!) {
+        createUser(id: $id, email: $email) {
+            _id
             email
         }
     }
 `
 function extractNumbers(inputString) {
-    return inputString.replace(/\D/g, '')
+    return inputString?.replace(/\D/g, '')
 }
 const Home = () => {
-    const { loading, error, data } = useQuery(ALL_SALIDAS)
-    const { loginWithRedirect, user, isAuthenticated } = useAuth0()
-    const [userId, setUserID] = useState('')
-    const [email, setEmail] = useState('')
+    const { loading: loadingSalidas, error: errorSalidas, data } = useQuery(ALL_SALIDAS)
+    // const { loginWithRedirect, user, isAuthenticated } = useAuth0()
+    const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
+    // const [userId, setUserID] = useState('')
+    // const [email, setEmail] = useState('')
     console.log(isAuthenticated, user)
 
+    const userData = useMemo(() => ({ id: extractNumbers(user?.sub) ?? '', email: user?.email ?? '' }), [user])
+
+    // const [createUser, { error: createUserError }] = useMutation(CREATE_USER, {
+    //     variables: {
+    //         id: userId,
+    //         email: email,
+    //     },
+    //     onError: (error) => console.log('createUser error:', error),
+    // })
     const [createUser, { error: createUserError }] = useMutation(CREATE_USER, {
-        variables: {
-            id: userId,
-            email: email,
-        },
+        variables: userData,
         onError: (error) => console.log('createUser error:', error),
     })
 
-    if (isAuthenticated) {
-        createUser()
-    }
-
     useEffect(() => {
-        if (user) {
-            const userIdDepure = extractNumbers(user.sub)
-            setUserID(userIdDepure)
-            setEmail(user.email)
+        const generateUser = async () => {
+            console.log({ user, isAuthenticated })
+            if (user && isAuthenticated && userData.id) {
+                console.log('data', userData)
+                createUser()
+                console.log('Entry')
+            }
         }
-    }, [user])
+        generateUser()
+    }, [user, createUser, userData])
+
+    if (loadingSalidas && loadingAuth0) {
+        return <>Cargando...</>
+    }
+    if (errorSalidas && errorAuth0) {
+        return <>error: {(errorSalidas, '\n', errorAuth0)}</>
+    }
 
     // const ALL_SALIDAS = gql`
     //     query AllSalidas {
@@ -109,35 +123,37 @@ const Home = () => {
     //     // if (loading) return null
 
     return (
-        <Box sx={{ backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39)' }}>
+        <>
             <Navbar />
-            <Box
-                sx={{
-                    flexDirection: 'row',
-                }}
-            >
-                <Typography
-                    variant="h4"
+            <Box sx={{ backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39)' }}>
+                <Box
                     sx={{
-                        color: '#E5F6E5',
-                        fontWeight: 'bold',
-                        textAlign: 'center',
-                        marginTop: '2rem',
-                        fontFamily: 'Roboto, sans-serif',
-                        textShadow: '1px 1px rgba(0, 0, 0, 0.2)',
-                        letterSpacing: '2px',
-                        animation: 'pulse 2s ease-in-out infinite',
-                        paddingTop: '80px',
+                        flexDirection: 'row',
                     }}
                 >
-                    Busca tu mejor <br /> Aventura!
-                </Typography>
-            </Box>
-            <CalendarComponent activities={data?.allSalidas} />
-            <div style={{ paddingTop: '400px' }}></div>
+                    <Typography
+                        variant="h4"
+                        sx={{
+                            color: '#E5F6E5',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                            marginTop: '2rem',
+                            fontFamily: 'Roboto, sans-serif',
+                            textShadow: '1px 1px rgba(0, 0, 0, 0.2)',
+                            letterSpacing: '2px',
+                            animation: 'pulse 2s ease-in-out infinite',
+                            paddingTop: '80px',
+                        }}
+                    >
+                        Busca tu mejor <br /> Aventura!
+                    </Typography>
+                </Box>
+                <CalendarComponent activities={data?.allSalidas} />
+                <div style={{ paddingTop: '400px' }}></div>
 
-            <Footer />
-        </Box>
+                <Footer />
+            </Box>
+        </>
     )
 }
 
