@@ -64,8 +64,8 @@ const Home = () => {
 
     return (
         <>
-            <Navbar />
             <Box sx={{ backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39)', marginTop: '-40px' }}>
+                <Navbar />
                 <Box
                     sx={{
                         flexDirection: 'row',
