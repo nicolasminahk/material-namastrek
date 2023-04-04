@@ -26,7 +26,7 @@ function Navbar() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="fixed" sx={{ bgcolor: '#fff' }}>
+            <AppBar position="fixed" sx={{ background: 'transparent', boxShadow: 'none' }}>
                 <Toolbar>
                     <IconButton
                         size="large"
@@ -39,10 +39,6 @@ function Navbar() {
                         <MenuIcon />
                     </IconButton>
                     <img src={logo} alt="Company Logo" style={{ height: 50, marginRight: 'auto', marginLeft: 16 }} />
-                    {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Namastrek
-                    </Typography> */}
-
                     <Box>
                         {!isAuthenticated && (
                             <Button color="inherit" component={Link} to="/login">
