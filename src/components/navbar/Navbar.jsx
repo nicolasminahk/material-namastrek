@@ -27,7 +27,7 @@ function Navbar() {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="fixed" sx={{ background: 'transparent', boxShadow: 'none' }}>
-                <Toolbar>
+                <Toolbar style={{ backgroundColor: '#689F38' }}>
                     <IconButton
                         size="large"
                         edge="start"
