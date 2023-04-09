@@ -181,6 +181,7 @@ const AdminExit = () => {
                     flexDirection: 'column',
                     margin: 2,
                     mb: 1,
+                    paddingBottom: 10,
                 }}
             >
                 <Typography variant="h6">Nueva Salida</Typography>
@@ -217,13 +218,13 @@ const AdminExit = () => {
                         <DateField label="Fecha" value={formState.date} onChange={handleDateChange} />
                     </DemoContainer>
                 </LocalizationProvider> */}
-                {/* <TextField
+                <TextField
                     variant="outlined"
                     sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1 }}
                     label="Fecha"
                     value={formState.date}
                     onChange={handleDateChange}
-                /> */}
+                />
                 <TextField
                     label="Output Image"
                     type="file"
