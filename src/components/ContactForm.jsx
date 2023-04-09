@@ -1,6 +1,29 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { TextField, Select, MenuItem, Button, Box } from '@mui/material'
+import { gql, useMutation } from '@apollo/client'
+
+//Debe obtener el authOID del user, y enviarle el id de la data, para anexarlo
+//Utilizar handleAddData ( )
+
+const ADD_DATA_TO_USER = gql`
+    mutation AddDataToUser($dataId: ID!, $auth0UserId: ID!) {
+        addDataToUser(dataId: $dataId, auth0UserId: $auth0UserId) {
+            username
+            data {
+                adress
+                alergiaAlimentos
+                alergiaMedicamentos
+                id
+                name
+                obraSocial
+                phone
+                profession
+                tipoDeSangre
+            }
+        }
+    }
+`
 
 const ContactForm = () => {
     const {
@@ -14,6 +37,13 @@ const ContactForm = () => {
     const onSubmit = (data) => {
         console.log(data)
     }
+
+    const [addDataToUser] = useMutation(ADD_DATA_TO_USER, {
+        variables: {
+            dataID: '',
+            auth0UserId: '',
+        },
+    })
 
     return (
         <Box
