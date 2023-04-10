@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextField, Select, MenuItem, Button, Box } from '@mui/material'
 import { gql, useMutation } from '@apollo/client'
+import { useAuth0 } from '@auth0/auth0-react'
 
 //Debe obtener el authOID del user, y enviarle el id de la data, para anexarlo
 //Utilizar handleAddData ( )
 
 const ADD_DATA_TO_USER = gql`
-    mutation AddDataToUser($dataId: ID!, $auth0UserId: ID!) {
-        addDataToUser(dataId: $dataId, auth0UserId: $auth0UserId) {
+    mutation AddDataToUser($data: DataInput!, $auth0UserId: String!) {
+        addDataToUser(data: $data, auth0UserId: $auth0UserId) {
             username
             data {
                 adress
@@ -24,6 +25,9 @@ const ADD_DATA_TO_USER = gql`
         }
     }
 `
+function extractNumbers(inputString) {
+    return inputString?.replace(/\D/g, '')
+}
 
 const ContactForm = () => {
     const {
@@ -31,17 +35,31 @@ const ContactForm = () => {
         handleSubmit,
         formState: { errors },
     } = useForm()
+    const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
+    const [data, setData] = useState('')
+    const userDepure = extractNumbers(user?.sub)
+    console.log(userDepure)
 
     const bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
 
     const onSubmit = (data) => {
         console.log(data)
+        setData(data)
     }
 
     const [addDataToUser] = useMutation(ADD_DATA_TO_USER, {
         variables: {
-            dataID: '',
-            auth0UserId: '',
+            auth0UserId: userDepure,
+            data: {
+                name: data.name,
+                adress: data.address,
+                phone: data.telephone,
+                profession: data.profession,
+                obraSocial: data.socialSecurity,
+                alergiaMedicamentos: data.drugAllergy,
+                alergiaAlimentos: data.foodAllergy,
+                tipoSangre: data.bloodType,
+            },
         },
     })
 
@@ -169,7 +187,14 @@ const ContactForm = () => {
                             </MenuItem>
                         ))}
                     </Select>
-                    <Button variant="contained" color="primary" type="submit">
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        onClick={() => {
+                            addDataToUser()
+                        }}
+                    >
                         Guardar
                     </Button>
                 </form>
