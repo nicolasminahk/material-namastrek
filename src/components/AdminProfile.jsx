@@ -23,7 +23,7 @@ const ADD_TIP = gql`
 `
 
 const DELETE_TIP = gql`
-    mutation Mutation($id: ID!) {
+    mutation Mutation($id: String!) {
         deleteTips(id: $id) {
             id
         }
