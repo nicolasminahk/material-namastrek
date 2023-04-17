@@ -5,9 +5,13 @@ import AdminExit from '../components/AdminExit'
 import AdminProfile from '../components/AdminProfile'
 import Footer from '../components/Footer'
 import Navbar from '../components/navbar/Navbar'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const Admin = () => {
+    const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
+
     return (
+        // user.email === 'nicolasminahk@gmail.com' && (
         <div>
             <Navbar />
             <Box
@@ -38,6 +42,7 @@ const Admin = () => {
             </Box>
             <Footer />
         </div>
+        // )
     )
 }
 
