@@ -3,8 +3,29 @@ import { Carousel } from 'react-responsive-carousel'
 // import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Typography, Box, Card, CardContent } from '@mui/material'
 import { useAuth0 } from '@auth0/auth0-react'
+import { gql, useQuery } from '@apollo/client'
+
+const FIND_SALIDAS_BY_AUTH0USERID = gql`
+    query FindSalidasByAuth0UserId($auth0UserId: String!) {
+        findSalidasByAuth0UserId(auth0UserId: $auth0UserId) {
+            name
+            users
+        }
+    }
+`
+
+function extractNumbers(inputString) {
+    return inputString?.replace(/\D/g, '')
+}
 
 function UserProfile({ name, outputs, benefits }) {
+    const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
+    const userDepure = extractNumbers(user?.sub)
+    const { loading, error, data, refetch } = useQuery(FIND_SALIDAS_BY_AUTH0USERID, {
+        variables: { auth0UserId: userDepure },
+    })
+
+    console.log(data)
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Typography>Tu perfil</Typography>
