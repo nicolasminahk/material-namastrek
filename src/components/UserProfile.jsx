@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Carousel } from 'react-responsive-carousel'
 // import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Typography, Box, Card, CardContent } from '@mui/material'
@@ -9,6 +9,7 @@ const FIND_SALIDAS_BY_AUTH0USERID = gql`
     query FindSalidasByAuth0UserId($auth0UserId: String!) {
         findSalidasByAuth0UserId(auth0UserId: $auth0UserId) {
             name
+
             users
         }
     }
@@ -18,14 +19,19 @@ function extractNumbers(inputString) {
     return inputString?.replace(/\D/g, '')
 }
 
-function UserProfile({ name, outputs, benefits }) {
+function UserProfile({ name, benefits }) {
+    const [outputs, setOutputs] = useState('')
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
     const userDepure = extractNumbers(user?.sub)
     const { loading, error, data, refetch } = useQuery(FIND_SALIDAS_BY_AUTH0USERID, {
         variables: { auth0UserId: userDepure },
     })
+    console.log(data.findSalidasByAuth0UserId)
+    // useEffect(() => {
+    //     setOutputs(data?.findSalidasByAuth0UserId.name)
+    // }, [])
 
-    console.log(data)
+    console.log(data?.findSalidasByAuth0UserId)
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Typography>Tu perfil</Typography>
@@ -38,9 +44,9 @@ function UserProfile({ name, outputs, benefits }) {
                         Salidas
                     </Typography>
                     <Carousel>
-                        {outputs?.map((output, index) => (
+                        {data?.findSalidasByAuth0UserId.map((output, index) => (
                             <div key={index}>
-                                <img src={output.image} alt={output.title} />
+                                <img src={output.image} alt={output.name} />
                                 <Typography variant="body1">{output.title}</Typography>
                             </div>
                         ))}
