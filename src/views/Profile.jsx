@@ -6,6 +6,8 @@ import UserProfile from '../components/UserProfile'
 import Footer from '../components/Footer'
 import ContactForm from '../components/ContactForm'
 import { useNavigate } from 'react-router-dom'
+import { gql, useQuery } from '@apollo/client'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const UserProfileContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -22,6 +24,7 @@ const UserProfileContainer = styled(Box)(({ theme }) => ({
 
 const Profile = () => {
     const navigate = useNavigate()
+
     return (
         <>
             <Navbar />
