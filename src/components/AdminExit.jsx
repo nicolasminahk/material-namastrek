@@ -6,6 +6,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DateField } from '@mui/x-date-pickers/DateField'
+const { Buffer } = require('buffer')
 
 const ALL_SALIDAS = gql`
     query AllSalidas {
@@ -19,9 +20,50 @@ const ALL_SALIDAS = gql`
     }
 `
 
+// const ADD_SALIDA = gql`
+//     mutation Mutation(
+//         $name: String!
+//         $description: String!
+//         $date: String!
+//         $price: String!
+//         $duration: String!
+//         $image: String!
+//     ) {
+//         addSalidas(
+//             name: $name
+//             description: $description
+//             date: $date
+//             price: $price
+//             duration: $duration
+//             image: $image
+//         ) {
+//             date
+//             description
+//             duration
+//             id
+//             image
+//             name
+//             price
+//         }
+//     }
+// `
 const ADD_SALIDA = gql`
-    mutation Mutation($name: String!, $description: String!, $date: String!, $price: String!, $duration: String!) {
-        addSalidas(name: $name, description: $description, date: $date, price: $price, duration: $duration) {
+    mutation Mutation(
+        $name: String!
+        $description: String!
+        $date: String!
+        $price: String!
+        $duration: String!
+        $image: Upload!
+    ) {
+        addSalidas(
+            name: $name
+            description: $description
+            date: $date
+            price: $price
+            duration: $duration
+            image: $image
+        ) {
             date
             description
             duration
@@ -32,6 +74,7 @@ const ADD_SALIDA = gql`
         }
     }
 `
+
 const DELETE_SALIDAS = gql`
     mutation Mutation($id: ID!) {
         deleteSalidas(id: $id) {
@@ -44,6 +87,7 @@ const AdminExit = () => {
     const { loading, error, data, refetch } = useQuery(ALL_SALIDAS)
     const [deleteSalida, setDeleteSalida] = useState('')
     const [selectedFile, setSelectedFile] = useState(null)
+
     console.log(deleteSalida)
     console.log(data?.allSalidas)
 
@@ -56,7 +100,7 @@ const AdminExit = () => {
         price: '',
         id: '',
     })
-    console.log(formState.date)
+    console.log(formState)
 
     const [createSalida] = useMutation(ADD_SALIDA, {
         variables: {
@@ -64,7 +108,7 @@ const AdminExit = () => {
             description: formState.description,
             date: formState.date,
             duration: formState.duration,
-            image: formState.image,
+            image: formState.image.data,
             price: formState.price,
             id: formState.id,
         },
@@ -130,24 +174,63 @@ const AdminExit = () => {
         setSelectedFile(event.target.files[0])
     }
 
+    // const handleFileUpload = () => {
+    //     //Aca debo pasarlo a base64
+    //     const reader = new FileReader()
+    //     const file = selectedFile
+
+    //     reader.onloadend = () => {
+    //         const base64String = reader.result.replace(/^data:image\/\w+;base64,/, '')
+    //         const imageBuffer = Buffer.from(base64String, 'base64')
+
+    //         // Now you can save the base64String in your database
+    //         console.log(base64String)
+    //         setFormState({
+    //             ...formState,
+    //             image: base64String,
+    //         })
+    //     }
+
+    //     reader.readAsDataURL(file)
+    // }
     const handleFileUpload = () => {
         //Aca debo pasarlo a base64
         const reader = new FileReader()
         const file = selectedFile
 
         reader.onloadend = () => {
-            const base64String = reader.result.replace('data:', '').replace(/^.+,/, '')
+            const base64String = reader.result.replace(/^data:image\/\w+;base64,/, '')
+            const imageBuffer = Buffer.from(base64String, 'base64')
 
-            // Now you can save the base64String in your database
-            console.log(base64String)
+            // Now you can save the imageBuffer in your database
             setFormState({
                 ...formState,
-                image: base64String,
+                image: imageBuffer,
             })
         }
 
         reader.readAsDataURL(file)
     }
+    // const handleFileUpload = () => {
+    //     const reader = new FileReader()
+    //     const file = selectedFile
+
+    //     reader.onloadend = () => {
+    //         const fileData = {
+    //             name: file.name,
+    //             type: file.type,
+    //             size: file.size,
+    //             data: reader.result.split(',')[1],
+    //         }
+
+    //         setFormState({
+    //             ...formState,
+    //             image: fileData,
+    //         })
+    //     }
+
+    //     reader.readAsDataURL(file)
+    // }
 
     if (loading) {
         return <p>Loading</p>
