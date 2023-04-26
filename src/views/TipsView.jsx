@@ -4,6 +4,7 @@ import NavBar from '../components/navbar/Navbar'
 import { gql, useQuery, useMutation } from '@apollo/client'
 import fondoTip from '../assets/fondoTip.png'
 import { useSpring, animated } from 'react-spring'
+import Footer from '../components/Footer'
 
 const ALL_TIPS = gql`
     query AllTips {
@@ -28,7 +29,6 @@ const TipsView = () => {
     return (
         <>
             <NavBar />
-            {/* <Box sx={{ bgcolor: '#F3F6F9', pt: { xs: 10, md: 15 }, pb: { xs: 6, md: 10 }, marginTop: '4rem' }}> */}
             <Box
                 sx={{
                     bgcolor: '#F3F6F9',
@@ -59,13 +59,28 @@ const TipsView = () => {
                     Consejos para un buen viaje
                 </Typography>
             </Box>
-            <Grid container spacing={3} justifyContent="center">
-                {data?.allTips?.map((tip) => (
+            {data?.allTips?.map((tip) => (
+                <Grid
+                    container
+                    spacing={3}
+                    justifyContent="center"
+                    item
+                    xs={12}
+                    columns={{ xs: 1, sm: 2 }}
+                    // sx={{
+                    //     display: 'grid',
+                    //     gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                    //     gridGap: '1rem',
+                    //     [theme.breakpoints.up('sm')]: {
+                    //         gridTemplateColumns: 'repeat(2, minmax(300px, 1fr))',
+                    //     },
+                    // }}
+                >
                     <Box
                         sx={{
                             flex: 1,
                             width: '100%',
-                            maxWidth: '600px',
+                            maxWidth: '400px',
                             bgcolor: '#FFFFFF',
                             boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.05)',
                             borderRadius: '10px',
@@ -114,36 +129,11 @@ const TipsView = () => {
                             </animated.div>
                         </Card>
                     </Box>
-                ))}
-            </Grid>
+                </Grid>
+            ))}
+            <Footer />
         </>
     )
 }
 
 export default TipsView
-
-// <Grid container spacing={3} justifyContent="center">
-// <Box
-//     sx={{
-//         flex: 1,
-//         width: '100%',
-//         maxWidth: '600px',
-//         bgcolor: '#FFFFFF',
-//         boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.05)',
-//         borderRadius: '10px',
-//         padding: '30px',
-//         mb: 8,
-//         display: 'flex',
-//         flexDirection: 'column',
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//         mt: 4,
-//         mx: 3,
-//         '@media (min-width: 600px)': {
-//             mx: 'auto',
-//         },
-//     }}
-// >
-//     {/* <BenefitsList benefits={data.allTips} /> */}
-// </Box>
-// </Grid>
