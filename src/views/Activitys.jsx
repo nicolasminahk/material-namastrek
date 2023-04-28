@@ -6,6 +6,7 @@ import { gql, useQuery, useMutation } from '@apollo/client'
 import ExitView from '../components/ExitView'
 import Footer from '../components/Footer'
 import Navbar from '../components/navbar/Navbar'
+import { Buffer } from 'buffer'
 
 const ALL_SALIDAS = gql`
     query AllSalidas {
@@ -18,6 +19,11 @@ const ALL_SALIDAS = gql`
         }
     }
 `
+const decodeImage = (image) => {
+    if (!image) return null // Agregamos la verificación aquí
+    const buffer = new Buffer.from(image, 'base64')
+    return buffer.toString('ascii')
+}
 
 const Activitys = () => {
     const { loading, error, data } = useQuery(ALL_SALIDAS)
@@ -53,6 +59,7 @@ const Activitys = () => {
                         justifyContent: 'center',
                         mt: 4,
                         mx: 3,
+                        flexWrap: 'wrap',
                         '@media (min-width: 600px)': {
                             mx: 'auto',
                         },
@@ -61,14 +68,21 @@ const Activitys = () => {
                     <>
                         {data?.allSalidas.map((view) => {
                             return (
-                                <ExitView
-                                    name={view.name}
-                                    description={view.description}
-                                    price={view.price}
-                                    image={view.image}
-                                    date={view.date}
-                                    id={view.id}
-                                />
+                                <Box
+                                    sx={{
+                                        width: '100%',
+                                        height: '100%', // Agregado para asegurar que todas las cards tengan la misma altura
+                                    }}
+                                >
+                                    <ExitView
+                                        name={view.name}
+                                        description={view.description}
+                                        price={view.price}
+                                        image={decodeImage(view.image)}
+                                        date={view.date}
+                                        id={view.id}
+                                    />
+                                </Box>
                             )
                         })}
                     </>
