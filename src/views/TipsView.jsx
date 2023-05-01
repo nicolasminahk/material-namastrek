@@ -60,22 +60,7 @@ const TipsView = () => {
                 </Typography>
             </Box>
             {data?.allTips?.map((tip) => (
-                <Grid
-                    container
-                    spacing={3}
-                    justifyContent="center"
-                    item
-                    xs={12}
-                    columns={{ xs: 1, sm: 2 }}
-                    // sx={{
-                    //     display: 'grid',
-                    //     gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                    //     gridGap: '1rem',
-                    //     [theme.breakpoints.up('sm')]: {
-                    //         gridTemplateColumns: 'repeat(2, minmax(300px, 1fr))',
-                    //     },
-                    // }}
-                >
+                <Grid container spacing={3} justifyContent="center" item xs={12} columns={{ xs: 1, sm: 2 }}>
                     <Box
                         sx={{
                             flex: 1,
@@ -92,8 +77,6 @@ const TipsView = () => {
                             justifyContent: 'center',
                             mt: 4,
                             mx: 3,
-                            // height: '300px',
-                            // overflow: 'hidden',
                             '@media (min-width: 600px)': {
                                 mx: 'auto',
                             },
