@@ -6,6 +6,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DateField } from '@mui/x-date-pickers/DateField'
+import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility'
 const { Buffer } = require('buffer')
 
 const ALL_SALIDAS = gql`
@@ -16,6 +17,7 @@ const ALL_SALIDAS = gql`
             id
             name
             price
+            users
         }
     }
 `
@@ -47,14 +49,14 @@ const ALL_SALIDAS = gql`
 //         }
 //     }
 // `
-const ADD_SALIDA = gql`
+const ADD_SALIDAS = gql`
     mutation Mutation(
         $name: String!
         $description: String!
         $date: String!
         $price: String!
         $duration: String!
-        $image: Upload!
+        $image: String!
     ) {
         addSalidas(
             name: $name
@@ -102,13 +104,13 @@ const AdminExit = () => {
     })
     console.log(formState)
 
-    const [createSalida] = useMutation(ADD_SALIDA, {
+    const [createSalida] = useMutation(ADD_SALIDAS, {
         variables: {
             name: formState.name,
             description: formState.description,
             date: formState.date,
             duration: formState.duration,
-            image: formState.image.data,
+            image: formState.image,
             price: formState.price,
             id: formState.id,
         },
@@ -174,25 +176,6 @@ const AdminExit = () => {
         setSelectedFile(event.target.files[0])
     }
 
-    // const handleFileUpload = () => {
-    //     //Aca debo pasarlo a base64
-    //     const reader = new FileReader()
-    //     const file = selectedFile
-
-    //     reader.onloadend = () => {
-    //         const base64String = reader.result.replace(/^data:image\/\w+;base64,/, '')
-    //         const imageBuffer = Buffer.from(base64String, 'base64')
-
-    //         // Now you can save the base64String in your database
-    //         console.log(base64String)
-    //         setFormState({
-    //             ...formState,
-    //             image: base64String,
-    //         })
-    //     }
-
-    //     reader.readAsDataURL(file)
-    // }
     const handleFileUpload = () => {
         //Aca debo pasarlo a base64
         const reader = new FileReader()
@@ -202,15 +185,34 @@ const AdminExit = () => {
             const base64String = reader.result.replace(/^data:image\/\w+;base64,/, '')
             const imageBuffer = Buffer.from(base64String, 'base64')
 
-            // Now you can save the imageBuffer in your database
+            // Now you can save the base64String in your database
+            console.log(base64String)
             setFormState({
                 ...formState,
-                image: imageBuffer,
+                image: base64String,
             })
         }
 
         reader.readAsDataURL(file)
     }
+    // const handleFileUpload = () => {
+    //     //Aca debo pasarlo a base64
+    //     const reader = new FileReader()
+    //     const file = selectedFile
+
+    //     reader.onloadend = () => {
+    //         const base64String = reader.result.replace(/^data:image\/\w+;base64,/, '')
+    //         const imageBuffer = Buffer.from(base64String, 'base64')
+
+    //         // Now you can save the imageBuffer in your database
+    //         setFormState({
+    //             ...formState,
+    //             image: imageBuffer,
+    //         })
+    //     }
+
+    //     reader.readAsDataURL(file)
+    // }
     // const handleFileUpload = () => {
     //     const reader = new FileReader()
     //     const file = selectedFile
@@ -249,6 +251,15 @@ const AdminExit = () => {
                             <Typography variant="h6" sx={{ color: 'green' }}>
                                 {salida.name}
                             </Typography>
+                            <Box>
+                                <ListItem sx={{ bgcolor: 'f1f1f1', padding: 1, marginTop: 1, marginBottom: 1 }}>
+                                    <SettingsAccessibilityIcon style={{ color: 'green' }} />
+                                    <Typography variant="h6" sx={{ color: 'green' }}>
+                                        {salida.users.length}
+                                    </Typography>
+                                </ListItem>
+                            </Box>
+
                             <Button onClick={() => handleDelete(salida.id)} style={{ color: 'red' }}>
                                 Eliminar
                             </Button>
@@ -270,7 +281,7 @@ const AdminExit = () => {
                 <Typography variant="h6">Nueva Salida</Typography>
                 <TextField
                     variant="outlined"
-                    sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1 }}
+                    sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1, paddingBottom: 2 }}
                     label="Nombre"
                     value={formState.name}
                     onChange={handleNameChange}
