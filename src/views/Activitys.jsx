@@ -24,7 +24,7 @@ const decodeImage = (image) => {
     const buffer = new Buffer.from(image, 'base64')
     return buffer.toString('ascii')
 }
-
+console.log(decodeImage)
 const Activitys = () => {
     const { loading, error, data } = useQuery(ALL_SALIDAS)
     return (
@@ -78,7 +78,7 @@ const Activitys = () => {
                                         name={view.name}
                                         description={view.description}
                                         price={view.price}
-                                        image={decodeImage(view.image)}
+                                        image={view.image}
                                         date={view.date}
                                         id={view.id}
                                     />
