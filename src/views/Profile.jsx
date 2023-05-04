@@ -41,3 +41,5 @@ const Profile = () => {
 }
 
 export default Profile
+
+//Botón de cancelar una actividad

@@ -20,6 +20,12 @@ function extractNumbers(inputString) {
     return inputString?.replace(/\D/g, '')
 }
 
+const decodeImage = (image) => {
+    if (!image) return null // Agregamos la verificación aquí
+    const buffer = new Buffer.from(image, 'base64')
+    return buffer.toString('ascii')
+}
+
 function ExitView({ name, description, image, price, date, id }) {
     const [hovered, setHovered] = React.useState(false)
     const [idSalida, setIdSalida] = useState('')
@@ -88,6 +94,7 @@ function ExitView({ name, description, image, price, date, id }) {
                             component="img"
                             height="100%"
                             image={backgroundImage}
+                            // image={decodeImage(image)}
                             alt="output"
                             style={{ objectFit: 'cover', borderRadius: 30 }}
                         />
