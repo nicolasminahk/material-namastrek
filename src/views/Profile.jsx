@@ -22,13 +22,39 @@ const UserProfileContainer = styled(Box)(({ theme }) => ({
     animationFillMode: 'forwards',
 }))
 
+const FIND_DATA_BY_AUTH0_USERID = gql`
+    query FindDataByAuth0UserId($auth0UserId: String!) {
+        findDataByAuth0UserId(auth0UserId: $auth0UserId) {
+            email
+            data {
+                adress
+            }
+        }
+    }
+`
+
+function extractNumbers(inputString) {
+    return inputString?.replace(/\D/g, '')
+}
+
 const Profile = () => {
     const navigate = useNavigate()
+    const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
+    const userDepure = extractNumbers(user?.sub)
+    const { loading, error, data } = useQuery(FIND_DATA_BY_AUTH0_USERID, {
+        variables: {
+            auth0UserId: userDepure,
+        },
+    })
 
+    console.log(data)
     return (
         <>
             <Navbar />
             <UserProfileContainer>
+                {
+                    //Si !user.data mostrar formulario, de lo contrario no mostrarlo
+                }
                 <>
                     <Typography>Para poder realizar Actividades debe llenar el siguiente formulario:</Typography>
                     <Button onClick={() => navigate('/form')}>Formulario</Button>
