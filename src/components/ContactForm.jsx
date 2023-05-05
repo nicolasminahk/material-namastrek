@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { TextField, Select, MenuItem, Button, Box } from '@mui/material'
 import { gql, useMutation } from '@apollo/client'
 import { useAuth0 } from '@auth0/auth0-react'
+import { useNavigate } from 'react-router-dom'
 
 //Debe obtener el authOID del user, y enviarle el id de la data, para anexarlo
 //Utilizar handleAddData ( )
@@ -21,6 +22,8 @@ const ADD_DATA_TO_USER = gql`
                 phone
                 profession
                 tipoDeSangre
+                email
+                auth0UserId
             }
         }
     }
@@ -39,6 +42,7 @@ const ContactForm = () => {
     const [data, setData] = useState('')
     const userDepure = extractNumbers(user?.sub)
     console.log(userDepure)
+    const navigate = useNavigate()
 
     const bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
 
@@ -59,6 +63,8 @@ const ContactForm = () => {
                 alergiaMedicamentos: data.drugAllergy,
                 alergiaAlimentos: data.foodAllergy,
                 tipoSangre: data.bloodType,
+                email: user.email,
+                auth0UserId: userDepure,
             },
         },
     })
@@ -193,6 +199,7 @@ const ContactForm = () => {
                         type="submit"
                         onClick={() => {
                             addDataToUser()
+                            navigate('/')
                         }}
                     >
                         Guardar
