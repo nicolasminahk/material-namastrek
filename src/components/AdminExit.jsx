@@ -21,34 +21,6 @@ const ALL_SALIDAS = gql`
         }
     }
 `
-
-// const ADD_SALIDA = gql`
-//     mutation Mutation(
-//         $name: String!
-//         $description: String!
-//         $date: String!
-//         $price: String!
-//         $duration: String!
-//         $image: String!
-//     ) {
-//         addSalidas(
-//             name: $name
-//             description: $description
-//             date: $date
-//             price: $price
-//             duration: $duration
-//             image: $image
-//         ) {
-//             date
-//             description
-//             duration
-//             id
-//             image
-//             name
-//             price
-//         }
-//     }
-// `
 const ADD_SALIDAS = gql`
     mutation Mutation(
         $name: String!
@@ -84,14 +56,50 @@ const DELETE_SALIDAS = gql`
         }
     }
 `
+const FIND_USER_ON_SALIDA = gql`
+    query FindUsersOnSalida($salidaId: String!) {
+        findUsersOnSalida(salidaId: $salidaId) {
+            _id
+            email
+            data {
+                name
+                adress
+                phone
+                alergiaAlimentos
+                alergiaMedicamentos
+                obraSocial
+                profession
+                tipoSangre
+            }
+        }
+    }
+`
 
 const AdminExit = () => {
-    const { loading, error, data, refetch } = useQuery(ALL_SALIDAS)
+    const [salidaId, setSalidaId] = useState('')
+
+    const {
+        loading: loadingSalidas,
+        error: errorSalidas,
+        data: dataSalidas,
+        refetch: refetchSalidas,
+    } = useQuery(ALL_SALIDAS)
+    const {
+        loading: loadingUsuarios,
+        error: errorUsuarios,
+        data: dataUsuarios,
+        refetch: refetchUsuarios,
+    } = useQuery(FIND_USER_ON_SALIDA, {
+        variables: {
+            salidaId: salidaId,
+        },
+    })
     const [deleteSalida, setDeleteSalida] = useState('')
     const [selectedFile, setSelectedFile] = useState(null)
 
     console.log(deleteSalida)
-    console.log(data?.allSalidas)
+    console.log(dataSalidas?.allSalidas)
+    console.log()
 
     const [formState, setFormState] = useState({
         name: '',
@@ -170,7 +178,7 @@ const AdminExit = () => {
     const handleDelete = (id) => {
         setDeleteSalida(id)
         deleteSalidas()
-        refetch()
+        refetchSalidas()
     }
     const handleFileInputChange = (event) => {
         setSelectedFile(event.target.files[0])
@@ -195,57 +203,19 @@ const AdminExit = () => {
 
         reader.readAsDataURL(file)
     }
-    // const handleFileUpload = () => {
-    //     //Aca debo pasarlo a base64
-    //     const reader = new FileReader()
-    //     const file = selectedFile
 
-    //     reader.onloadend = () => {
-    //         const base64String = reader.result.replace(/^data:image\/\w+;base64,/, '')
-    //         const imageBuffer = Buffer.from(base64String, 'base64')
-
-    //         // Now you can save the imageBuffer in your database
-    //         setFormState({
-    //             ...formState,
-    //             image: imageBuffer,
-    //         })
-    //     }
-
-    //     reader.readAsDataURL(file)
-    // }
-    // const handleFileUpload = () => {
-    //     const reader = new FileReader()
-    //     const file = selectedFile
-
-    //     reader.onloadend = () => {
-    //         const fileData = {
-    //             name: file.name,
-    //             type: file.type,
-    //             size: file.size,
-    //             data: reader.result.split(',')[1],
-    //         }
-
-    //         setFormState({
-    //             ...formState,
-    //             image: fileData,
-    //         })
-    //     }
-
-    //     reader.readAsDataURL(file)
-    // }
-
-    if (loading) {
+    if (loadingSalidas) {
         return <p>Loading</p>
     }
 
-    if (error) {
+    if (errorSalidas) {
         return <p>{error}</p>
     }
 
     return (
         <>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                {data?.allSalidas.map((salida) => (
+                {dataSalidas?.allSalidas.map((salida) => (
                     <List item xs={12} key={salida.id}>
                         <ListItem sx={{ bgcolor: 'f1f1f1', padding: 1, marginTop: 1, marginBottom: 1 }}>
                             <Typography variant="h6" sx={{ color: 'green' }}>
@@ -262,6 +232,15 @@ const AdminExit = () => {
 
                             <Button onClick={() => handleDelete(salida.id)} style={{ color: 'red' }}>
                                 Eliminar
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    const usuarios = dataUsuarios.findUsersOnSalida.map((user) => user.data[0]) // Extraer la data de cada usuario y retornarla como un nuevo arreglo
+                                    console.log('FIND', usuarios)
+                                }}
+                                style={{ color: 'green' }}
+                            >
+                                Usuarios
                             </Button>
                         </ListItem>
                     </List>
