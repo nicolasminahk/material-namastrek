@@ -98,8 +98,7 @@ function ExitView({ name, description, image, price, date, id }) {
                         <CardMedia
                             component="img"
                             height="100%"
-                            // image={backgroundImage}
-                            image={decodeImage(image)}
+                            image={image ? decodeImage(image) : backgroundImage}
                             alt="output"
                             style={{ objectFit: 'cover', borderRadius: 30 }}
                         />
