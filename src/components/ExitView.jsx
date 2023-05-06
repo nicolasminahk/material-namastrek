@@ -21,9 +21,14 @@ function extractNumbers(inputString) {
 }
 
 const decodeImage = (image) => {
-    if (!image) return null // Agregamos la verificación aquí
-    const buffer = new Buffer.from(image, 'base64')
-    return buffer.toString('ascii')
+    if (!image) return null
+    const binary = atob(image)
+    const bytes = new Uint8Array(binary.length)
+    for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i)
+    }
+    const blob = new Blob([bytes], { type: 'image/jpeg' })
+    return URL.createObjectURL(blob)
 }
 
 function ExitView({ name, description, image, price, date, id }) {
@@ -93,8 +98,8 @@ function ExitView({ name, description, image, price, date, id }) {
                         <CardMedia
                             component="img"
                             height="100%"
-                            image={backgroundImage}
-                            // image={decodeImage(image)}
+                            // image={backgroundImage}
+                            image={decodeImage(image)}
                             alt="output"
                             style={{ objectFit: 'cover', borderRadius: 30 }}
                         />
