@@ -6,7 +6,6 @@ import { gql, useQuery, useMutation } from '@apollo/client'
 import ExitView from '../components/ExitView'
 import Footer from '../components/Footer'
 import Navbar from '../components/navbar/Navbar'
-import { Buffer } from 'buffer'
 
 const ALL_SALIDAS = gql`
     query AllSalidas {
@@ -16,17 +15,14 @@ const ALL_SALIDAS = gql`
             id
             name
             price
+            image
         }
     }
 `
-const decodeImage = (image) => {
-    if (!image) return null // Agregamos la verificación aquí
-    const buffer = new Buffer.from(image, 'base64')
-    return buffer.toString('ascii')
-}
-console.log(decodeImage)
+
 const Activitys = () => {
     const { loading, error, data } = useQuery(ALL_SALIDAS)
+
     return (
         <>
             <Navbar />
