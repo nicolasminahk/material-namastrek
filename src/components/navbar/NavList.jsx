@@ -49,7 +49,7 @@ const NavList = () => {
                         </ListItemIcon>
                         <ListItemText primary="Perfil" />
                     </ListItem>
-                    {user?.email === 'nicolasminahk@gmail.com' && (
+                    {user?.email === process.env.REACT_APP_ADMIN && (
                         <ListItem onClick={() => navigate('/admin')}>
                             <ListItemIcon>
                                 <BuildIcon />
