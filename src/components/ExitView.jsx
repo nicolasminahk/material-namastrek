@@ -46,10 +46,6 @@ function ExitView({ name, description, image, price, date, id }) {
         },
     })
 
-    // useEffect(() => {
-    //     addPersonExit()
-    // }, [idSalida])
-
     const hoverAnimation = useSpring({
         transform: hovered ? 'scale(1.02)' : 'scale(1)',
         boxShadow: hovered ? '0px 10px 20px rgba(0, 0, 0, 0.2)' : 'none',
@@ -121,21 +117,23 @@ function ExitView({ name, description, image, price, date, id }) {
                         {/* <Typography variant="body1" sx={{ mb: 2 }}>
                             Rating: <Rating value={rating} precision={0.5} readOnly />
                         </Typography> */}
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            sx={{
-                                mt: 2,
-                                alignSelf: 'flex-end',
-                                '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
-                            }}
-                            onClick={() => {
-                                setIdSalida(id)
-                                addPersonExit()
-                            }}
-                        >
-                            Reservar Ahora
-                        </Button>
+                        {user && (
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                sx={{
+                                    mt: 2,
+                                    alignSelf: 'flex-end',
+                                    '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
+                                }}
+                                onClick={() => {
+                                    setIdSalida(id)
+                                    addPersonExit()
+                                }}
+                            >
+                                Reservar Ahora
+                            </Button>
+                        )}
                     </CardContent>
                 </Card>
             </animated.div>
