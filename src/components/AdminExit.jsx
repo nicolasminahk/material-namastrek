@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import { TextField, Button, Typography, Grid, Box, Divider, ListItem, List } from '@mui/material'
 import { gql, useQuery, useMutation } from '@apollo/client'
-import DatePicker from 'react-datepicker'
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
-import { LocalizationProvider } from '@mui/x-date-pickers'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { DateField } from '@mui/x-date-pickers/DateField'
+import * as FileSaver from 'file-saver'
 import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility'
 const { Buffer } = require('buffer')
 
@@ -56,27 +52,45 @@ const DELETE_SALIDAS = gql`
         }
     }
 `
-const FIND_USER_ON_SALIDA = gql`
+const FIND_USERS_ON_SALIDA = gql`
     query FindUsersOnSalida($salidaId: String!) {
         findUsersOnSalida(salidaId: $salidaId) {
             _id
-            email
-            data {
-                name
-                adress
-                phone
-                alergiaAlimentos
-                alergiaMedicamentos
-                obraSocial
-                profession
-                tipoSangre
-            }
+            name
+            adress
+            phone
+            alergiaAlimentos
+            alergiaMedicamentos
+            obraSocial
+            profession
+            tipoSangre
         }
     }
 `
+// function downloadUserData(users) {
+//     const data = users?.map((user) => {
+//         const userData = user?.data[0]
+//         return {
+//             name: userData.name,
+//             address: userData.address,
+//             phone: userData.phone,
+//             profession: userData.profession,
+//             obraSocial: userData.obraSocial,
+//             alergiaMedicamentos: userData.alergiaMedicamentos,
+//             alergiaAlimentos: userData.alergiaAlimentos,
+//             tipoSangre: userData.tipoSangre,
+//         }
+//     })
+
+//     const blob = new Blob([JSON.stringify(data)], { type: 'text/plain;charset=utf-8' })
+//     FileSaver.saveAs(blob, 'user-data.txt')
+// }
 
 const AdminExit = () => {
     const [salidaId, setSalidaId] = useState('')
+    const [usuariosEnSalida, setUsuariosEnSalida] = useState([])
+    const [deleteSalida, setDeleteSalida] = useState('')
+    const [selectedFile, setSelectedFile] = useState(null)
 
     const {
         loading: loadingSalidas,
@@ -89,17 +103,19 @@ const AdminExit = () => {
         error: errorUsuarios,
         data: dataUsuarios,
         refetch: refetchUsuarios,
-    } = useQuery(FIND_USER_ON_SALIDA, {
+    } = useQuery(FIND_USERS_ON_SALIDA, {
         variables: {
             salidaId: salidaId,
         },
+        onCompleted: (data) => {
+            if (data && data.findUsersOnSalida && data.findUsersOnSalida.length > 0) {
+                setUsuariosEnSalida(data.findUsersOnSalida)
+            }
+        },
     })
-    const [deleteSalida, setDeleteSalida] = useState('')
-    const [selectedFile, setSelectedFile] = useState(null)
 
-    console.log(deleteSalida)
-    console.log(dataSalidas?.allSalidas)
-    console.log()
+    console.log(usuariosEnSalida)
+    console.log('DATA 1', dataUsuarios?.findUsersOnSalida)
 
     const [formState, setFormState] = useState({
         name: '',
@@ -204,12 +220,67 @@ const AdminExit = () => {
         reader.readAsDataURL(file)
     }
 
+    async function handleDownloadUsers() {
+        if (usuariosEnSalida.length > 0) {
+            downloadUserData(usuariosEnSalida)
+        } else {
+            const result = await refetchSalidas()
+            if (result && result.findUsersOnSalida && result.findUsersOnSalida.length > 0) {
+                setUsuariosEnSalida(result.findUsersOnSalida)
+                downloadUserData(result.findUsersOnSalida)
+            }
+        }
+    }
+
+    // function downloadUserData(users) {
+    //     const data = users
+    //         ?.map((user) => {
+    //             const userData = user?.data?.[0]
+    //             if (!userData) {
+    //                 return null
+    //             }
+
+    //             return {
+    //                 name: userData.name || '',
+    //                 address: userData.address || '',
+    //                 phone: userData.phone || '',
+    //                 profession: userData.profession || '',
+    //                 obraSocial: userData.obraSocial || '',
+    //                 alergiaMedicamentos: userData.alergiaMedicamentos || '',
+    //                 alergiaAlimentos: userData.alergiaAlimentos || '',
+    //                 tipoSangre: userData.tipoSangre || '',
+    //             }
+    //         })
+    //         .filter((userData) => userData !== null)
+
+    //     const blob = new Blob([JSON.stringify(data)], {
+    //         type: 'text/plain;charset=utf-8',
+    //     })
+    //     FileSaver.saveAs(blob, 'user-data.txt')
+    // }
+    function downloadUserData(user) {
+        if (!user) {
+            console.log('No data available for user')
+            return
+        }
+
+        const data = Object.entries(user).reduce((acc, [key, value]) => {
+            const dataValue = value || ''
+            return { ...acc, [key]: dataValue }
+        }, {})
+
+        const blob = new Blob([JSON.stringify(data)], {
+            type: 'text/plain;charset=utf-8',
+        })
+        FileSaver.saveAs(blob, 'usuarios-data.txt')
+    }
+
     if (loadingSalidas) {
         return <p>Loading</p>
     }
 
     if (errorSalidas) {
-        return <p>{error}</p>
+        return <p>{errorSalidas}</p>
     }
 
     return (
@@ -235,9 +306,23 @@ const AdminExit = () => {
                             </Button>
                             <Button
                                 onClick={() => {
-                                    const usuarios = dataUsuarios.findUsersOnSalida.map((user) => user.data[0]) // Extraer la data de cada usuario y retornarla como un nuevo arreglo
-                                    console.log('FIND', usuarios)
+                                    setSalidaId(salida.id)
+                                    downloadUserData(dataUsuarios?.findUsersOnSalida)
+                                    // console.log('data 2', dataUsuarios?.findUsersOnSalida[0])
                                 }}
+                                // onClick={async () => {
+                                //     setSalidaId(salida.id)
+                                //     // if (usuariosEnSalida.length > 0) {
+                                //     //     downloadUserData(usuariosEnSalida)
+                                //     // } else {
+                                //     //     const result = await findUsersOnSalida(null, { salidaId: salida.id })
+                                //     //     if (result && result.findUsersOnSalida && result.findUsersOnSalida.length > 0) {
+                                //     //         setUsuariosEnSalida(result.findUsersOnSalida)
+                                //     //         downloadUserData(result.findUsersOnSalida)
+                                //     //     }
+                                //     // }
+                                //     handleDownloadUsers()
+                                // }}
                                 style={{ color: 'green' }}
                             >
                                 Usuarios
@@ -286,11 +371,6 @@ const AdminExit = () => {
                     value={formState.duration}
                     onChange={handleDurationChange}
                 />
-                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['DateField']} sx={{ paddingBottom: 2 }}>
-                        <DateField label="Fecha" value={formState.date} onChange={handleDateChange} />
-                    </DemoContainer>
-                </LocalizationProvider> */}
                 <TextField
                     variant="outlined"
                     sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1 }}
