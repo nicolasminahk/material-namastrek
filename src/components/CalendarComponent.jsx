@@ -6,7 +6,8 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import { useAuth0 } from '@auth0/auth0-react'
-import { gql, useMutation } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
+import toast, { Toaster } from 'react-hot-toast'
 
 const StyledDot = styled(Box)`
     height: 10px;
@@ -29,6 +30,15 @@ const ADD_PERSON_EXIT = gql`
         }
     }
 `
+const FIND_DATA_BY_AUTHUSERID = gql`
+    query FindDataByAuth0UserId($auth0UserId: String!) {
+        findDataByAuth0UserId(auth0UserId: $auth0UserId) {
+            adress
+            tipoSangre
+            name
+        }
+    }
+`
 function extractNumbers(inputString) {
     return inputString?.replace(/\D/g, '')
 }
@@ -37,6 +47,11 @@ const CalendarComponent = ({ activities }) => {
     const [date, setDate] = useState(new Date())
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
     const userDepure = extractNumbers(user?.sub)
+    const { loading, error, data } = useQuery(FIND_DATA_BY_AUTHUSERID, {
+        variables: {
+            auth0UserId: userDepure,
+        },
+    })
     const [idSalida, setIdSalida] = useState('')
     // console.log(activities)
     // console.log(selectedDate)
@@ -82,6 +97,7 @@ const CalendarComponent = ({ activities }) => {
         : []
 
     console.log('filter', filteredActivities)
+    const notify = () => toast.error('Debe completar el formulario de contacto que figura en su perfil')
 
     return (
         <Box sx={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'colum' }}>
@@ -142,6 +158,7 @@ const CalendarComponent = ({ activities }) => {
                             <Typography>{activity.date}</Typography>
                             <Typography>{activity.price}</Typography>
                             <Typography>{activity.duration}</Typography>
+                            <Toaster />
                             {user && (
                                 <Button
                                     variant="contained"
@@ -153,7 +170,11 @@ const CalendarComponent = ({ activities }) => {
                                     }}
                                     onClick={() => {
                                         setIdSalida(activity.id)
-                                        addPersonExit()
+                                        if (data?.findDataByAuth0UserId) {
+                                            addPersonExit()
+                                        } else {
+                                            notify()
+                                        }
                                     }}
                                 >
                                     Reservar Ahora
