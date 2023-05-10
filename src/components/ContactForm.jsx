@@ -5,9 +5,6 @@ import { gql, useMutation } from '@apollo/client'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useNavigate } from 'react-router-dom'
 
-//Debe obtener el authOID del user, y enviarle el id de la data, para anexarlo
-//Utilizar handleAddData ( )
-
 const ADD_DATA_TO_USER = gql`
     mutation AddDataToUser($data: DataInput!, $auth0UserId: String!) {
         addDataToUser(data: $data, auth0UserId: $auth0UserId) {
