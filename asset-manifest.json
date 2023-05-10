@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/material-namastrek/static/css/main.6ae50b52.css",
+    "main.js": "/material-namastrek/static/js/main.3b884e26.js",
+    "static/media/paisaje3.png": "/material-namastrek/static/media/paisaje3.c61d74342f5161dde957.png",
+    "static/media/fondoTip.png": "/material-namastrek/static/media/fondoTip.dbb644e0f7457bb7fa17.png",
+    "static/media/namastrek.png": "/material-namastrek/static/media/namastrek.d55ed9b5ab0ab60cf4c4.png",
+    "index.html": "/material-namastrek/index.html",
+    "main.6ae50b52.css.map": "/material-namastrek/static/css/main.6ae50b52.css.map",
+    "main.3b884e26.js.map": "/material-namastrek/static/js/main.3b884e26.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6ae50b52.css",
+    "static/js/main.3b884e26.js"
+  ]
+}
