@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import { Card, CardActionArea, CardContent, Typography, Button } from '@mui/material'
 import { useAuth0 } from '@auth0/auth0-react'
 import { gql, useMutation } from '@apollo/client'
-//ADD PERSON BENEFIT
-//Capturar ID del beneficio y ID de usuario
 
 const ADD_PERSON_BENEFIT = gql`
     mutation Mutation($benefit: String!, $auth0UserId: String!) {
@@ -60,7 +58,6 @@ const BenefitsList = ({ benefits }) => {
                         color="success"
                         sx={{
                             mt: 2,
-                            // alignSelf: 'flex-start',
                             '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
                         }}
                         onClick={() => {
