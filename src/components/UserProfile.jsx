@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { Carousel } from 'react-responsive-carousel'
-// import 'react-responsive-carousel/lib/styles/carousel.min.css'
+import React, { useState } from 'react'
 import { Typography, Box, Card, CardContent, ListItem, List } from '@mui/material'
 import { useAuth0 } from '@auth0/auth0-react'
-import { gql, useMutation, useQuery } from '@apollo/client'
-import { Button } from 'react-day-picker'
+import { gql, useQuery } from '@apollo/client'
 
 const FIND_SALIDAS_BY_AUTH0USERID = gql`
     query FindSalidasByAuth0UserId($auth0UserId: String!) {
@@ -13,6 +10,14 @@ const FIND_SALIDAS_BY_AUTH0USERID = gql`
             date
             users
             id
+        }
+    }
+`
+const FIND_BENEFITS_BY_AUTH0USERID = gql`
+    query FindBenefitByAuth0UserId($auth0UserId: String!) {
+        findBenefitByAuth0UserId(auth0UserId: $auth0UserId) {
+            name
+            description
         }
     }
 `
@@ -35,10 +40,25 @@ function UserProfile({ name, benefits }) {
     const [idSalida, setIdSalida] = useState('')
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
     const userDepure = extractNumbers(user?.sub)
-    const { loading, error, data, refetch } = useQuery(FIND_SALIDAS_BY_AUTH0USERID, {
+    const {
+        loading: loadingSalidas,
+        error: errorSalidas,
+        data: dataSalidas,
+        refetch: refetchSalidas,
+    } = useQuery(FIND_SALIDAS_BY_AUTH0USERID, {
         variables: { auth0UserId: userDepure },
     })
-    console.log(data?.findSalidasByAuth0UserId)
+    const {
+        loading: loadingBeneficios,
+        error: errorBeneficios,
+        data: dataBeneficios,
+        refetch: refetchBeneficios,
+    } = useQuery(FIND_BENEFITS_BY_AUTH0USERID, {
+        variables: { auth0UserId: userDepure },
+    })
+
+    console.log(dataSalidas?.findSalidasByAuth0UserId)
+    console.log(dataBeneficios?.findSalidasByAuth0UserId)
 
     // const [removePersonOnExit] = useMutation(REMOVE_PERSON_ON_EXIT, {
     //     variables: {
@@ -50,7 +70,9 @@ function UserProfile({ name, benefits }) {
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Typography>Tu perfil</Typography>
+            <Typography variant="h5" sx={{ mb: 2, color: 'white' }}>
+                Tu perfil
+            </Typography>
             <Typography variant="h4" sx={{ mb: 4 }}>
                 {name}
             </Typography>
@@ -58,7 +80,6 @@ function UserProfile({ name, benefits }) {
                 variant="outlined"
                 sx={{
                     mb: 4,
-                    // backgroundColor: '#EAAE22',
                     backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39);',
                 }}
             >
@@ -67,9 +88,8 @@ function UserProfile({ name, benefits }) {
                         Tus Salidas
                     </Typography>
                     <List>
-                        {data?.findSalidasByAuth0UserId.map((output, index) => (
+                        {dataSalidas?.findSalidasByAuth0UserId.map((output, index) => (
                             <div key={index}>
-                                {/* <img src={output.image} alt={output.name} /> */}
                                 <ListItem>
                                     <Typography variant="body1" style={{ color: 'white' }}>
                                         {output.name}
@@ -91,19 +111,31 @@ function UserProfile({ name, benefits }) {
                     </List>
                 </CardContent>
             </Card>
-            <Card variant="outlined">
+            <Card
+                variant="outlined"
+                sx={{
+                    mb: 4,
+                    backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39);',
+                }}
+            >
                 <CardContent>
-                    <Typography variant="h5" sx={{ mb: 2 }}>
+                    <Typography variant="h5" sx={{ mb: 2, color: 'green' }}>
                         Beneficios
                     </Typography>
-                    <Carousel>
-                        {benefits?.map((benefit, index) => (
+                    <List>
+                        {dataBeneficios?.findBenefitByAuth0UserId.map((benefit, index) => (
                             <div key={index}>
-                                <img src={benefit.image} alt={benefit.title} />
-                                <Typography variant="body1">{benefit.title}</Typography>
+                                <ListItem>
+                                    <Typography variant="body1" style={{ color: 'white' }}>
+                                        {benefit.name}
+                                    </Typography>
+                                </ListItem>
+                                <ListItem>
+                                    <Typography variant="body1">{benefit.description}</Typography>
+                                </ListItem>
                             </div>
                         ))}
-                    </Carousel>
+                    </List>
                 </CardContent>
             </Card>
         </Box>
