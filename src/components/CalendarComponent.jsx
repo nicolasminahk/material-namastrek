@@ -88,13 +88,10 @@ const CalendarComponent = ({ activities }) => {
         ? activities?.filter((activity) => {
               const activityDate = dayjs(activity.date).tz()
               const selectedDateFormatted = dayjs(selectedDate).tz()
-              console.log(activityDate.$d, 'COMA', selectedDateFormatted.$d)
-              console.log(activityDate.isSame(selectedDateFormatted, 'day'))
               return activityDate.isSame(selectedDateFormatted, 'day')
           })
         : []
 
-    console.log('filter', filteredActivities)
     const notify = () => toast.error('Debe completar el formulario de contacto que figura en su perfil')
 
     return (
