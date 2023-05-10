@@ -53,9 +53,19 @@ const AboutUs = () => {
                     <IconButton
                         aria-label="WhatsApp"
                         size="large"
-                        onClick={() => window.open('https://wa.me/+543814012014?text=Hola!')}
+                        onClick={() => window.open(process.env.REACT_APP_WAME)}
                     >
                         <WhatsApp />
+                        <Typography>Sergio</Typography>
+                    </IconButton>
+
+                    <IconButton
+                        aria-label="WhatsApp"
+                        size="large"
+                        onClick={() => window.open(process.env.REACT_APP_WAME_FER)}
+                    >
+                        <WhatsApp />
+                        <Typography>Fernando</Typography>
                     </IconButton>
                 </Box>
             </Box>
