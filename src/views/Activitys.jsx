@@ -1,7 +1,6 @@
-import { Box, Card, CardContent, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import React from 'react'
-import { Carousel } from 'react-responsive-carousel'
-import { gql, useQuery, useMutation } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 
 import ExitView from '../components/ExitView'
 import Footer from '../components/Footer'
@@ -22,7 +21,6 @@ const ALL_SALIDAS = gql`
 
 const Activitys = () => {
     const { loading, error, data } = useQuery(ALL_SALIDAS)
-
     return (
         <>
             <Navbar />
@@ -67,7 +65,7 @@ const Activitys = () => {
                                 <Box
                                     sx={{
                                         width: '100%',
-                                        height: '100%', // Agregado para asegurar que todas las cards tengan la misma altura
+                                        height: '100%',
                                     }}
                                 >
                                     <ExitView
