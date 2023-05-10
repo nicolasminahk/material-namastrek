@@ -11,38 +11,52 @@ const Admin = () => {
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
 
     return (
-        // user.email === 'nicolasminahk@gmail.com' && (
-        <div>
-            <Navbar />
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    pt: 8,
-                    minHeight: '100vh',
-                }}
-            >
-                <Typography variant="h3" sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold', paddingTop: '25px' }}>
-                    Administrador
-                </Typography>
-                <Typography variant="h4" sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold', paddingTop: '25px' }}>
-                    Salidas
-                </Typography>
-                <AdminExit />
-                <Typography variant="h4" sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold', paddingTop: '25px' }}>
-                    Tips
-                </Typography>
-                <AdminProfile />
-                <Typography variant="h4" sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold', paddingTop: '25px' }}>
-                    Beneficios
-                </Typography>
-                <AdminBenefit />
-            </Box>
-            <Footer />
-        </div>
-        // )
+        user.email === process.env.REACT_APP_ADMIN && (
+            <>
+                <div>
+                    <Navbar />
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            pt: 8,
+                            minHeight: '100vh',
+                        }}
+                    >
+                        <Typography
+                            variant="h3"
+                            sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold', paddingTop: '25px' }}
+                        >
+                            Administrador
+                        </Typography>
+                        <Typography
+                            variant="h4"
+                            sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold', paddingTop: '25px' }}
+                        >
+                            Salidas
+                        </Typography>
+                        <AdminExit />
+                        <Typography
+                            variant="h4"
+                            sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold', paddingTop: '25px' }}
+                        >
+                            Tips
+                        </Typography>
+                        <AdminProfile />
+                        <Typography
+                            variant="h4"
+                            sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold', paddingTop: '25px' }}
+                        >
+                            Beneficios
+                        </Typography>
+                        <AdminBenefit />
+                    </Box>
+                    <Footer />
+                </div>
+            </>
+        )
     )
 }
 
