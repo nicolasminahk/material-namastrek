@@ -55,7 +55,6 @@ const DELETE_SALIDAS = gql`
 const FIND_USERS_ON_SALIDA = gql`
     query FindUsersOnSalida($salidaId: String!) {
         findUsersOnSalida(salidaId: $salidaId) {
-            _id
             name
             adress
             phone
@@ -67,25 +66,6 @@ const FIND_USERS_ON_SALIDA = gql`
         }
     }
 `
-// function downloadUserData(users) {
-//     const data = users?.map((user) => {
-//         const userData = user?.data[0]
-//         return {
-//             name: userData.name,
-//             address: userData.address,
-//             phone: userData.phone,
-//             profession: userData.profession,
-//             obraSocial: userData.obraSocial,
-//             alergiaMedicamentos: userData.alergiaMedicamentos,
-//             alergiaAlimentos: userData.alergiaAlimentos,
-//             tipoSangre: userData.tipoSangre,
-//         }
-//     })
-
-//     const blob = new Blob([JSON.stringify(data)], { type: 'text/plain;charset=utf-8' })
-//     FileSaver.saveAs(blob, 'user-data.txt')
-// }
-
 const AdminExit = () => {
     const [salidaId, setSalidaId] = useState('')
     const [usuariosEnSalida, setUsuariosEnSalida] = useState([])
@@ -232,32 +212,6 @@ const AdminExit = () => {
         }
     }
 
-    // function downloadUserData(users) {
-    //     const data = users
-    //         ?.map((user) => {
-    //             const userData = user?.data?.[0]
-    //             if (!userData) {
-    //                 return null
-    //             }
-
-    //             return {
-    //                 name: userData.name || '',
-    //                 address: userData.address || '',
-    //                 phone: userData.phone || '',
-    //                 profession: userData.profession || '',
-    //                 obraSocial: userData.obraSocial || '',
-    //                 alergiaMedicamentos: userData.alergiaMedicamentos || '',
-    //                 alergiaAlimentos: userData.alergiaAlimentos || '',
-    //                 tipoSangre: userData.tipoSangre || '',
-    //             }
-    //         })
-    //         .filter((userData) => userData !== null)
-
-    //     const blob = new Blob([JSON.stringify(data)], {
-    //         type: 'text/plain;charset=utf-8',
-    //     })
-    //     FileSaver.saveAs(blob, 'user-data.txt')
-    // }
     function downloadUserData(user) {
         if (!user) {
             console.log('No data available for user')
@@ -308,21 +262,7 @@ const AdminExit = () => {
                                 onClick={() => {
                                     setSalidaId(salida.id)
                                     downloadUserData(dataUsuarios?.findUsersOnSalida)
-                                    // console.log('data 2', dataUsuarios?.findUsersOnSalida[0])
                                 }}
-                                // onClick={async () => {
-                                //     setSalidaId(salida.id)
-                                //     // if (usuariosEnSalida.length > 0) {
-                                //     //     downloadUserData(usuariosEnSalida)
-                                //     // } else {
-                                //     //     const result = await findUsersOnSalida(null, { salidaId: salida.id })
-                                //     //     if (result && result.findUsersOnSalida && result.findUsersOnSalida.length > 0) {
-                                //     //         setUsuariosEnSalida(result.findUsersOnSalida)
-                                //     //         downloadUserData(result.findUsersOnSalida)
-                                //     //     }
-                                //     // }
-                                //     handleDownloadUsers()
-                                // }}
                                 style={{ color: 'green' }}
                             >
                                 Usuarios
