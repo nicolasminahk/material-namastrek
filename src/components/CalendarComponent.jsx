@@ -53,8 +53,6 @@ const CalendarComponent = ({ activities }) => {
         },
     })
     const [idSalida, setIdSalida] = useState('')
-    // console.log(activities)
-    // console.log(selectedDate)
 
     const [addPersonExit] = useMutation(ADD_PERSON_EXIT, {
         variables: {
