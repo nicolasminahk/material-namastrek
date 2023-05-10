@@ -1,7 +1,6 @@
 import { Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import { Box } from '@mui/material'
 import React from 'react'
-import { Inbox } from '@mui/icons-material'
 import HikingIcon from '@mui/icons-material/Hiking'
 import LoyaltyIcon from '@mui/icons-material/Loyalty'
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates'
