@@ -4,7 +4,6 @@ import { styled } from '@mui/material/styles'
 import Navbar from '../components/navbar/Navbar'
 import UserProfile from '../components/UserProfile'
 import Footer from '../components/Footer'
-import ContactForm from '../components/ContactForm'
 import { useNavigate } from 'react-router-dom'
 import { gql, useQuery } from '@apollo/client'
 import { useAuth0 } from '@auth0/auth0-react'
@@ -22,13 +21,12 @@ const UserProfileContainer = styled(Box)(({ theme }) => ({
     animationFillMode: 'forwards',
 }))
 
-const FIND_DATA_BY_AUTH0_USERID = gql`
+const FIND_DATA_BY_AUTHUSERID = gql`
     query FindDataByAuth0UserId($auth0UserId: String!) {
         findDataByAuth0UserId(auth0UserId: $auth0UserId) {
-            email
-            data {
-                adress
-            }
+            adress
+            tipoSangre
+            name
         }
     }
 `
@@ -41,24 +39,23 @@ const Profile = () => {
     const navigate = useNavigate()
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
     const userDepure = extractNumbers(user?.sub)
-    const { loading, error, data } = useQuery(FIND_DATA_BY_AUTH0_USERID, {
+    const { loading, error, data } = useQuery(FIND_DATA_BY_AUTHUSERID, {
         variables: {
             auth0UserId: userDepure,
         },
     })
 
-    console.log(data)
     return (
         <>
             <Navbar />
             <UserProfileContainer>
-                {
-                    //Si !user.data mostrar formulario, de lo contrario no mostrarlo
-                }
-                <>
-                    <Typography>Para poder realizar Actividades debe llenar el siguiente formulario:</Typography>
-                    <Button onClick={() => navigate('/form')}>Formulario</Button>
-                </>
+                {!data?.findDataByAuth0UserId && (
+                    <>
+                        <Typography>Para poder realizar Actividades debe llenar el siguiente formulario:</Typography>
+                        <Button onClick={() => navigate('/form')}>Formulario</Button>
+                    </>
+                )}
+
                 <UserProfile />
             </UserProfileContainer>
             <Footer />
@@ -67,5 +64,3 @@ const Profile = () => {
 }
 
 export default Profile
-
-//Botón de cancelar una actividad
