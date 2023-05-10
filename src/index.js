@@ -11,15 +11,10 @@ import { setContext } from '@apollo/client/link/context'
 import { Cookies } from 'react-cookie'
 
 const cookies = new Cookies()
-// const client = new ApolloClient({
-//     cache: new InMemoryCache(),
-//     link: new HttpLink({
-//         uri: 'http://localhost:4000',
-//     }),
-// })
 
 const httpLink = createHttpLink({
-    uri: 'http://localhost:4000',
+    // uri: 'http://localhost:4000',
+    uri: process.env.REACT_APP_URL,
 })
 
 const authLink = setContext((_, { headers }) => {
@@ -38,15 +33,16 @@ const client = new ApolloClient({
 })
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
 
-const redirectUri = isMobile ? 'http://192.168.100.5:3000' : window.location.origin
+// const redirectUri = isMobile ? 'http://192.168.100.5:3000' : window.location.origin
+const redirectUri = window.location.origin
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
     <ThemeProvider theme={theme}>
         <ApolloProvider client={client}>
             <BrowserRouter>
                 <Auth0Provider
-                    domain="dev-v68nrhhmjwsv23p7.us.auth0.com"
-                    clientId="9fsPMkB2SKWKHLXntrT1fVHbRXf8l4Pn"
+                    domain={process.env.REACT_APP_DOMAIN}
+                    clientId={process.env.REACT_APP_CLIENT_ID}
                     redirectUri={redirectUri}
                 >
                     <App />
