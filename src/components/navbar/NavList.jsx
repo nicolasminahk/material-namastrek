@@ -14,6 +14,13 @@ import { useAuth0 } from '@auth0/auth0-react'
 const NavList = () => {
     const navigate = useNavigate()
     const { loginWithRedirect, user, isAuthenticated } = useAuth0()
+    function validate(email) {
+        if (email === process.env.REACT_APP_ADMIN || email === process.env.REACT_APP_ADMIN_NAMATREK) {
+            return true
+        } else {
+            return false
+        }
+    }
 
     return (
         <Box sx={{ width: 250, borderRadius: 3 }}>
@@ -49,7 +56,7 @@ const NavList = () => {
                         </ListItemIcon>
                         <ListItemText primary="Perfil" />
                     </ListItem>
-                    {user?.email === process.env.REACT_APP_ADMIN && (
+                    {validate(user.email) && (
                         <ListItem onClick={() => navigate('/admin')}>
                             <ListItemIcon>
                                 <BuildIcon />
