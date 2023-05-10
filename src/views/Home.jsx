@@ -1,12 +1,10 @@
 import { Box, Typography } from '@mui/material'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import CalendarComponent from '../components/CalendarComponent'
 import Footer from '../components/Footer'
 import Navbar from '../components/navbar/Navbar'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { useAuth0 } from '@auth0/auth0-react'
-import dayjs from 'dayjs'
-import LeafModel from '../components/LeafModel'
 
 const ALL_SALIDAS = gql`
     query AllSalidas {
@@ -34,13 +32,12 @@ function extractNumbers(inputString) {
 const Home = () => {
     const { loading: loadingSalidas, error: errorSalidas, data } = useQuery(ALL_SALIDAS)
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
-    console.log(isAuthenticated, user)
 
     const userData = useMemo(() => ({ id: extractNumbers(user?.sub) ?? '', email: user?.email ?? '' }), [user])
 
     const [createUser, { error: createUserError }] = useMutation(CREATE_USER, {
         variables: userData,
-        onError: (error) => console.log('createUser error:', error),
+        onError: (error) => console.log('createUser error:', createUserError),
     })
 
     useEffect(() => {
