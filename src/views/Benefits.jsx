@@ -2,8 +2,7 @@ import { Box, Typography } from '@mui/material'
 import React from 'react'
 import BenefitsList from '../components/BenefitsList'
 import Navbar from '../components/navbar/Navbar'
-import { gql, useQuery, useMutation } from '@apollo/client'
-import { Button } from 'react-day-picker'
+import { gql, useQuery } from '@apollo/client'
 
 const ALL_BENEFICIOS = gql`
     query AllBeneficios {
@@ -47,9 +46,6 @@ const Benefits = () => {
                             padding: '10px',
                             mb: 8,
                             display: 'flex',
-                            // flexDirection: 'column',
-                            // alignItems: 'center',
-                            // justifyContent: 'center',
                             mt: 4,
                             mx: 3,
                             '@media (min-width: 600px)': {
