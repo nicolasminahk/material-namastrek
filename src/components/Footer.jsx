@@ -32,7 +32,7 @@ function Footer() {
                 >
                     <Facebook />
                 </IconButton>
-                <IconButton aria-label="WhatsApp" onClick={() => window.open('https://wa.me/+543814012014?text=Hola!')}>
+                <IconButton aria-label="WhatsApp" onClick={() => window.open(process.env.REACT_APP_WAME)}>
                     <WhatsApp />
                 </IconButton>
             </Box>
@@ -45,13 +45,3 @@ function Footer() {
 }
 
 export default Footer
-
-// style={{
-//     flexDirection: 'row-reverse',
-//     paddingTop: '200px',
-//     marginTop: 1,
-//     padding: '1em 0',
-//     position: 'absolute',
-//     bottom: 0,
-//     width: '100% ',
-// }}
