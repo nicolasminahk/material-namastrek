@@ -5,6 +5,7 @@ import { useSpring, animated } from 'react-spring'
 import backgroundImage from '../assets/paisaje3.png'
 import { gql, useQuery, useMutation } from '@apollo/client'
 import { useAuth0 } from '@auth0/auth0-react'
+import toast, { Toaster } from 'react-hot-toast'
 
 const ADD_PERSON_EXIT = gql`
     mutation AddPersonExit($salida: String!, $auth0UserId: String!) {
@@ -13,6 +14,15 @@ const ADD_PERSON_EXIT = gql`
             date
             id
             price
+        }
+    }
+`
+const FIND_DATA_BY_AUTHUSERID = gql`
+    query FindDataByAuth0UserId($auth0UserId: String!) {
+        findDataByAuth0UserId(auth0UserId: $auth0UserId) {
+            adress
+            tipoSangre
+            name
         }
     }
 `
@@ -31,11 +41,18 @@ const decodeImage = (image) => {
     return URL.createObjectURL(blob)
 }
 
+const notify = () => toast.error('Debe completar el formulario de contacto que figura en su perfil')
+
 function ExitView({ name, description, image, price, date, id }) {
     const [hovered, setHovered] = React.useState(false)
     const [idSalida, setIdSalida] = useState('')
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
     const userDepure = extractNumbers(user?.sub)
+    const { loading, error, data } = useQuery(FIND_DATA_BY_AUTHUSERID, {
+        variables: {
+            auth0UserId: userDepure,
+        },
+    })
     console.log(userDepure)
     console.log(idSalida)
 
@@ -117,6 +134,7 @@ function ExitView({ name, description, image, price, date, id }) {
                         {/* <Typography variant="body1" sx={{ mb: 2 }}>
                             Rating: <Rating value={rating} precision={0.5} readOnly />
                         </Typography> */}
+                        <Toaster />
                         {user && (
                             <Button
                                 variant="contained"
@@ -128,7 +146,11 @@ function ExitView({ name, description, image, price, date, id }) {
                                 }}
                                 onClick={() => {
                                     setIdSalida(id)
-                                    addPersonExit()
+                                    if (data?.findDataByAuth0UserId) {
+                                        addPersonExit()
+                                    } else {
+                                        notify()
+                                    }
                                 }}
                             >
                                 Reservar Ahora
