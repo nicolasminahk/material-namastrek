@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Button } from '@mui/material'
-import { gql, useQuery, useMutation } from '@apollo/client'
+import { gql, useMutation } from '@apollo/client'
 import { useEffect } from 'react'
 
 const CREATE_USER = gql`
@@ -12,7 +12,7 @@ const CREATE_USER = gql`
         }
     }
 `
-//PARA EXTRAER LAS LETRAS Y DEJAR LAS LETRAS PARA UTILIZAR COMO ID
+
 function extractNumbers(inputString) {
     return inputString.replace(/\D/g, '')
 }
