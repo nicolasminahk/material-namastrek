@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Box, Typography, Card, CardContent, CardMedia, Button } from '@mui/material'
-import { Rating } from '@mui/material'
 import { useSpring, animated } from 'react-spring'
 import backgroundImage from '../assets/paisaje3.png'
 import { gql, useQuery, useMutation } from '@apollo/client'
@@ -53,8 +52,6 @@ function ExitView({ name, description, image, price, date, id }) {
             auth0UserId: userDepure,
         },
     })
-    console.log(userDepure)
-    console.log(idSalida)
 
     const [addPersonExit] = useMutation(ADD_PERSON_EXIT, {
         variables: {
@@ -125,15 +122,9 @@ function ExitView({ name, description, image, price, date, id }) {
                         <Typography variant="body1" sx={{ mb: 2, color: 'green' }}>
                             {date}
                         </Typography>
-                        {/* <Typography variant="body1" sx={{ mb: 2, color: 'green' }}>
-                            {id}
-                        </Typography> */}
                         <Typography variant="body1" sx={{ mb: 2, color: 'green' }}>
                             Price: {price}
                         </Typography>
-                        {/* <Typography variant="body1" sx={{ mb: 2 }}>
-                            Rating: <Rating value={rating} precision={0.5} readOnly />
-                        </Typography> */}
                         <Toaster />
                         {user && (
                             <Button
