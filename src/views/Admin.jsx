@@ -17,7 +17,7 @@ const Admin = () => {
         }
     }
     return (
-        user.email === 'gersiore@gmail.com' && (
+        (user?.email === 'fernandoadad@gmail.com' || user?.email === 'nicolasminahk@gmail.com') && (
             <>
                 <div>
                     <Navbar />

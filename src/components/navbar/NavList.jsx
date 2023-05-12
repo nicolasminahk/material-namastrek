@@ -55,7 +55,7 @@ const NavList = () => {
                         </ListItemIcon>
                         <ListItemText primary="Perfil" />
                     </ListItem>
-                    {user?.email && validate(user?.email) && (
+                    {(user?.email === 'fernandoadad@gmail.com' || user?.email === 'nicolasminahk@gmail.com') && (
                         <ListItem onClick={() => navigate('/admin')}>
                             <ListItemIcon>
                                 <BuildIcon />
