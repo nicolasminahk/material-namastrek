@@ -6,22 +6,18 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { useNavigate } from 'react-router-dom'
 
 const ADD_DATA_TO_USER = gql`
-    mutation AddDataToUser($data: DataInput!, $auth0UserId: String!) {
+    mutation addDataToUser($data: DataInput!, $auth0UserId: String!) {
         addDataToUser(data: $data, auth0UserId: $auth0UserId) {
-            username
-            data {
-                adress
-                alergiaAlimentos
-                alergiaMedicamentos
-                id
-                name
-                obraSocial
-                phone
-                profession
-                tipoDeSangre
-                email
-                auth0UserId
-            }
+            adress
+            alergiaAlimentos
+            alergiaMedicamentos
+            name
+            obraSocial
+            phone
+            profession
+            tipoSangre
+            email
+            auth0UserId
         }
     }
 `
@@ -30,37 +26,64 @@ function extractNumbers(inputString) {
 }
 
 const ContactForm = () => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm()
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
-    const [data, setData] = useState('')
     const userDepure = extractNumbers(user?.sub)
     console.log(userDepure)
     const navigate = useNavigate()
 
+    const [formState, setFormState] = useState({
+        name: '',
+        adress: '',
+        phone: '',
+        profession: '',
+        obraSocial: '',
+        alergiaMedicamentos: '',
+        alergiaAlimentos: '',
+        tipoSangre: '',
+        email: '',
+        auth0UserId: userDepure,
+    })
     const bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+    console.log('se abrio el form')
 
-    const onSubmit = (data) => {
-        console.log(data)
-        setData(data)
+    console.log('FORM', formState)
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault()
+        console.log('ENTRE')
+        addDataToUser().then(() => {
+            setFormState({
+                name: '',
+                adress: '',
+                phone: '',
+                profession: '',
+                obraSocial: '',
+                alergiaMedicamentos: '',
+                alergiaAlimentos: '',
+                tipoSangre: '',
+                email: '',
+                auth0UserId: userDepure,
+            })
+            navigate('/')
+        })
+    }
+    const handleChange = (e) => {
+        setFormState({ ...formState, [e.target.name]: e.target.value })
     }
 
     const [addDataToUser] = useMutation(ADD_DATA_TO_USER, {
         variables: {
             auth0UserId: userDepure,
             data: {
-                name: data.name,
-                adress: data.address,
-                phone: data.telephone,
-                profession: data.profession,
-                obraSocial: data.socialSecurity,
-                alergiaMedicamentos: data.drugAllergy,
-                alergiaAlimentos: data.foodAllergy,
-                tipoSangre: data.bloodType,
-                email: user.email,
+                name: formState.name,
+                adress: formState.adress,
+                phone: formState.phone,
+                profession: formState.profession,
+                obraSocial: formState.obraSocial,
+                alergiaMedicamentos: formState.alergiaMedicamentos,
+                alergiaAlimentos: formState.alergiaAlimentos,
+                tipoSangre: formState.tipoSangre,
+                email: user?.email,
                 auth0UserId: userDepure,
             },
         },
@@ -103,82 +126,110 @@ const ContactForm = () => {
                     },
                 }}
             >
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleFormSubmit}>
                     <TextField
                         label="Nombre Completo"
                         variant="outlined"
+                        name="name"
                         fullWidth
                         sx={{ mb: 2 }}
-                        {...register('name', { required: true })}
-                        error={errors.name ? true : false}
-                        helperText={errors.name && 'Por favor ingrese su nombre'}
+                        value={formState.name}
+                        onChange={(e) => handleChange(e)}
+                        // InputProps={{ name: 'name', ...register('name', { required: true }) }}
+                        // {...register('name', { required: true })}
+                        // error={errors.name ? true : false}
+                        // helperText={errors.name && 'Por favor ingrese su nombre'}
                     />
                     <TextField
                         label="Email"
                         variant="outlined"
+                        name="email"
                         fullWidth
                         sx={{ mb: 2 }}
-                        {...register('email', { required: true })}
-                        error={errors.email ? true : false}
-                        helperText={errors.email && 'Por favor ingrese un Email Valido'}
+                        value={formState.email}
+                        onChange={(e) => handleChange(e)}
+                        // {...register('email', { required: true })}
+                        // error={errors.email ? true : false}
+                        // helperText={errors.email && 'Por favor ingrese un Email Valido'}
                     />
                     <TextField
                         label="Celular"
                         variant="outlined"
+                        name="phone"
                         fullWidth
                         sx={{ mb: 2 }}
-                        {...register('telephone', { required: true })}
-                        error={errors.telephone ? true : false}
-                        helperText={errors.telephone && 'Por favor ingrese su número Celular'}
+                        value={formState.phone}
+                        onChange={(e) => handleChange(e)}
+                        // {...register('telephone', { required: true })}
+                        // error={errors.telephone ? true : false}
+                        // helperText={errors.telephone && 'Por favor ingrese su número Celular'}
                     />
                     <TextField
                         label="Dirección"
                         variant="outlined"
+                        name="adress"
                         fullWidth
                         sx={{ mb: 2 }}
-                        {...register('address', { required: true })}
-                        error={errors.address ? true : false}
-                        helperText={errors.address && 'Por favor ingrese su dirección'}
+                        onChange={(e) => handleChange(e)}
+                        // {...register('address', { required: true })}
+                        value={formState.adress}
+                        // error={errors.address ? true : false}
+                        // helperText={errors.address && 'Por favor ingrese su dirección'}
                     />
                     <TextField
                         label="Alergia a Medicamentos"
                         variant="outlined"
+                        name="alergiaMedicamentos"
                         fullWidth
                         sx={{ mb: 2 }}
-                        {...register('drugAllergy')}
+                        onChange={(e) => handleChange(e)}
+                        // {...register('drugAllergy')}
+                        value={formState.alergiaMedicamentos}
                     />
                     <TextField
                         label="Alergia a comidas"
                         variant="outlined"
+                        name="alergiaAlimentos"
                         fullWidth
                         sx={{ mb: 2 }}
-                        {...register('foodAllergy')}
+                        onChange={(e) => handleChange(e)}
+                        // {...register('foodAllergy')}
+                        value={formState.alergiaAlimentos}
                     />
                     <TextField
                         label="Profesion"
                         variant="outlined"
+                        name="profession"
                         fullWidth
                         sx={{ mb: 2 }}
-                        {...register('profession', { required: true })}
-                        error={errors.profession ? true : false}
-                        helperText={errors.profession && 'Por favor ingrese su Profesión'}
+                        onChange={(e) => handleChange(e)}
+                        // {...register('profession', { required: true })}
+                        value={formState.profession}
+                        // error={errors.profession ? true : false}
+                        // helperText={errors.profession && 'Por favor ingrese su Profesión'}
                     />
                     <TextField
                         label="Obra Social"
                         variant="outlined"
                         fullWidth
+                        name="obraSocial"
                         sx={{ mb: 2 }}
-                        {...register('socialSecurity', { required: true })}
-                        error={errors.socialSecurity ? true : false}
-                        helperText={errors.socialSecurity && 'Por favor ingrese el nombre de su Obra Social'}
+                        onChange={(e) => handleChange(e)}
+                        // {...register('socialSecurity', { required: true })}
+                        value={formState.obraSocial}
+                        // error={errors.socialSecurity ? true : false}
+                        // helperText={errors.socialSecurity && 'Por favor ingrese el nombre de su Obra Social'}
                     />
                     <Select
                         label="Tipo de Sangre"
                         variant="outlined"
                         fullWidth
+                        name="tipoSangre"
                         sx={{ mb: 2 }}
-                        {...register('bloodType', { required: true })}
-                        error={errors.bloodType ? true : false}
+                        // {...register('bloodType', { required: true })}
+                        value={formState.tipoSangre}
+                        onChange={(e) => handleChange(e)}
+                        // error={errors.bloodType ? true : false}
                         displayEmpty
                     >
                         <MenuItem value="">
@@ -190,15 +241,7 @@ const ContactForm = () => {
                             </MenuItem>
                         ))}
                     </Select>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        type="submit"
-                        onClick={() => {
-                            addDataToUser()
-                            navigate('/')
-                        }}
-                    >
+                    <Button variant="contained" color="primary" type="submit">
                         Guardar
                     </Button>
                 </form>

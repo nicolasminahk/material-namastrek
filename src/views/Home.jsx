@@ -44,9 +44,7 @@ const Home = () => {
         const generateUser = async () => {
             console.log({ user, isAuthenticated })
             if (user && isAuthenticated && userData.id) {
-                console.log('data', userData)
                 createUser()
-                console.log('Entry')
             }
         }
         generateUser()
