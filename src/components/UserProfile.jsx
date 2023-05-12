@@ -70,7 +70,7 @@ function UserProfile({ name, benefits }) {
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Typography variant="h5" sx={{ mb: 2, color: 'white' }}>
+            <Typography variant="h4" sx={{ mb: 2, color: 'white' }}>
                 Tu perfil
             </Typography>
             <Typography variant="h4" sx={{ mb: 4 }}>
