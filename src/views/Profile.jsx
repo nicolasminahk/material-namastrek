@@ -7,6 +7,7 @@ import Footer from '../components/Footer'
 import { useNavigate } from 'react-router-dom'
 import { gql, useQuery } from '@apollo/client'
 import { useAuth0 } from '@auth0/auth0-react'
+import ListAltIcon from '@mui/icons-material/ListAlt'
 
 const UserProfileContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -52,7 +53,21 @@ const Profile = () => {
                 {!data?.findDataByAuth0UserId && (
                     <>
                         <Typography>Para poder realizar Actividades debe llenar el siguiente formulario:</Typography>
-                        <Button onClick={() => navigate('/form')}>Formulario</Button>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                marginTop: 3,
+                                alignItems: 'center',
+                                marginBottom: 5,
+                                borderColor: 'red',
+                            }}
+                        >
+                            <Button onClick={() => navigate('/form')} style={{ color: 'white' }}>
+                                Formulario
+                            </Button>
+                            <ListAltIcon style={{ color: 'white' }} />
+                        </Box>
                     </>
                 )}
 
