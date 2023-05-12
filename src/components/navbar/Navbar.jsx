@@ -5,7 +5,7 @@ import NavList from './NavList'
 import { LoginButton } from '../Login'
 import { LogoutButtom } from '../Logout'
 import { useAuth0 } from '@auth0/auth0-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import PersonPinIcon from '@mui/icons-material/PersonPin'
 import logo from '../../assets/namastrek.png'
 
@@ -13,6 +13,7 @@ function Navbar() {
     const [drawer, setDrawer] = React.useState(false)
     const [anchorEl, setAnchorEl] = React.useState(null)
     const open = Boolean(anchorEl)
+    const navigate = useNavigate()
 
     const { user, isAuthenticated, isLoading } = useAuth0()
 
@@ -38,7 +39,14 @@ function Navbar() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <img src={logo} alt="Company Logo" style={{ height: 50, marginRight: 'auto', marginLeft: 16 }} />
+                    <img
+                        src={logo}
+                        alt="Company Logo"
+                        style={{ height: 50, marginRight: 'auto', marginLeft: 16 }}
+                        onClick={() => {
+                            navigate('/')
+                        }}
+                    />
                     <Box>
                         {!isAuthenticated && (
                             <Button color="inherit" component={Link} to="/login">
