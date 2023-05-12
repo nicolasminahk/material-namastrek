@@ -17,7 +17,7 @@ const Admin = () => {
         }
     }
     return (
-        validate(user.email) && (
+        user.email === 'fernandoadad@gmail.com' && (
             <>
                 <div>
                     <Navbar />
