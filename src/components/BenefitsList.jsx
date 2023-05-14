@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Card, CardActionArea, CardContent, Typography, Button } from '@mui/material'
 import { useAuth0 } from '@auth0/auth0-react'
 import { gql, useMutation } from '@apollo/client'
+import toast, { Toaster } from 'react-hot-toast'
 
 const ADD_PERSON_BENEFIT = gql`
     mutation Mutation($benefit: String!, $auth0UserId: String!) {
@@ -28,7 +29,7 @@ const BenefitsList = ({ benefits }) => {
     })
 
     console.log({ benefit, userDepure })
-
+    const notifySucces = () => toast.success('Se agregó a tus Beneficios')
     return (
         <Card
             key={benefits.id}
@@ -52,6 +53,7 @@ const BenefitsList = ({ benefits }) => {
                 </Typography>
             </CardContent>
             <CardActionArea>
+                <Toaster />
                 {user && (
                     <Button
                         variant="contained"
@@ -63,6 +65,7 @@ const BenefitsList = ({ benefits }) => {
                         onClick={() => {
                             setBenefit(benefits.id)
                             addPersonBenefit()
+                            notifySucces()
                         }}
                     >
                         Adquirir Ahora
