@@ -41,6 +41,7 @@ const decodeImage = (image) => {
 }
 
 const notify = () => toast.error('Debe completar el formulario de contacto que figura en su perfil')
+const notifySucces = () => toast.success('Se agregó a tus salidas')
 
 function ExitView({ name, description, image, price, date, id }) {
     const [hovered, setHovered] = React.useState(false)
@@ -139,6 +140,7 @@ function ExitView({ name, description, image, price, date, id }) {
                                     setIdSalida(id)
                                     if (data?.findDataByAuth0UserId) {
                                         addPersonExit()
+                                        notifySucces()
                                     } else {
                                         notify()
                                     }
