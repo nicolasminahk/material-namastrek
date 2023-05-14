@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Typography, Box, Card, CardContent, ListItem, List } from '@mui/material'
+import { Typography, Box, Card, CardContent, ListItem, List, Button } from '@mui/material'
 import { useAuth0 } from '@auth0/auth0-react'
-import { gql, useQuery } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
+import toast, { Toaster } from 'react-hot-toast'
 
 const FIND_SALIDAS_BY_AUTH0USERID = gql`
     query FindSalidasByAuth0UserId($auth0UserId: String!) {
@@ -58,36 +59,38 @@ function UserProfile({ name, benefits }) {
     })
 
     console.log(dataSalidas?.findSalidasByAuth0UserId)
-    console.log(dataBeneficios?.findSalidasByAuth0UserId)
+    console.log(dataBeneficios?.findBenefitsByAuth0UserId)
+    const notify = () => toast.success('Se a eliminado esta salida')
 
-    // const [removePersonOnExit] = useMutation(REMOVE_PERSON_ON_EXIT, {
-    //     variables: {
-    //         salida: idSalida,
-    //         auth0UserId: userDepure,
-    //     },
-    // })
-    // console.log({ idSalida, userDepure })
+    const [removePersonOnExit] = useMutation(REMOVE_PERSON_ON_EXIT, {
+        variables: {
+            salida: idSalida,
+            auth0UserId: userDepure,
+        },
+    })
+    console.log({ idSalida, userDepure })
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Typography variant="h4" sx={{ mb: 2, color: 'white' }}>
-                Tu perfil
-            </Typography>
-            <Typography variant="h4" sx={{ mb: 4 }}>
-                {name}
+                Hola! {user.name}
             </Typography>
             <Card
                 variant="outlined"
                 sx={{
                     mb: 4,
                     backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39);',
+                    display: 'flex',
+                    flexDirection: 'column',
                 }}
             >
-                <CardContent>
-                    <Typography variant="h5" sx={{ mb: 2, color: 'green' }}>
+                <CardContent style={{ display: 'flex', flexDirection: 'row' }}>
+                    <Typography variant="h5" sx={{ mb: 2, color: 'green', margin: 2 }}>
                         Tus Salidas
                     </Typography>
                     <List>
+                        <Toaster />
+
                         {dataSalidas?.findSalidasByAuth0UserId.map((output, index) => (
                             <div key={index}>
                                 <ListItem>
@@ -98,14 +101,19 @@ function UserProfile({ name, benefits }) {
                                 <ListItem>
                                     <Typography variant="body1">{output.date}</Typography>
                                 </ListItem>
-                                {/* <Button
-                                    onClick={() => {
-                                        setIdSalida(output.id)
-                                        removePersonOnExit()
-                                    }}
-                                >
-                                    Cancelar
-                                </Button> */}
+                                <ListItem>
+                                    <Button
+                                        style={{ color: 'red' }}
+                                        onClick={() => {
+                                            setIdSalida(output.id)
+                                            removePersonOnExit()
+                                            refetchSalidas()
+                                            notify()
+                                        }}
+                                    >
+                                        Cancelar
+                                    </Button>
+                                </ListItem>
                             </div>
                         ))}
                     </List>
@@ -114,11 +122,11 @@ function UserProfile({ name, benefits }) {
             <Card
                 variant="outlined"
                 sx={{
-                    mb: 4,
+                    // mb: 4,
                     backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39);',
                 }}
             >
-                <CardContent>
+                <CardContent style={{ display: 'flex', flexDirection: 'column' }}>
                     <Typography variant="h5" sx={{ mb: 2, color: 'green' }}>
                         Beneficios
                     </Typography>
