@@ -223,10 +223,14 @@ const CalendarContainer = styled.div`
 
         .react-calendar__navigation__label {
             font-weight: bold;
+            font-size: 18px;
         }
 
         .react-calendar__navigation__arrow {
             flex-grow: 0.333;
+          
+            font-size: 20px;
+
         }
     }
     .react-calendar__tile {
@@ -272,6 +276,7 @@ const CalendarContainer = styled.div`
             flex-basis: 0; /* permitir que el ancho del elemento se ajuste automáticamente */
             flex-grow: 1; /* permitir que el elemento crezca para llenar el contenedor */
         }
+       
 
         .calendar-day {
             display: flex;
