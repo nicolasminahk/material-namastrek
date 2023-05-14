@@ -73,7 +73,7 @@ function UserProfile({ name, benefits }) {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Typography variant="h4" sx={{ mb: 2, color: 'white' }}>
-                Hola! {user.name}
+                Hola! {user?.name}
             </Typography>
             <Card
                 variant="outlined"
