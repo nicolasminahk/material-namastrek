@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Card, CardActionArea, CardContent, Typography, Button } from '@mui/material'
 import { useAuth0 } from '@auth0/auth0-react'
-import { gql, useMutation } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
 import toast, { Toaster } from 'react-hot-toast'
 
 const ADD_PERSON_BENEFIT = gql`
@@ -12,6 +12,15 @@ const ADD_PERSON_BENEFIT = gql`
     }
 `
 
+const FIND_BENEFIT_BY_AUTH0 = `query FindBenefitByAuth0UserId($auth0UserId: String!) {
+    findBenefitByAuth0UserId(auth0UserId: $auth0UserId) {
+      name
+      id
+      
+    }
+  }
+  `
+
 function extractNumbers(inputString) {
     return inputString?.replace(/\D/g, '')
 }
@@ -21,12 +30,22 @@ const BenefitsList = ({ benefits }) => {
     const [benefit, setBenefit] = useState('')
     const userDepure = extractNumbers(user?.sub)
 
+    // const [data, error, loading] = useQuery(FIND_BENEFIT_BY_AUTH0, {
+    //     variables: {
+    //         auth0UserId: userDepure,
+    //     },
+    // })
+
     const [addPersonBenefit] = useMutation(ADD_PERSON_BENEFIT, {
         variables: {
             benefit: benefit,
             auth0UserId: userDepure,
         },
     })
+
+    const handleBenefits = () => {
+        // SI el beneficio ya lo tiene, tirar notificación, si no cumple los requisitos también
+    }
 
     console.log({ benefit, userDepure })
     const notifySucces = () => toast.success('Se agregó a tus Beneficios')
@@ -66,6 +85,9 @@ const BenefitsList = ({ benefits }) => {
                             setBenefit(benefits.id)
                             addPersonBenefit()
                             notifySucces()
+                            if (errorAuth0) {
+                                alert(errorAuth0)
+                            }
                         }}
                     >
                         Adquirir Ahora
