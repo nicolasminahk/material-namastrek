@@ -8,6 +8,7 @@ import timezone from 'dayjs/plugin/timezone'
 import { useAuth0 } from '@auth0/auth0-react'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import toast, { Toaster } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 const StyledDot = styled(Box)`
     height: 10px;
@@ -60,6 +61,7 @@ const CalendarComponent = ({ activities }) => {
             salida: idSalida,
         },
     })
+    const navigate = useNavigate()
 
     const renderDay = (date, _view) => {
         const activitiesOnDay = activities?.filter((activity) => {
@@ -155,25 +157,48 @@ const CalendarComponent = ({ activities }) => {
                             <Typography>{activity.duration}</Typography>
                             <Toaster />
                             {user && (
-                                <Button
-                                    variant="contained"
-                                    color="success"
+                                <Box
                                     sx={{
-                                        mt: 2,
-                                        alignSelf: 'flex-end',
-                                        '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
-                                    }}
-                                    onClick={() => {
-                                        setIdSalida(activity.id)
-                                        if (data?.findDataByAuth0UserId) {
-                                            addPersonExit()
-                                        } else {
-                                            notify()
-                                        }
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        alignContent: 'space-around',
                                     }}
                                 >
-                                    Reservar Ahora
-                                </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="success"
+                                        sx={{
+                                            mt: 2,
+                                            alignSelf: 'flex-end',
+                                            '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
+                                        }}
+                                        onClick={() => {
+                                            setIdSalida(activity.id)
+                                            if (data?.findDataByAuth0UserId) {
+                                                addPersonExit()
+                                            } else {
+                                                notify()
+                                            }
+                                        }}
+                                    >
+                                        Reservar Ahora
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="success"
+                                        onClick={() => {
+                                            navigate('/Activitys')
+                                        }}
+                                        sx={{
+                                            mt: 2,
+                                            alignSelf: 'flex-end',
+                                            '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
+                                            marginLeft: 2,
+                                        }}
+                                    >
+                                        Ver más
+                                    </Button>
+                                </Box>
                             )}
                             <Divider style={{ color: 'green' }} />
                         </Box>
