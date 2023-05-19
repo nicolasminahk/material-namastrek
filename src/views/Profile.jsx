@@ -45,7 +45,7 @@ const Profile = () => {
             auth0UserId: userDepure,
         },
     })
-
+    // console.log(data?.findDataByAuth0UserId)
     return (
         <>
             <Navbar />
