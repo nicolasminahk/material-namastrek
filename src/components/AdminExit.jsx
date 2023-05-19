@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TextField, Button, Typography, Grid, Box, Divider, ListItem, List } from '@mui/material'
+import { TextField, Button, Typography, Grid, Box, Divider, ListItem, List, Card } from '@mui/material'
 import { gql, useQuery, useMutation } from '@apollo/client'
 import * as FileSaver from 'file-saver'
 import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility'
@@ -66,8 +66,25 @@ const FIND_USERS_ON_SALIDA = gql`
         }
     }
 `
+
+// const CONFIRM_USER = gql`
+//     mutation Mutation($salidaId: ID!, $auth0UserIds: [String!]!) {
+//         confirmUsers(salidaId: $salidaId, auth0UserIds: $auth0UserIds) {
+//             user {
+//                 email
+//                 data {
+//                     fechaDeNacimiento
+//                     dni
+//                     name
+//                 }
+//             }
+//         }
+//     }
+// `
+
 const AdminExit = () => {
     const [salidaId, setSalidaId] = useState('')
+    const [openBox, setOpenBox] = useState(false)
     const [usuariosEnSalida, setUsuariosEnSalida] = useState([])
     const [deleteSalida, setDeleteSalida] = useState('')
     const [selectedFile, setSelectedFile] = useState(null)
@@ -94,8 +111,9 @@ const AdminExit = () => {
         },
     })
 
-    console.log(usuariosEnSalida)
-    console.log('DATA 1', dataUsuarios?.findUsersOnSalida)
+    // console.log(usuariosEnSalida)
+    // console.log('DATA 1', dataUsuarios?.findUsersOnSalida)
+    // setUsuariosEnSalida(dataUsuarios?.findUsersOnSalida)
 
     const [formState, setFormState] = useState({
         name: '',
@@ -200,17 +218,17 @@ const AdminExit = () => {
         reader.readAsDataURL(file)
     }
 
-    async function handleDownloadUsers() {
-        if (usuariosEnSalida.length > 0) {
-            downloadUserData(usuariosEnSalida)
-        } else {
-            const result = await refetchSalidas()
-            if (result && result.findUsersOnSalida && result.findUsersOnSalida.length > 0) {
-                setUsuariosEnSalida(result.findUsersOnSalida)
-                downloadUserData(result.findUsersOnSalida)
-            }
-        }
-    }
+    // async function handleDownloadUsers() {
+    //     if (usuariosEnSalida.length > 0) {
+    //         downloadUserData(usuariosEnSalida)
+    //     } else {
+    //         const result = await refetchSalidas()
+    //         if (result && result.findUsersOnSalida && result.findUsersOnSalida.length > 0) {
+    //             setUsuariosEnSalida(result.findUsersOnSalida)
+    //             downloadUserData(result.findUsersOnSalida)
+    //         }
+    //     }
+    // }
 
     function downloadUserData(user) {
         if (!user) {
@@ -261,7 +279,11 @@ const AdminExit = () => {
                             <Button
                                 onClick={() => {
                                     setSalidaId(salida.id)
-                                    downloadUserData(dataUsuarios?.findUsersOnSalida)
+                                    // setUsuariosEnSalida(dataUsuarios?.findUsersOnSalida)
+                                    // downloadUserData(dataUsuarios?.findUsersOnSalida)
+                                    // console.log(dataUsuarios?.findUsersOnSalida)
+                                    //El Arreglo que trae de la data de los usuarios al parecer es
+                                    //Siempre un solo un elemento, el primero. Debe traer de todos
                                 }}
                                 style={{ color: 'green' }}
                             >
