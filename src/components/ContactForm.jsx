@@ -17,6 +17,8 @@ const ADD_DATA_TO_USER = gql`
             profession
             tipoSangre
             email
+            fechaDeNacimiento
+            dni
             auth0UserId
         }
     }
@@ -41,6 +43,8 @@ const ContactForm = () => {
         alergiaAlimentos: '',
         tipoSangre: '',
         email: '',
+        fechaDeNacimiento: '',
+        dni: '',
         auth0UserId: userDepure,
     })
     const bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
@@ -62,6 +66,8 @@ const ContactForm = () => {
                 alergiaAlimentos: '',
                 tipoSangre: '',
                 email: '',
+                fechaDeNacimiento: '',
+                dni: '',
                 auth0UserId: userDepure,
             })
             navigate('/')
@@ -83,6 +89,8 @@ const ContactForm = () => {
                 alergiaMedicamentos: formState.alergiaMedicamentos,
                 alergiaAlimentos: formState.alergiaAlimentos,
                 tipoSangre: formState.tipoSangre,
+                fechaDeNacimiento: formState.fechaDeNacimiento,
+                dni: formState.dni,
                 email: user?.email,
                 auth0UserId: userDepure,
             },
@@ -109,7 +117,7 @@ const ContactForm = () => {
                 sx={{
                     flex: 1,
                     width: '100%',
-                    maxWidth: '600px',
+                    maxWidth: '500px',
                     bgcolor: '#FFFFFF',
                     boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.05)',
                     borderRadius: '10px',
@@ -219,6 +227,24 @@ const ContactForm = () => {
                         value={formState.obraSocial}
                         // error={errors.socialSecurity ? true : false}
                         // helperText={errors.socialSecurity && 'Por favor ingrese el nombre de su Obra Social'}
+                    />
+                    <TextField
+                        label="Fecha de Nacimiento"
+                        variant="outlined"
+                        fullWidth
+                        name="fechaDeNacimiento"
+                        sx={{ mb: 2 }}
+                        onChange={(e) => handleChange(e)}
+                        value={formState.fechaDeNacimiento}
+                    />
+                    <TextField
+                        label="DNI"
+                        variant="outlined"
+                        fullWidth
+                        name="dni"
+                        sx={{ mb: 2 }}
+                        onChange={(e) => handleChange(e)}
+                        value={formState.dni}
                     />
                     <Select
                         label="Tipo de Sangre"
