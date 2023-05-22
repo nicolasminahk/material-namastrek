@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { Box, Typography, Card, CardContent, CardMedia, Button } from '@mui/material'
+import { Box, Typography, Card, CardContent, CardMedia, Button, IconButton } from '@mui/material'
 import { useSpring, animated } from 'react-spring'
 import backgroundImage from '../assets/paisaje3.png'
 import { gql, useQuery, useMutation } from '@apollo/client'
 import { useAuth0 } from '@auth0/auth0-react'
 import toast, { Toaster } from 'react-hot-toast'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 
 const ADD_PERSON_EXIT = gql`
     mutation AddPersonExit($salida: String!, $auth0UserId: String!) {
@@ -43,7 +44,7 @@ const decodeImage = (image) => {
 const notify = () => toast.error('Debe completar el formulario de contacto que figura en su perfil')
 const notifySucces = () => toast.success('Se agregó a tus salidas')
 
-function ExitView({ name, description, image, price, date, id }) {
+function ExitView({ name, description, image, price, date, id, linkImage }) {
     const [hovered, setHovered] = React.useState(false)
     const [idSalida, setIdSalida] = useState('')
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
@@ -53,6 +54,7 @@ function ExitView({ name, description, image, price, date, id }) {
             auth0UserId: userDepure,
         },
     })
+    console.log('LINK', linkImage)
 
     const [addPersonExit] = useMutation(ADD_PERSON_EXIT, {
         variables: {
@@ -123,8 +125,16 @@ function ExitView({ name, description, image, price, date, id }) {
                         <Typography variant="body1" sx={{ mb: 2, color: 'green' }}>
                             {date}
                         </Typography>
+                        {linkImage && (
+                            <Typography variant="body1" sx={{ mb: 2, color: 'green' }}>
+                                Más imagenes
+                                <Button onClick={() => window.open(linkImage)}>
+                                    <AddCircleIcon color="success" />
+                                </Button>
+                            </Typography>
+                        )}
                         <Typography variant="body1" sx={{ mb: 2, color: 'green' }}>
-                            Price: {price}
+                            Precio: {price}
                         </Typography>
                         <Toaster />
                         {user && (
