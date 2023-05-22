@@ -14,6 +14,7 @@ const ALL_SALIDAS = gql`
             name
             price
             users
+            linkImage
         }
     }
 `
@@ -25,6 +26,7 @@ const ADD_SALIDAS = gql`
         $price: String!
         $duration: String!
         $image: String!
+        $linkImage: String!
     ) {
         addSalidas(
             name: $name
@@ -33,6 +35,7 @@ const ADD_SALIDAS = gql`
             price: $price
             duration: $duration
             image: $image
+            linkImage: $linkImage
         ) {
             date
             description
@@ -41,6 +44,7 @@ const ADD_SALIDAS = gql`
             image
             name
             price
+            linkImage
         }
     }
 `
@@ -122,6 +126,7 @@ const AdminExit = () => {
         duration: '',
         image: '',
         price: '',
+        linkImage: '',
         id: '',
     })
     console.log(formState)
@@ -134,6 +139,7 @@ const AdminExit = () => {
             duration: formState.duration,
             image: formState.image,
             price: formState.price,
+            linkImage: formState.linkImage,
             id: formState.id,
         },
         refetchQueries: [{ query: ALL_SALIDAS }],
@@ -154,6 +160,7 @@ const AdminExit = () => {
             date: '',
             duration: '',
             image: '',
+            linkImage: '',
             price: '',
         })
     }
@@ -187,6 +194,12 @@ const AdminExit = () => {
         setFormState({
             ...formState,
             duration: e.target.value,
+        })
+    }
+    const handleLinkImageChange = (e) => {
+        setFormState({
+            ...formState,
+            linkImage: e.target.value,
         })
     }
     const handleDelete = (id) => {
@@ -339,6 +352,13 @@ const AdminExit = () => {
                     label="Fecha"
                     value={formState.date}
                     onChange={handleDateChange}
+                />
+                <TextField
+                    variant="outlined"
+                    sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1 }}
+                    label="Link de Fotos"
+                    value={formState.linkImage}
+                    onChange={handleLinkImageChange}
                 />
                 <TextField
                     label="Output Image"
