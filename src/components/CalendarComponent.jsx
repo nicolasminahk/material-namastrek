@@ -187,7 +187,7 @@ const CalendarComponent = ({ activities }) => {
                                         variant="contained"
                                         color="success"
                                         onClick={() => {
-                                            navigate('/Activitys')
+                                            navigate(`/Activitys?id=${activity.id}`)
                                         }}
                                         sx={{
                                             mt: 2,
