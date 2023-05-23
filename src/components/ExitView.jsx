@@ -26,6 +26,14 @@ const FIND_DATA_BY_AUTHUSERID = gql`
         }
     }
 `
+const FIND_EXIT_BY_AUHT0 = gql`
+    query FindSalidasByAuth0UserId($auth0UserId: String!) {
+        findSalidasByAuth0UserId(auth0UserId: $auth0UserId) {
+            id
+            name
+        }
+    }
+`
 function extractNumbers(inputString) {
     return inputString?.replace(/\D/g, '')
 }
@@ -49,12 +57,24 @@ function ExitView({ name, description, image, price, date, id, linkImage }) {
     const [idSalida, setIdSalida] = useState('')
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
     const userDepure = extractNumbers(user?.sub)
-    const { loading, error, data } = useQuery(FIND_DATA_BY_AUTHUSERID, {
+    const {
+        loading: loadingData,
+        error: errorData,
+        data: userData,
+    } = useQuery(FIND_DATA_BY_AUTHUSERID, {
         variables: {
             auth0UserId: userDepure,
         },
     })
-    console.log('LINK', linkImage)
+    const {
+        loading: loadingExit,
+        error: errorExit,
+        data: dataExit,
+    } = useQuery(FIND_EXIT_BY_AUHT0, {
+        variables: {
+            auth0UserId: userDepure,
+        },
+    })
 
     const [addPersonExit] = useMutation(ADD_PERSON_EXIT, {
         variables: {
@@ -67,6 +87,22 @@ function ExitView({ name, description, image, price, date, id, linkImage }) {
         transform: hovered ? 'scale(1.02)' : 'scale(1)',
         boxShadow: hovered ? '0px 10px 20px rgba(0, 0, 0, 0.2)' : 'none',
     })
+    const handleExitUser = () => {
+        const exitId = idSalida
+        const userExits = dataExit?.findSalidasByAuth0UserId || []
+        if (userExits.some((exit) => exit.id === exitId)) {
+            // La salida ya está registrada para el usuario
+            notify('Ya estás registrado para esta salida')
+        } else {
+            // La salida no está registrada para el usuario
+            addPersonExit()
+            notify('Te has registrado exitosamente')
+            // Realiza aquí las acciones necesarias para registrar la salida para el usuario
+        }
+    }
+
+    const notify = (message) => toast.success(message)
+    const notifyError = (message) => toast.error(message)
     return (
         <Box
             sx={{
@@ -136,7 +172,6 @@ function ExitView({ name, description, image, price, date, id, linkImage }) {
                         <Typography variant="body1" sx={{ mb: 2, color: 'green' }}>
                             Precio: {price}
                         </Typography>
-                        <Toaster />
                         {user && (
                             <Button
                                 variant="contained"
@@ -148,11 +183,10 @@ function ExitView({ name, description, image, price, date, id, linkImage }) {
                                 }}
                                 onClick={() => {
                                     setIdSalida(id)
-                                    if (data?.findDataByAuth0UserId) {
-                                        addPersonExit()
-                                        notifySucces()
+                                    if (userData?.findDataByAuth0UserId) {
+                                        handleExitUser()
                                     } else {
-                                        notify()
+                                        notifyError('Debe completar el formulario de contacto que figura en su perfil')
                                     }
                                 }}
                             >
@@ -162,6 +196,7 @@ function ExitView({ name, description, image, price, date, id, linkImage }) {
                     </CardContent>
                 </Card>
             </animated.div>
+            <Toaster />
         </Box>
     )
 }
