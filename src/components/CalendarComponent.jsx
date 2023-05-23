@@ -40,6 +40,15 @@ const FIND_DATA_BY_AUTHUSERID = gql`
         }
     }
 `
+const FIND_EXIT_BY_AUHT0 = gql`
+    query FindSalidasByAuth0UserId($auth0UserId: String!) {
+        findSalidasByAuth0UserId(auth0UserId: $auth0UserId) {
+            id
+            name
+        }
+    }
+`
+
 function extractNumbers(inputString) {
     return inputString?.replace(/\D/g, '')
 }
@@ -48,7 +57,20 @@ const CalendarComponent = ({ activities }) => {
     const [date, setDate] = useState(new Date())
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
     const userDepure = extractNumbers(user?.sub)
-    const { loading, error, data } = useQuery(FIND_DATA_BY_AUTHUSERID, {
+    const {
+        loading: loadingData,
+        error: errorData,
+        data: userData,
+    } = useQuery(FIND_DATA_BY_AUTHUSERID, {
+        variables: {
+            auth0UserId: userDepure,
+        },
+    })
+    const {
+        loading: loadingExit,
+        error: errorExit,
+        data: dataExit,
+    } = useQuery(FIND_EXIT_BY_AUHT0, {
         variables: {
             auth0UserId: userDepure,
         },
@@ -62,6 +84,7 @@ const CalendarComponent = ({ activities }) => {
         },
     })
     const navigate = useNavigate()
+    console.log('DATA USER', userData?.findDataByAuth0UserId)
 
     const renderDay = (date, _view) => {
         const activitiesOnDay = activities?.filter((activity) => {
@@ -94,7 +117,23 @@ const CalendarComponent = ({ activities }) => {
           })
         : []
 
-    const notify = () => toast.error('Debe completar el formulario de contacto que figura en su perfil')
+    const handleExitUser = () => {
+        const exitId = idSalida
+        const userExits = dataExit?.findSalidasByAuth0UserId || []
+        console.log('handle', exitId, userExits)
+        if (userExits.some((exit) => exit.id === exitId)) {
+            // La salida ya está registrada para el usuario
+            notify('Ya estás registrado para esta salida')
+        } else {
+            // La salida no está registrada para el usuario
+            addPersonExit()
+            notify('Te has registrado exitosamente')
+            // Realiza aquí las acciones necesarias para registrar la salida para el usuario
+        }
+    }
+
+    const notify = (message) => toast.success(message)
+    const notifyError = (message) => toast.error(message)
 
     return (
         <Box sx={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'colum' }}>
@@ -174,10 +213,12 @@ const CalendarComponent = ({ activities }) => {
                                         }}
                                         onClick={() => {
                                             setIdSalida(activity.id)
-                                            if (data?.findDataByAuth0UserId) {
-                                                addPersonExit()
+                                            if (userData?.findDataByAuth0UserId) {
+                                                handleExitUser()
                                             } else {
-                                                notify()
+                                                notifyError(
+                                                    'Debe completar el formulario de contacto que figura en su perfil'
+                                                )
                                             }
                                         }}
                                     >
