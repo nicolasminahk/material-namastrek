@@ -12,14 +12,14 @@ const ADD_PERSON_BENEFIT = gql`
     }
 `
 
-const FIND_BENEFIT_BY_AUTH0 = `query FindBenefitByAuth0UserId($auth0UserId: String!) {
-    findBenefitByAuth0UserId(auth0UserId: $auth0UserId) {
-      name
-      id
-      
+const FIND_BENEFIT_BY_AUTH0 = gql`
+    query FindBenefitByAuth0UserId($auth0UserId: String!) {
+        findBenefitByAuth0UserId(auth0UserId: $auth0UserId) {
+            name
+            id
+        }
     }
-  }
-  `
+`
 
 function extractNumbers(inputString) {
     return inputString?.replace(/\D/g, '')
@@ -30,12 +30,15 @@ const BenefitsList = ({ benefits }) => {
     const [benefit, setBenefit] = useState('')
     const userDepure = extractNumbers(user?.sub)
 
-    // const [data, error, loading] = useQuery(FIND_BENEFIT_BY_AUTH0, {
-    //     variables: {
-    //         auth0UserId: userDepure,
-    //     },
-    // })
-
+    const {
+        loading: loadingBenefit,
+        error: errorBenefit,
+        data: dataBenefit,
+    } = useQuery(FIND_BENEFIT_BY_AUTH0, {
+        variables: {
+            auth0UserId: userDepure,
+        },
+    })
     const [addPersonBenefit] = useMutation(ADD_PERSON_BENEFIT, {
         variables: {
             benefit: benefit,
@@ -44,11 +47,18 @@ const BenefitsList = ({ benefits }) => {
     })
 
     const handleBenefits = () => {
-        // SI el beneficio ya lo tiene, tirar notificación, si no cumple los requisitos también
+        const benefitId = benefit
+        const benefitExist = dataBenefit?.findBenefitByAuth0UserId || []
+        if (benefitExist.some((benefit) => benefit.id === benefitId)) {
+            notify('Ya tienes este Beneficio')
+        } else {
+            addPersonBenefit()
+            notify('Se agregó a tus Beneficios')
+        }
     }
 
-    console.log({ benefit, userDepure })
-    const notifySucces = () => toast.success('Se agregó a tus Beneficios')
+    const notify = (message) => toast.success(message)
+    const notifyError = (message) => toast.error(message)
     return (
         <Card
             key={benefits.id}
@@ -83,11 +93,7 @@ const BenefitsList = ({ benefits }) => {
                         }}
                         onClick={() => {
                             setBenefit(benefits.id)
-                            addPersonBenefit()
-                            notifySucces()
-                            if (errorAuth0) {
-                                alert(errorAuth0)
-                            }
+                            handleBenefits()
                         }}
                     >
                         Adquirir Ahora
