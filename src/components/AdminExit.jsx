@@ -1,8 +1,23 @@
 import React, { useState } from 'react'
-import { TextField, Button, Typography, Grid, Box, Divider, ListItem, List, Card } from '@mui/material'
+import {
+    TextField,
+    Button,
+    Typography,
+    Grid,
+    Box,
+    Divider,
+    ListItem,
+    List,
+    Card,
+    Drawer,
+    ListItemText,
+    IconButton,
+} from '@mui/material'
 import { gql, useQuery, useMutation } from '@apollo/client'
 import * as FileSaver from 'file-saver'
 import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility'
+import CheckIcon from '@mui/icons-material/Check'
+import SimCardDownloadIcon from '@mui/icons-material/SimCardDownload'
 const { Buffer } = require('buffer')
 
 const ALL_SALIDAS = gql`
@@ -70,6 +85,15 @@ const FIND_USERS_ON_SALIDA = gql`
         }
     }
 `
+const FIND_USER_ON_EXCEL = gql`
+    mutation Mutation($salidaId: String!) {
+        findUsersOnSalidaInExcel(salidaId: $salidaId) {
+            buffer
+            filename
+            mimetype
+        }
+    }
+`
 
 // const CONFIRM_USER = gql`
 //     mutation Mutation($salidaId: ID!, $auth0UserIds: [String!]!) {
@@ -92,6 +116,8 @@ const AdminExit = () => {
     const [usuariosEnSalida, setUsuariosEnSalida] = useState([])
     const [deleteSalida, setDeleteSalida] = useState('')
     const [selectedFile, setSelectedFile] = useState(null)
+    const [drawerOpen, setDrawerOpen] = useState(false)
+    const [confirmedUsers, setConfirmedUsers] = useState([])
 
     const {
         loading: loadingSalidas,
@@ -115,9 +141,13 @@ const AdminExit = () => {
         },
     })
 
-    // console.log(usuariosEnSalida)
-    // console.log('DATA 1', dataUsuarios?.findUsersOnSalida)
-    // setUsuariosEnSalida(dataUsuarios?.findUsersOnSalida)
+    const toggleDrawer = () => {
+        setDrawerOpen(!drawerOpen)
+    }
+
+    const confirmUser = (user) => {
+        setConfirmedUsers([...confirmedUsers, user])
+    }
 
     const [formState, setFormState] = useState({
         name: '',
@@ -129,7 +159,8 @@ const AdminExit = () => {
         linkImage: '',
         id: '',
     })
-    console.log(formState)
+
+    console.log(dataUsuarios)
 
     const [createSalida] = useMutation(ADD_SALIDAS, {
         variables: {
@@ -148,6 +179,11 @@ const AdminExit = () => {
     const [deleteSalidas] = useMutation(DELETE_SALIDAS, {
         variables: {
             id: deleteSalida,
+        },
+    })
+    const [findUsersOnSalidaInExcel] = useMutation(FIND_USER_ON_EXCEL, {
+        variables: {
+            salidaId: salidaId,
         },
     })
 
@@ -231,34 +267,22 @@ const AdminExit = () => {
         reader.readAsDataURL(file)
     }
 
-    // async function handleDownloadUsers() {
-    //     if (usuariosEnSalida.length > 0) {
-    //         downloadUserData(usuariosEnSalida)
-    //     } else {
-    //         const result = await refetchSalidas()
-    //         if (result && result.findUsersOnSalida && result.findUsersOnSalida.length > 0) {
-    //             setUsuariosEnSalida(result.findUsersOnSalida)
-    //             downloadUserData(result.findUsersOnSalida)
-    //         }
+    // function downloadUserData(user) {
+    //     if (!user) {
+    //         console.log('No data available for user')
+    //         return
     //     }
+
+    //     const data = Object.entries(user).reduce((acc, [key, value]) => {
+    //         const dataValue = value || ''
+    //         return { ...acc, [key]: dataValue }
+    //     }, {})
+
+    //     const blob = new Blob([JSON.stringify(data)], {
+    //         type: 'text/plain;charset=utf-8',
+    //     })
+    //     FileSaver.saveAs(blob, 'usuarios-data.txt')
     // }
-
-    function downloadUserData(user) {
-        if (!user) {
-            console.log('No data available for user')
-            return
-        }
-
-        const data = Object.entries(user).reduce((acc, [key, value]) => {
-            const dataValue = value || ''
-            return { ...acc, [key]: dataValue }
-        }, {})
-
-        const blob = new Blob([JSON.stringify(data)], {
-            type: 'text/plain;charset=utf-8',
-        })
-        FileSaver.saveAs(blob, 'usuarios-data.txt')
-    }
 
     if (loadingSalidas) {
         return <p>Loading</p>
@@ -266,6 +290,43 @@ const AdminExit = () => {
 
     if (errorSalidas) {
         return <p>{errorSalidas}</p>
+    }
+
+    const handleExcelButtonClick = async () => {
+        try {
+            const { data } = await findUsersOnSalidaInExcel({
+                variables: {
+                    salidaId: salidaId,
+                },
+            })
+
+            if (!data || !data.findUsersOnSalidaInExcel || !data.findUsersOnSalidaInExcel.buffer) {
+                console.log('No file found or file is empty')
+                return
+            }
+
+            const fileData = data.findUsersOnSalidaInExcel.buffer
+            const filename = data.findUsersOnSalidaInExcel.filename
+            const mimetype = data.findUsersOnSalidaInExcel.mimetype
+
+            const byteCharacters = atob(fileData)
+            const byteNumbers = new Array(byteCharacters.length)
+
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i)
+            }
+
+            const byteArray = new Uint8Array(byteNumbers)
+            const blob = new Blob([byteArray], { type: mimetype })
+
+            const link = document.createElement('a')
+            link.href = URL.createObjectURL(blob)
+            link.target = '_blank'
+            link.download = filename
+            link.click()
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -292,15 +353,21 @@ const AdminExit = () => {
                             <Button
                                 onClick={() => {
                                     setSalidaId(salida.id)
-                                    // setUsuariosEnSalida(dataUsuarios?.findUsersOnSalida)
-                                    // downloadUserData(dataUsuarios?.findUsersOnSalida)
-                                    // console.log(dataUsuarios?.findUsersOnSalida)
-                                    //El Arreglo que trae de la data de los usuarios al parecer es
-                                    //Siempre un solo un elemento, el primero. Debe traer de todos
+                                    setUsuariosEnSalida(salida.users) // Asignar los usuarios de la salida a usuariosEnSalida
+                                    toggleDrawer() // Abrir el Drawer al hacer clic en "Usuarios"
                                 }}
                                 style={{ color: 'green' }}
                             >
                                 Usuarios
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    setSalidaId(salida.id)
+
+                                    handleExcelButtonClick()
+                                }}
+                            >
+                                <SimCardDownloadIcon />
                             </Button>
                         </ListItem>
                     </List>
@@ -376,7 +443,25 @@ const AdminExit = () => {
                     Subir
                 </Button>
             </Box>
+            <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
+                <Box sx={{ width: 250 }} role="presentation">
+                    <List>
+                        {usuariosEnSalida.map((user) => (
+                            <ListItem key={user.id}>
+                                <ListItemText primary={user.name} />
+                                <IconButton
+                                    onClick={() => confirmUser(user)}
+                                    color={confirmedUsers.includes(user) ? 'primary' : 'default'}
+                                >
+                                    <CheckIcon style={{ color: 'green' }} />
+                                </IconButton>
+                            </ListItem>
+                        ))}
+                    </List>
+                </Box>
+            </Drawer>
         </>
     )
 }
+
 export default AdminExit
