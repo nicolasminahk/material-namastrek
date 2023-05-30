@@ -12,7 +12,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt'
 const UserProfileContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
-    height: '100vh',
+    minheight: '100vh',
 
     alignItems: 'center',
     paddingTop: theme.spacing(12),
