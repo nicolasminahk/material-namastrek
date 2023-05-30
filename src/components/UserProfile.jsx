@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Typography, Box, Card, CardContent, ListItem, List, Button } from '@mui/material'
+import { Typography, Box, Card, CardContent, ListItem, List, Button, Divider } from '@mui/material'
 import { useAuth0 } from '@auth0/auth0-react'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import toast, { Toaster } from 'react-hot-toast'
+import CancelIcon from '@mui/icons-material/Cancel'
 
 const FIND_SALIDAS_BY_AUTH0USERID = gql`
     query FindSalidasByAuth0UserId($auth0UserId: String!) {
@@ -100,8 +101,6 @@ function UserProfile({ name, benefits }) {
                                 </ListItem>
                                 <ListItem>
                                     <Typography variant="body1">{output.date}</Typography>
-                                </ListItem>
-                                <ListItem>
                                     <Button
                                         style={{ color: 'red' }}
                                         onClick={() => {
@@ -111,9 +110,10 @@ function UserProfile({ name, benefits }) {
                                             notify()
                                         }}
                                     >
-                                        Cancelar
+                                        <CancelIcon />
                                     </Button>
                                 </ListItem>
+                                <Divider />
                             </div>
                         ))}
                     </List>
