@@ -19,7 +19,7 @@ const Admin = () => {
     return (
         (user?.email === 'fernandoadad@gmail.com' ||
             user?.email === 'nicolasminahk@gmail.com' ||
-            user?.email === 'fernandoadad@gmail.com') && (
+            user?.email === 'gersiore@gmail.com') && (
             <>
                 <div>
                     <Navbar />
