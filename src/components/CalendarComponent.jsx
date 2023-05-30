@@ -8,7 +8,7 @@ import timezone from 'dayjs/plugin/timezone'
 import { useAuth0 } from '@auth0/auth0-react'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import toast, { Toaster } from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 const StyledDot = styled(Box)`
     height: 10px;
@@ -52,11 +52,14 @@ const FIND_EXIT_BY_AUHT0 = gql`
 function extractNumbers(inputString) {
     return inputString?.replace(/\D/g, '')
 }
+
 const CalendarComponent = ({ activities }) => {
     const [selectedDate, setSelectedDate] = useState(null)
+    const [idSalida, setIdSalida] = useState('')
     const [date, setDate] = useState(new Date())
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
     const userDepure = extractNumbers(user?.sub)
+
     const {
         loading: loadingData,
         error: errorData,
@@ -75,7 +78,6 @@ const CalendarComponent = ({ activities }) => {
             auth0UserId: userDepure,
         },
     })
-    const [idSalida, setIdSalida] = useState('')
 
     const [addPersonExit] = useMutation(ADD_PERSON_EXIT, {
         variables: {
@@ -117,19 +119,28 @@ const CalendarComponent = ({ activities }) => {
           })
         : []
 
-    const handleExitUser = () => {
-        const exitId = idSalida
+    const handleExitUser = (idSalida) => {
+        setIdSalida(idSalida)
         const userExits = dataExit?.findSalidasByAuth0UserId || []
-        console.log('handle', exitId, userExits)
-        if (userExits.some((exit) => exit.id === exitId)) {
+        console.log(userExits)
+        if (userExits.some((exit) => exit.id === idSalida)) {
             // La salida ya está registrada para el usuario
             notify('Ya estás registrado para esta salida')
         } else {
             // La salida no está registrada para el usuario
+            console.log('Entre al else')
             addPersonExit()
             notify('Te has registrado exitosamente')
             // Realiza aquí las acciones necesarias para registrar la salida para el usuario
         }
+    }
+    const truncateText = (text, maxWords) => {
+        const words = text.split(' ')
+        if (words.length <= maxWords) {
+            return text
+        }
+        const truncatedText = words.slice(0, maxWords).join(' ')
+        return truncatedText + '...'
     }
 
     const notify = (message) => toast.success(message)
@@ -164,6 +175,7 @@ const CalendarComponent = ({ activities }) => {
                     renderDay={renderDay}
                 />
             </CalendarContainer>
+
             {filteredActivities?.length > 0 && (
                 <Box sx={{ marginTop: '20px' }}>
                     {filteredActivities.map((activity) => (
@@ -190,7 +202,8 @@ const CalendarComponent = ({ activities }) => {
                             }}
                         >
                             <Typography variant="h6">{activity.name}</Typography>
-                            <Typography>{activity.description}</Typography>
+                            {/* <Typography>{activity.description}</Typography> */}
+                            <Typography>{truncateText(activity.description, 5)}</Typography>
                             <Typography>{activity.date}</Typography>
                             <Typography>{activity.price}</Typography>
                             <Typography>{activity.duration}</Typography>
@@ -213,8 +226,9 @@ const CalendarComponent = ({ activities }) => {
                                         }}
                                         onClick={() => {
                                             setIdSalida(activity.id)
+                                            console.log('DENTRO', activity.id)
                                             if (userData?.findDataByAuth0UserId) {
-                                                handleExitUser()
+                                                handleExitUser(activity.id)
                                             } else {
                                                 notifyError(
                                                     'Debe completar el formulario de contacto que figura en su perfil'
@@ -224,12 +238,26 @@ const CalendarComponent = ({ activities }) => {
                                     >
                                         Reservar Ahora
                                     </Button>
-                                    <Button
+                                    {/* <Button
                                         variant="contained"
                                         color="success"
                                         onClick={() => {
                                             navigate(`/Activitys?id=${activity.id}`)
                                         }}
+                                        sx={{
+                                            mt: 2,
+                                            alignSelf: 'flex-end',
+                                            '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
+                                            marginLeft: 2,
+                                        }}
+                                    >
+                                        Ver más
+                                    </Button> */}
+                                    <Button
+                                        variant="contained"
+                                        color="success"
+                                        component={Link}
+                                        to={`/activitys?id=${activity.id}`}
                                         sx={{
                                             mt: 2,
                                             alignSelf: 'flex-end',
