@@ -9,13 +9,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 
 const Admin = () => {
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
-    function validate(email) {
-        if (email === process.env.REACT_APP_ADMIN || email === 'fernandoadad@gmail.com') {
-            return true
-        } else {
-            return false
-        }
-    }
+
     return (
         (user?.email === 'fernandoadad@gmail.com' ||
             user?.email === 'nicolasminahk@gmail.com' ||
