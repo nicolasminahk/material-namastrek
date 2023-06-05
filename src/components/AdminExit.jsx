@@ -336,10 +336,10 @@ const AdminExit = () => {
                             </Typography>
                             <Box>
                                 <ListItem sx={{ bgcolor: 'f1f1f1', padding: 1, marginTop: 1, marginBottom: 1 }}>
-                                    <SettingsAccessibilityIcon style={{ color: 'green' }} />
-                                    <Typography variant="h6" sx={{ color: 'green' }}>
+                                    {/* <SettingsAccessibilityIcon style={{ color: 'green' }} /> */}
+                                    {/* <Typography variant="h6" sx={{ color: 'green' }}>
                                         {salida.users.length}
-                                    </Typography>
+                                    </Typography> */}
                                 </ListItem>
                             </Box>
 
