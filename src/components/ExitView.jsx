@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Typography, Card, CardContent, CardMedia, Button, IconButton } from '@mui/material'
+import { Box, Typography, Card, CardContent, CardMedia, Button, IconButton, Divider } from '@mui/material'
 import { useSpring, animated } from 'react-spring'
 import backgroundImage from '../assets/paisaje3.png'
 import { gql, useQuery, useMutation } from '@apollo/client'
@@ -48,9 +48,6 @@ const decodeImage = (image) => {
     const blob = new Blob([bytes], { type: 'image/jpeg' })
     return URL.createObjectURL(blob)
 }
-
-const notify = () => toast.error('Debe completar el formulario de contacto que figura en su perfil')
-const notifySucces = () => toast.success('Se agregó a tus salidas')
 
 function ExitView({ name, description, image, price, date, id, linkImage }) {
     const [hovered, setHovered] = React.useState(false)
@@ -152,13 +149,15 @@ function ExitView({ name, description, image, price, date, id, linkImage }) {
                             style={{ objectFit: 'cover', borderRadius: 30 }}
                         />
 
-                        <Typography variant="h4" sx={{ mb: 2, color: 'green', paddingTop: '5px' }}>
+                        <Typography variant="h6" sx={{ mb: 2, color: 'green', paddingTop: '5px', fontWeight: 'bold' }}>
                             {name}
                         </Typography>
-                        <Typography variant="body1" sx={{ mb: 2, color: 'green' }}>
+                        <Divider />
+
+                        <Typography variant="body2" sx={{ mb: 2, color: 'green', fontSize: 'italic' }}>
                             {description}
                         </Typography>
-                        <Typography variant="body1" sx={{ mb: 2, color: 'green' }}>
+                        <Typography variant="body1" sx={{ mb: 2, color: 'green', fontSize: 'italic' }}>
                             {date}
                         </Typography>
                         {linkImage && (
@@ -169,9 +168,11 @@ function ExitView({ name, description, image, price, date, id, linkImage }) {
                                 </Button>
                             </Typography>
                         )}
-                        <Typography variant="body1" sx={{ mb: 2, color: 'green' }}>
+                        <Typography variant="body2" sx={{ mb: 2, color: 'green', fontWeight: 'bold' }}>
                             Precio: {price}
                         </Typography>
+                        <Divider />
+
                         {user && (
                             <Button
                                 variant="contained"
