@@ -18,6 +18,8 @@ import * as FileSaver from 'file-saver'
 import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility'
 import CheckIcon from '@mui/icons-material/Check'
 import SimCardDownloadIcon from '@mui/icons-material/SimCardDownload'
+import CancelIcon from '@mui/icons-material/Cancel'
+
 const { Buffer } = require('buffer')
 
 const ALL_SALIDAS = gql`
@@ -74,14 +76,8 @@ const DELETE_SALIDAS = gql`
 const FIND_USERS_ON_SALIDA = gql`
     query FindUsersOnSalida($salidaId: String!) {
         findUsersOnSalida(salidaId: $salidaId) {
-            name
-            adress
-            phone
-            alergiaAlimentos
-            alergiaMedicamentos
-            obraSocial
-            profession
-            tipoSangre
+            email
+            auth0UserId
         }
     }
 `
@@ -100,12 +96,6 @@ const FIND_USER_ON_EXCEL = gql`
 //         confirmUsers(salidaId: $salidaId, auth0UserIds: $auth0UserIds) {
 //             user {
 //                 email
-//                 data {
-//                     fechaDeNacimiento
-//                     dni
-//                     name
-//                 }
-//             }
 //         }
 //     }
 // `
@@ -186,6 +176,12 @@ const AdminExit = () => {
             salidaId: salidaId,
         },
     })
+    // const [ConfirmUser] = useMutation(CONFIRM_USER, {
+    //     variables: {
+    //         salidaId: salidaId,
+    //         authOUserId: userDepure
+    //     },
+    // })
 
     const handleFormSubmit = (e) => {
         e.preventDefault()
@@ -347,8 +343,8 @@ const AdminExit = () => {
                                 </ListItem>
                             </Box>
 
-                            <Button onClick={() => handleDelete(salida.id)} style={{ color: 'red' }}>
-                                Eliminar
+                            <Button onClick={() => handleDelete(salida.id)} style={{ color: 'red', margin: '0 4px' }}>
+                                <CancelIcon />
                             </Button>
                             <Button
                                 onClick={() => {
@@ -356,20 +352,20 @@ const AdminExit = () => {
                                     setUsuariosEnSalida(salida.users) // Asignar los usuarios de la salida a usuariosEnSalida
                                     toggleDrawer() // Abrir el Drawer al hacer clic en "Usuarios"
                                 }}
-                                style={{ color: 'green' }}
+                                style={{ color: 'green', margin: '0 4px' }}
                             >
                                 Usuarios
                             </Button>
                             <Button
                                 onClick={() => {
                                     setSalidaId(salida.id)
-
                                     handleExcelButtonClick()
                                 }}
                             >
                                 <SimCardDownloadIcon />
                             </Button>
                         </ListItem>
+                        <Divider />
                     </List>
                 ))}
             </div>
@@ -447,15 +443,18 @@ const AdminExit = () => {
                 <Box sx={{ width: 250 }} role="presentation">
                     <List>
                         {usuariosEnSalida.map((user) => (
-                            <ListItem key={user.id}>
-                                <ListItemText primary={user.name} />
-                                <IconButton
-                                    onClick={() => confirmUser(user)}
-                                    color={confirmedUsers.includes(user) ? 'primary' : 'default'}
-                                >
-                                    <CheckIcon style={{ color: 'green' }} />
-                                </IconButton>
-                            </ListItem>
+                            <>
+                                <ListItem key={user.id}>
+                                    <ListItemText primary={user.email} />
+                                    <IconButton
+                                        onClick={() => confirmUser(user)}
+                                        color={confirmedUsers.includes(user) ? 'primary' : 'default'}
+                                    >
+                                        <CheckIcon style={{ color: 'green' }} />
+                                    </IconButton>
+                                </ListItem>
+                                <Divider />
+                            </>
                         ))}
                     </List>
                 </Box>
