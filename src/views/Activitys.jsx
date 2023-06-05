@@ -1,8 +1,7 @@
 import { Box, Typography } from '@mui/material'
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { useLocation } from 'react-router-dom'
-
+import { useParams } from 'react-router-dom'
 import ExitView from '../components/ExitView'
 import Footer from '../components/Footer'
 import Navbar from '../components/navbar/Navbar'
@@ -23,17 +22,7 @@ const ALL_SALIDAS = gql`
 
 const Activitys = () => {
     const { loading, error, data } = useQuery(ALL_SALIDAS)
-    const location = useLocation()
-    const cardRef = useRef(null)
-    console.log('Salidas', data?.allSalidas)
-    useEffect(() => {
-        const urlSearchParams = new URLSearchParams(location.search)
-        const salidaId = urlSearchParams.get('id')
-        console.log('salidaId:', salidaId)
-        if (salidaId && cardRef.current) {
-            cardRef.current.scrollIntoView({ behavior: 'smooth' })
-        }
-    }, [location.search])
+
     return (
         <>
             <Navbar />
@@ -80,8 +69,6 @@ const Activitys = () => {
                                         width: '100%',
                                         height: '100%',
                                     }}
-                                    // ref={view.id.toString() === location.search.split('=')[1] ? cardRef : null}
-                                    ref={view.id && view.id.toString() === view.id ? cardRef : null}
                                     key={view.id}
                                 >
                                     <ExitView
