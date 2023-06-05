@@ -56,8 +56,9 @@ const NavList = () => {
                         </ListItemIcon>
                         <ListItemText primary="Perfil" />
                     </ListItem>
-                    {(user?.email === process.env.REACT_APP_ADMIN_NAMASTREK ||
-                        user?.email === process.env.REACT_APP_ADMIN) && (
+                    {(user?.email === 'fernandoadad@gmail.com' ||
+                        user?.email === 'nicolasminahk@gmail.com' ||
+                        user?.email === 'gersiore@gmail.com') && (
                         <ListItem onClick={() => navigate('/admin')}>
                             <ListItemIcon>
                                 <BuildIcon />
