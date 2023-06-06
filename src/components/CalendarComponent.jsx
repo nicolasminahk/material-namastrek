@@ -1,6 +1,16 @@
 import React, { useState } from 'react'
 import { Calendar } from 'react-calendar'
-import { Box, Button, Divider, Typography } from '@mui/material'
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Divider,
+    Modal,
+    Typography,
+} from '@mui/material'
 import styled from 'styled-components'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
@@ -9,6 +19,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import toast, { Toaster } from 'react-hot-toast'
 import { useNavigate, Link } from 'react-router-dom'
+import ExitView from './ExitView'
 
 const StyledDot = styled(Box)`
     height: 10px;
@@ -58,8 +69,22 @@ const CalendarComponent = ({ activities }) => {
     const [idSalida, setIdSalida] = useState('')
     const [date, setDate] = useState(new Date())
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
+    // const [showExitView, setShowExitView] = useState(false)
+    const [selectedActivity, setSelectedActivity] = useState(null)
+
+    const handleActivityClick = (activity) => {
+        setSelectedActivity(activity)
+    }
+
+    const handleCloseModal = () => {
+        setSelectedActivity(null)
+    }
+
     const userDepure = extractNumbers(user?.sub)
 
+    const handleViewDetails = (activityId) => {
+        navigate(`/activitys/${activityId}`)
+    }
     const {
         loading: loadingData,
         error: errorData,
@@ -86,7 +111,6 @@ const CalendarComponent = ({ activities }) => {
         },
     })
     const navigate = useNavigate()
-    console.log('DATA USER', userData?.findDataByAuth0UserId)
 
     const renderDay = (date, _view) => {
         const activitiesOnDay = activities?.filter((activity) => {
@@ -122,13 +146,11 @@ const CalendarComponent = ({ activities }) => {
     const handleExitUser = (idSalida) => {
         setIdSalida(idSalida)
         const userExits = dataExit?.findSalidasByAuth0UserId || []
-        console.log(userExits)
         if (userExits.some((exit) => exit.id === idSalida)) {
             // La salida ya está registrada para el usuario
             notify('Ya estás registrado para esta salida')
         } else {
             // La salida no está registrada para el usuario
-            console.log('Entre al else')
             addPersonExit()
             notify('Te has registrado exitosamente')
             // Realiza aquí las acciones necesarias para registrar la salida para el usuario
@@ -201,12 +223,22 @@ const CalendarComponent = ({ activities }) => {
                                 },
                             }}
                         >
-                            <Typography variant="h6">{activity.name}</Typography>
-                            {/* <Typography>{activity.description}</Typography> */}
-                            <Typography>{truncateText(activity.description, 5)}</Typography>
-                            <Typography>{activity.date}</Typography>
-                            <Typography>{activity.price}</Typography>
-                            <Typography>{activity.duration}</Typography>
+                            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                                {activity.name}
+                            </Typography>
+                            <Typography variant="body2" sx={{ mb: 1 }}>
+                                {truncateText(activity.description, 5)}
+                            </Typography>
+                            <Typography variant="body2" sx={{ fontStyle: 'italic', mb: 1 }}>
+                                {activity.date}
+                            </Typography>
+                            <Typography variant="body2" sx={{ fontWeight: 'bold', mb: 1 }}>
+                                {activity.price}
+                            </Typography>
+                            <Typography variant="body2" sx={{ mb: 2 }}>
+                                {activity.duration}
+                            </Typography>
+
                             <Toaster />
                             {user && (
                                 <Box
@@ -238,26 +270,13 @@ const CalendarComponent = ({ activities }) => {
                                     >
                                         Reservar Ahora
                                     </Button>
-                                    {/* <Button
-                                        variant="contained"
-                                        color="success"
-                                        onClick={() => {
-                                            navigate(`/Activitys?id=${activity.id}`)
-                                        }}
-                                        sx={{
-                                            mt: 2,
-                                            alignSelf: 'flex-end',
-                                            '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
-                                            marginLeft: 2,
-                                        }}
-                                    >
-                                        Ver más
-                                    </Button> */}
                                     <Button
                                         variant="contained"
                                         color="success"
-                                        component={Link}
-                                        to={`/activitys?id=${activity.id}`}
+                                        // onClick={() => setSelectedActivity(activity)}
+                                        onClick={() => {
+                                            setSelectedActivity(activity)
+                                        }}
                                         sx={{
                                             mt: 2,
                                             alignSelf: 'flex-end',
@@ -269,10 +288,66 @@ const CalendarComponent = ({ activities }) => {
                                     </Button>
                                 </Box>
                             )}
+
                             <Divider style={{ color: 'green' }} />
                         </Box>
                     ))}
                 </Box>
+            )}
+            {selectedActivity && (
+                <Modal
+                    open={true}
+                    onClose={handleCloseModal}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        '& .MuiDialog-paper': {
+                            backgroundColor: 'transparent',
+                            boxShadow: 'none',
+                        },
+                    }}
+                >
+                    <Box
+                        sx={{
+                            backgroundColor: 'white',
+                            boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.05)',
+                            borderRadius: '20px',
+                            padding: '30px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            position: 'relative',
+                            width: '80%',
+                            '@media (max-width: 600px)': {
+                                width: '90%',
+                            },
+                        }}
+                    >
+                        <ExitView
+                            name={selectedActivity.name}
+                            description={selectedActivity.description}
+                            price={selectedActivity.price}
+                            image={selectedActivity.image}
+                            date={selectedActivity.date}
+                            linkImage={selectedActivity.linkImage}
+                            id={selectedActivity.id}
+                        />
+                        <Button
+                            variant="contained"
+                            color="success"
+                            onClick={handleCloseModal}
+                            sx={{
+                                mt: 2,
+                                alignSelf: 'flex-end',
+                                '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
+                                marginLeft: 2,
+                            }}
+                        >
+                            Regresar
+                        </Button>
+                    </Box>
+                </Modal>
             )}
         </Box>
     )
@@ -290,7 +365,6 @@ const CalendarContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-   
 
     button {
         background-color: #d4f7d4;
@@ -309,11 +383,9 @@ const CalendarContainer = styled.div`
         }
     }
 
-
     /* ~~~ navigation styles ~~~ */
     .react-calendar__navigation {
         display: flex;
-       
 
         .react-calendar__navigation__label {
             font-weight: bold;
@@ -322,9 +394,8 @@ const CalendarContainer = styled.div`
 
         .react-calendar__navigation__arrow {
             flex-grow: 0.333;
-          
-            font-size: 20px;
 
+            font-size: 20px;
         }
     }
     .react-calendar__tile {
@@ -360,9 +431,9 @@ const CalendarContainer = styled.div`
             align-items: center; /* centrar verticalmente */
             margin-bottom: 4px; /* agregar un margen inferior para separar de los botones */
         }
-    
+
         .react-calendar__month-view__weekdays__weekday {
-            color: #388E3C;
+            color: #388e3c;
             font-family: Arial;
             font-size: 14px;
             font-weight: 600;
@@ -370,7 +441,6 @@ const CalendarContainer = styled.div`
             flex-basis: 0; /* permitir que el ancho del elemento se ajuste automáticamente */
             flex-grow: 1; /* permitir que el elemento crezca para llenar el contenedor */
         }
-       
 
         .calendar-day {
             display: flex;
@@ -409,19 +479,20 @@ const CalendarContainer = styled.div`
                 color: #dfdfdf;
             }
 
-        /* ~~~ other view styles ~~~ */
-        .react-calendar__year-view__months,
-        .react-calendar__decade-view__years,
-        .react-calendar__century-view__decades {
-            display: grid !important;
-            grid-template-columns: 20% 20% 20% 20% 20%;
+            /* ~~~ other view styles ~~~ */
+            .react-calendar__year-view__months,
+            .react-calendar__decade-view__years,
+            .react-calendar__century-view__decades {
+                display: grid !important;
+                grid-template-columns: 20% 20% 20% 20% 20%;
 
-            &.react-calendar__year-view__months {
-                grid-template-columns: 33.3% 33.3% 33.3%;
-            }
+                &.react-calendar__year-view__months {
+                    grid-template-columns: 33.3% 33.3% 33.3%;
+                }
 
-            .react-calendar__tile {
-                max-width: initial !important;
+                .react-calendar__tile {
+                    max-width: initial !important;
+                }
             }
         }
     }
