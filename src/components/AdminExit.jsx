@@ -19,6 +19,7 @@ import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility
 import CheckIcon from '@mui/icons-material/Check'
 import SimCardDownloadIcon from '@mui/icons-material/SimCardDownload'
 import CancelIcon from '@mui/icons-material/Cancel'
+import toast, { Toaster } from 'react-hot-toast'
 
 const { Buffer } = require('buffer')
 
@@ -76,7 +77,7 @@ const DELETE_SALIDAS = gql`
 const FIND_USERS_ON_SALIDA = gql`
     query FindUsersOnSalida($salidaId: String!) {
         findUsersOnSalida(salidaId: $salidaId) {
-            email
+            name
             auth0UserId
         }
     }
@@ -91,14 +92,13 @@ const FIND_USER_ON_EXCEL = gql`
     }
 `
 
-// const CONFIRM_USER = gql`
-//     mutation Mutation($salidaId: ID!, $auth0UserIds: [String!]!) {
-//         confirmUsers(salidaId: $salidaId, auth0UserIds: $auth0UserIds) {
-//             user {
-//                 email
-//         }
-//     }
-// `
+const CONFIRM_USER = gql`
+    mutation ConfirmUsers($salidaId: String!, $auth0UserId: String!) {
+        confirmUsers(salidaId: $salidaId, auth0UserId: $auth0UserId) {
+            name
+        }
+    }
+`
 
 const AdminExit = () => {
     const [salidaId, setSalidaId] = useState('')
@@ -108,7 +108,7 @@ const AdminExit = () => {
     const [selectedFile, setSelectedFile] = useState(null)
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [confirmedUsers, setConfirmedUsers] = useState([])
-
+    const [userAuth0, setUserAuth0] = useState(null)
     const {
         loading: loadingSalidas,
         error: errorSalidas,
@@ -126,17 +126,27 @@ const AdminExit = () => {
         },
         onCompleted: (data) => {
             if (data && data.findUsersOnSalida && data.findUsersOnSalida.length > 0) {
-                setUsuariosEnSalida(data.findUsersOnSalida)
+                setUsuariosEnSalida(data?.findUsersOnSalida)
             }
+        },
+    })
+
+    const [confirmUser] = useMutation(CONFIRM_USER, {
+        variables: {
+            salidaId: salidaId,
+            authOUserId: userAuth0,
         },
     })
 
     const toggleDrawer = () => {
         setDrawerOpen(!drawerOpen)
     }
+    console.log(userAuth0)
 
-    const confirmUser = (user) => {
-        setConfirmedUsers([...confirmedUsers, user])
+    const confirmedUser = (userAuth0) => {
+        console.log('Confirmed', 'auth:', userAuth0, 'id salida:', salidaId)
+        confirmUser()
+        notify('Se confirmó el usuario')
     }
 
     const [formState, setFormState] = useState({
@@ -170,19 +180,14 @@ const AdminExit = () => {
         variables: {
             id: deleteSalida,
         },
+        refetchSalidas,
     })
     const [findUsersOnSalidaInExcel] = useMutation(FIND_USER_ON_EXCEL, {
         variables: {
             salidaId: salidaId,
         },
     })
-    // const [ConfirmUser] = useMutation(CONFIRM_USER, {
-    //     variables: {
-    //         salidaId: salidaId,
-    //         authOUserId: userDepure
-    //     },
-    // })
-
+    const notify = (message) => toast.success(message)
     const handleFormSubmit = (e) => {
         e.preventDefault()
         createSalida()
@@ -439,15 +444,21 @@ const AdminExit = () => {
                     Subir
                 </Button>
             </Box>
+            <Toaster />
+
             <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
                 <Box sx={{ width: 250 }} role="presentation">
                     <List>
                         {usuariosEnSalida.map((user) => (
                             <>
                                 <ListItem key={user.id}>
-                                    <ListItemText primary={user.email} />
+                                    <ListItemText primary={user.name} />
                                     <IconButton
-                                        onClick={() => confirmUser(user)}
+                                        onClick={() => {
+                                            console.log('user', user.auth0UserId)
+                                            setUserAuth0(user.auth0UserId)
+                                            confirmedUser(user.auth0UserId)
+                                        }}
                                         color={confirmedUsers.includes(user) ? 'primary' : 'default'}
                                     >
                                         <CheckIcon style={{ color: 'green' }} />
