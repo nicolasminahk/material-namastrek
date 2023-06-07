@@ -21,7 +21,7 @@ const ALL_SALIDAS = gql`
 `
 
 const Activitys = () => {
-    const { loading, error, data } = useQuery(ALL_SALIDAS)
+    const { loading, error, data, refetch } = useQuery(ALL_SALIDAS)
 
     return (
         <>
