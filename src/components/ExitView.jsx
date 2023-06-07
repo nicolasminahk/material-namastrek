@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Typography, Card, CardContent, CardMedia, Button, IconButton, Divider } from '@mui/material'
+import { Box, Typography, Card, CardContent, CardMedia, Button, Divider } from '@mui/material'
 import { useSpring, animated } from 'react-spring'
 import backgroundImage from '../assets/paisaje3.png'
 import { gql, useQuery, useMutation } from '@apollo/client'
