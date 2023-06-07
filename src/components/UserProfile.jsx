@@ -59,8 +59,6 @@ function UserProfile({ name, benefits }) {
         variables: { auth0UserId: userDepure },
     })
 
-    console.log(dataSalidas?.findSalidasByAuth0UserId)
-    console.log(dataBeneficios?.findBenefitsByAuth0UserId)
     const notify = () => toast.success('Se a eliminado esta salida')
 
     const [removePersonOnExit] = useMutation(REMOVE_PERSON_ON_EXIT, {
@@ -68,8 +66,15 @@ function UserProfile({ name, benefits }) {
             salida: idSalida,
             auth0UserId: userDepure,
         },
+        refetchSalidas,
     })
-    console.log({ idSalida, userDepure })
+    console.log('FIND', dataSalidas?.findSalidasByAuth0UserId)
+
+    // function handleDelete() {
+    //     removePersonOnExit()
+    //     notify()
+    //     refetchSalidas()
+    // }
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -91,7 +96,6 @@ function UserProfile({ name, benefits }) {
                     </Typography>
                     <List>
                         <Toaster />
-
                         {dataSalidas?.findSalidasByAuth0UserId.map((output, index) => (
                             <div key={index}>
                                 <ListItem>
@@ -106,8 +110,8 @@ function UserProfile({ name, benefits }) {
                                         onClick={() => {
                                             setIdSalida(output.id)
                                             removePersonOnExit()
-                                            refetchSalidas()
                                             notify()
+                                            // handleDelete()
                                         }}
                                     >
                                         <CancelIcon />
