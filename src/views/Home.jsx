@@ -14,6 +14,7 @@ const ALL_SALIDAS = gql`
             id
             name
             price
+            image
         }
     }
 `
@@ -42,7 +43,6 @@ const Home = () => {
 
     useEffect(() => {
         const generateUser = async () => {
-            console.log({ user, isAuthenticated })
             if (user && isAuthenticated && userData.id) {
                 createUser()
             }
