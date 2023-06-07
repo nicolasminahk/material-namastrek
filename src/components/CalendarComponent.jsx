@@ -1,16 +1,6 @@
 import React, { useState } from 'react'
 import { Calendar } from 'react-calendar'
-import {
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    Divider,
-    Modal,
-    Typography,
-} from '@mui/material'
+import { Box, Button, Divider, Modal, Typography } from '@mui/material'
 import styled from 'styled-components'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
@@ -18,7 +8,7 @@ import timezone from 'dayjs/plugin/timezone'
 import { useAuth0 } from '@auth0/auth0-react'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import toast, { Toaster } from 'react-hot-toast'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import ExitView from './ExitView'
 
 const StyledDot = styled(Box)`
@@ -69,12 +59,7 @@ const CalendarComponent = ({ activities }) => {
     const [idSalida, setIdSalida] = useState('')
     const [date, setDate] = useState(new Date())
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
-    // const [showExitView, setShowExitView] = useState(false)
     const [selectedActivity, setSelectedActivity] = useState(null)
-
-    const handleActivityClick = (activity) => {
-        setSelectedActivity(activity)
-    }
 
     const handleCloseModal = () => {
         setSelectedActivity(null)
@@ -82,9 +67,6 @@ const CalendarComponent = ({ activities }) => {
 
     const userDepure = extractNumbers(user?.sub)
 
-    const handleViewDetails = (activityId) => {
-        navigate(`/activitys/${activityId}`)
-    }
     const {
         loading: loadingData,
         error: errorData,
@@ -116,7 +98,6 @@ const CalendarComponent = ({ activities }) => {
         const activitiesOnDay = activities?.filter((activity) => {
             return dayjs(activity.date).isSame(date, 'day')
         })
-        console.log(activitiesOnDay)
 
         return (
             <Box position="relative" height="100%">
@@ -147,13 +128,10 @@ const CalendarComponent = ({ activities }) => {
         setIdSalida(idSalida)
         const userExits = dataExit?.findSalidasByAuth0UserId || []
         if (userExits.some((exit) => exit.id === idSalida)) {
-            // La salida ya está registrada para el usuario
             notify('Ya estás registrado para esta salida')
         } else {
-            // La salida no está registrada para el usuario
             addPersonExit()
             notify('Te has registrado exitosamente')
-            // Realiza aquí las acciones necesarias para registrar la salida para el usuario
         }
     }
     const truncateText = (text, maxWords) => {
@@ -258,7 +236,6 @@ const CalendarComponent = ({ activities }) => {
                                         }}
                                         onClick={() => {
                                             setIdSalida(activity.id)
-                                            console.log('DENTRO', activity.id)
                                             if (userData?.findDataByAuth0UserId) {
                                                 handleExitUser(activity.id)
                                             } else {
