@@ -31,7 +31,7 @@ const DELETE_BENEFICIO = gql`
     }
 `
 const AdminBenefit = () => {
-    const { loading, error, data, refetch } = useQuery(ALL_BENEFICIOS, { pollInterval: 500 })
+    const { loading, error, data, refetch } = useQuery(ALL_BENEFICIOS, { pollInterval: 0 })
     const [deleteBenefit, setDeleteBenefit] = useState('')
     // console.log(deleteBenefit)
     const [formState, setFormState] = useState({
