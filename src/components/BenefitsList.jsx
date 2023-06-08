@@ -20,7 +20,13 @@ const FIND_BENEFIT_BY_AUTH0 = gql`
         }
     }
 `
-
+const FIND_EXIT_BY_AUTH0 = gql`
+    query FindSalidasByAuth0UserId($auth0UserId: String!) {
+        findSalidasByAuth0UserId(auth0UserId: $auth0UserId) {
+            name
+        }
+    }
+`
 function extractNumbers(inputString) {
     return inputString?.replace(/\D/g, '')
 }
@@ -39,21 +45,34 @@ const BenefitsList = ({ benefits }) => {
             auth0UserId: userDepure,
         },
     })
+    const {
+        loading: loadingExit,
+        error: errorExit,
+        data: dataExit,
+    } = useQuery(FIND_EXIT_BY_AUTH0, {
+        variables: {
+            auth0UserId: userDepure,
+        },
+    })
     const [addPersonBenefit] = useMutation(ADD_PERSON_BENEFIT, {
         variables: {
             benefit: benefit,
             auth0UserId: userDepure,
         },
     })
-
     const handleBenefits = () => {
         const benefitId = benefit
-        const benefitExist = dataBenefit?.findBenefitByAuth0UserId || []
-        if (benefitExist.some((benefit) => benefit.id === benefitId)) {
-            notify('Ya tienes este Beneficio')
+        const exit = dataExit?.findSalidasByAuth0UserId
+        if (!(exit.length >= 3)) {
+            notifyError('Debes tener tres salidas minimamente ')
         } else {
-            addPersonBenefit()
-            notify('Se agregó a tus Beneficios')
+            const benefitExist = dataBenefit?.findBenefitByAuth0UserId || []
+            if (benefitExist.some((benefit) => benefit.id === benefitId)) {
+                notify('Ya tienes este Beneficio')
+            } else {
+                addPersonBenefit()
+                notify('Se agregó a tus Beneficios')
+            }
         }
     }
 
