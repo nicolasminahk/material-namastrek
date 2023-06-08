@@ -28,7 +28,7 @@ const REMOVE_PERSON_ON_EXIT = gql`
     mutation Mutation($salida: String!, $auth0UserId: String!) {
         removePersonExit(salida: $salida, auth0UserId: $auth0UserId) {
             name
-            id
+            _id
         }
     }
 `
@@ -68,13 +68,6 @@ function UserProfile({ name, benefits }) {
         },
         refetchSalidas,
     })
-    console.log('FIND', dataSalidas?.findSalidasByAuth0UserId)
-
-    // function handleDelete() {
-    //     removePersonOnExit()
-    //     notify()
-    //     refetchSalidas()
-    // }
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
