@@ -134,7 +134,7 @@ const AdminExit = () => {
     const [confirmUser] = useMutation(CONFIRM_USER, {
         variables: {
             salidaId: salidaId,
-            authOUserId: userAuth0,
+            auth0UserId: userAuth0,
         },
     })
 
@@ -267,23 +267,6 @@ const AdminExit = () => {
 
         reader.readAsDataURL(file)
     }
-
-    // function downloadUserData(user) {
-    //     if (!user) {
-    //         console.log('No data available for user')
-    //         return
-    //     }
-
-    //     const data = Object.entries(user).reduce((acc, [key, value]) => {
-    //         const dataValue = value || ''
-    //         return { ...acc, [key]: dataValue }
-    //     }, {})
-
-    //     const blob = new Blob([JSON.stringify(data)], {
-    //         type: 'text/plain;charset=utf-8',
-    //     })
-    //     FileSaver.saveAs(blob, 'usuarios-data.txt')
-    // }
 
     if (loadingSalidas) {
         return <p>Loading</p>
