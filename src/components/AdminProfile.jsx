@@ -31,7 +31,7 @@ const DELETE_TIP = gql`
 `
 
 const AdminProfile = () => {
-    const { loading, error, data, refetch } = useQuery(ALL_TIPS, { pollInterval: 500 })
+    const { loading, error, data, refetch } = useQuery(ALL_TIPS, { pollInterval: 0 })
     const [deleteTip, setDeleteTips] = useState('')
     const [formState, setFormState] = useState({
         name: '',
