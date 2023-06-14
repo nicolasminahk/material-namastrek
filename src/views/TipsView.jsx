@@ -60,7 +60,15 @@ const TipsView = () => {
                 </Typography>
             </Box>
             {data?.allTips?.map((tip) => (
-                <Grid container spacing={3} justifyContent="center" item xs={12} columns={{ xs: 1, sm: 2 }}>
+                <Grid
+                    container
+                    spacing={3}
+                    justifyContent="center"
+                    item
+                    xs={12}
+                    columns={{ xs: 1, sm: 2 }}
+                    key={tip.id}
+                >
                     <Box
                         sx={{
                             flex: 1,
@@ -84,7 +92,7 @@ const TipsView = () => {
                         onMouseEnter={() => setHovered(true)}
                         onMouseLeave={() => setHovered(false)}
                     >
-                        <Card>
+                        <Card key={tip.id}>
                             <animated.div style={hoverAnimation}>
                                 <CardContent>
                                     <Typography
