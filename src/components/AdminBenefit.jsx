@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { gql, useQuery, useMutation } from '@apollo/client'
-import { Box, Button, List, ListItem, ListItemText, TextField, Typography } from '@mui/material'
+import { Box, Button, List, ListItem, TextField, Typography } from '@mui/material'
 
 const ALL_BENEFICIOS = gql`
     query Beneficios {
@@ -33,7 +33,6 @@ const DELETE_BENEFICIO = gql`
 const AdminBenefit = () => {
     const { loading, error, data, refetch } = useQuery(ALL_BENEFICIOS, { pollInterval: 0 })
     const [deleteBenefit, setDeleteBenefit] = useState('')
-    // console.log(deleteBenefit)
     const [formState, setFormState] = useState({
         name: '',
         description: '',
