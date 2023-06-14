@@ -14,8 +14,6 @@ import {
     IconButton,
 } from '@mui/material'
 import { gql, useQuery, useMutation } from '@apollo/client'
-import * as FileSaver from 'file-saver'
-import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility'
 import CheckIcon from '@mui/icons-material/Check'
 import SimCardDownloadIcon from '@mui/icons-material/SimCardDownload'
 import CancelIcon from '@mui/icons-material/Cancel'
@@ -141,7 +139,6 @@ const AdminExit = () => {
     const toggleDrawer = () => {
         setDrawerOpen(!drawerOpen)
     }
-    console.log(userAuth0)
 
     const confirmedUser = (userAuth0) => {
         console.log('Confirmed', 'auth:', userAuth0, 'id salida:', salidaId)
@@ -159,8 +156,6 @@ const AdminExit = () => {
         linkImage: '',
         id: '',
     })
-
-    console.log(dataUsuarios)
 
     const [createSalida] = useMutation(ADD_SALIDAS, {
         variables: {
@@ -243,13 +238,13 @@ const AdminExit = () => {
         setDeleteSalida(id)
         deleteSalidas()
         refetchSalidas()
+        notify('Se eliminó la salida')
     }
     const handleFileInputChange = (event) => {
         setSelectedFile(event.target.files[0])
     }
 
     const handleFileUpload = () => {
-        //Aca debo pasarlo a base64
         const reader = new FileReader()
         const file = selectedFile
 
@@ -257,8 +252,6 @@ const AdminExit = () => {
             const base64String = reader.result.replace(/^data:image\/\w+;base64,/, '')
             const imageBuffer = Buffer.from(base64String, 'base64')
 
-            // Now you can save the base64String in your database
-            console.log(base64String)
             setFormState({
                 ...formState,
                 image: base64String,
@@ -323,12 +316,9 @@ const AdminExit = () => {
                                 {salida.name}
                             </Typography>
                             <Box>
-                                <ListItem sx={{ bgcolor: 'f1f1f1', padding: 1, marginTop: 1, marginBottom: 1 }}>
-                                    {/* <SettingsAccessibilityIcon style={{ color: 'green' }} /> */}
-                                    {/* <Typography variant="h6" sx={{ color: 'green' }}>
-                                        {salida.users.length}
-                                    </Typography> */}
-                                </ListItem>
+                                <ListItem
+                                    sx={{ bgcolor: 'f1f1f1', padding: 1, marginTop: 1, marginBottom: 1 }}
+                                ></ListItem>
                             </Box>
 
                             <Button onClick={() => handleDelete(salida.id)} style={{ color: 'red', margin: '0 4px' }}>
