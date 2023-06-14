@@ -28,7 +28,7 @@ const REMOVE_PERSON_ON_EXIT = gql`
     mutation Mutation($salida: String!, $auth0UserId: String!) {
         removePersonExit(salida: $salida, auth0UserId: $auth0UserId) {
             name
-            _id
+            id
         }
     }
 `
@@ -38,7 +38,6 @@ function extractNumbers(inputString) {
 }
 
 function UserProfile({ name, benefits }) {
-    const [outputs, setOutputs] = useState('')
     const [idSalida, setIdSalida] = useState('')
     const { user, isAuthenticated, error: errorAuth0, isLoading: loadingAuth0 } = useAuth0()
     const userDepure = extractNumbers(user?.sub)
@@ -104,7 +103,6 @@ function UserProfile({ name, benefits }) {
                                             setIdSalida(output.id)
                                             removePersonOnExit()
                                             notify()
-                                            // handleDelete()
                                         }}
                                     >
                                         <CancelIcon />
@@ -119,7 +117,6 @@ function UserProfile({ name, benefits }) {
             <Card
                 variant="outlined"
                 sx={{
-                    // mb: 4,
                     backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39);',
                 }}
             >
