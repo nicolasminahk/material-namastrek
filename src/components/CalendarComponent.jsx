@@ -250,7 +250,6 @@ const CalendarComponent = ({ activities }) => {
                                     <Button
                                         variant="contained"
                                         color="success"
-                                        // onClick={() => setSelectedActivity(activity)}
                                         onClick={() => {
                                             setSelectedActivity(activity)
                                         }}
