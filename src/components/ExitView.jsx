@@ -88,13 +88,10 @@ function ExitView({ name, description, image, price, date, id, linkImage }) {
         const exitId = idSalida
         const userExits = dataExit?.findSalidasByAuth0UserId || []
         if (userExits.some((exit) => exit.id === exitId)) {
-            // La salida ya está registrada para el usuario
             notify('Ya estás registrado para esta salida')
         } else {
-            // La salida no está registrada para el usuario
             addPersonExit()
             notify('Te has registrado exitosamente')
-            // Realiza aquí las acciones necesarias para registrar la salida para el usuario
         }
     }
 
