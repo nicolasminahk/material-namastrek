@@ -37,6 +37,7 @@ const Benefits = () => {
                 </Typography>
                 {data?.allBeneficios?.map((benefit) => (
                     <Box
+                        key={benefit.id}
                         sx={{
                             width: '100%',
                             maxWidth: '600px',
