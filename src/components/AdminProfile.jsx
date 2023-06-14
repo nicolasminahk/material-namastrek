@@ -38,8 +38,6 @@ const AdminProfile = () => {
         description: '',
     })
 
-    console.log(deleteTip)
-
     const [createTip] = useMutation(ADD_TIP, {
         variables: {
             name: formState.name,
