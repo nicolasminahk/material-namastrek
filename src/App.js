@@ -7,6 +7,7 @@ import Benefits from './views/Benefits'
 import Home from './views/Home'
 import Profile from './views/Profile'
 import TipsView from './views/TipsView'
+import ExitView from './components/ExitView'
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/benefits" element={<Benefits />} />
             <Route path="/activitys" element={<Activitys />} />
+            <Route path="/activity" element={<ExitView />} />
             <Route path="/tips" element={<TipsView />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/form" element={<ContactForm />} />
