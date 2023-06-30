@@ -124,16 +124,37 @@ const CalendarComponent = ({ activities }) => {
           })
         : []
 
-    const handleExitUser = (idSalida) => {
-        setIdSalida(idSalida)
-        const userExits = dataExit?.findSalidasByAuth0UserId || []
-        if (userExits.some((exit) => exit.id === idSalida)) {
-            notify('Ya estás registrado para esta salida')
+    // const handleExitUser = (idSalida) => {
+    //     setIdSalida(idSalida)
+    //     const userExits = dataExit?.findSalidasByAuth0UserId || []
+    //     if (userExits.some((exit) => exit.id === idSalida)) {
+    //         notify('Ya estás registrado para esta salida')
+    //     } else {
+    //         addPersonExit()
+    //         notify('Te has registrado exitosamente')
+    //     }
+    // }
+    const handleExitUser = async (idSalida) => {
+        console.log(idSalida, 'ID')
+        if (idSalida) {
+            setIdSalida(idSalida)
+            const userExits = dataExit?.findSalidasByAuth0UserId || []
+            if (userExits.some((exit) => exit.id === idSalida)) {
+                notify('Ya estás registrado para esta salida')
+            } else {
+                try {
+                    await addPersonExit()
+                    notify('Te has registrado exitosamente')
+                } catch (error) {
+                    console.error(error)
+                    notifyError('Ocurrió un error, intente nuevamente')
+                }
+            }
         } else {
-            addPersonExit()
-            notify('Te has registrado exitosamente')
+            notifyError('Debe completar el formulario de contacto que figura en su perfil')
         }
     }
+
     const truncateText = (text, maxWords) => {
         const words = text.split(' ')
         if (words.length <= maxWords) {
@@ -234,10 +255,10 @@ const CalendarComponent = ({ activities }) => {
                                             alignSelf: 'flex-end',
                                             '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
                                         }}
-                                        onClick={() => {
+                                        onClick={async () => {
                                             setIdSalida(activity.id)
                                             if (userData?.findDataByAuth0UserId) {
-                                                handleExitUser(activity.id)
+                                                await handleExitUser(activity.id)
                                             } else {
                                                 notifyError(
                                                     'Debe completar el formulario de contacto que figura en su perfil'
