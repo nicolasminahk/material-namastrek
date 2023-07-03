@@ -255,6 +255,7 @@ const CalendarComponent = ({ activities }) => {
                                     <Button
                                         variant="contained"
                                         color="success"
+                                        size="small"
                                         sx={{
                                             mt: 2,
                                             alignSelf: 'flex-end',
@@ -280,6 +281,7 @@ const CalendarComponent = ({ activities }) => {
                                     <Button
                                         variant="contained"
                                         color="success"
+                                        size="small"
                                         onClick={() => {
                                             setSelectedActivity(activity)
                                         }}
