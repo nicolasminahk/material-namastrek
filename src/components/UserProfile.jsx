@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Typography, Box, Card, CardContent, ListItem, List, Button, Divider } from '@mui/material'
 import { useAuth0 } from '@auth0/auth0-react'
 import { gql, useMutation, useQuery } from '@apollo/client'
@@ -60,26 +60,47 @@ function UserProfile({ name, benefits }) {
 
     const notify = () => toast.success('Se a eliminado esta salida')
     const notifyError = () => toast.error('Ocurrio un error, intente nuevamente')
+    const selectedIdSalida = useMemo(() => idSalida, [idSalida])
 
     const [removePersonOnExit] = useMutation(REMOVE_PERSON_ON_EXIT, {
         variables: {
-            salida: idSalida,
+            salida: selectedIdSalida,
             auth0UserId: userDepure,
         },
     })
 
+    // const handleRemove = (id) => {
+    //     if (!id) {
+    //         notifyError()
+    //     }
+    //     removePersonOnExit({ salida: selectedIdSalida, auth0UserId: userDepure }).then(() => {
+    //         notify()
+    //     })
+    // }
     const handleRemove = (id) => {
+        console.log('Salida ID:', id)
+        if (!id) {
+            notifyError()
+            return
+        }
         removePersonOnExit({ salida: id, auth0UserId: userDepure }).then(() => {
+            setIdSalida(id)
             notify()
         })
     }
 
-    useEffect(() => {
-        refetchSalidas()
-    }, [handleRemove])
+    // useEffect(() => {
+    //     refetchSalidas()
+    // }, [handleRemove])
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Typography variant="h4" sx={{ mb: 2, color: 'white' }}>
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}
+        >
+            <Typography variant="h4" fontFamily="sans-serif" sx={{ mb: 2, mt: 2, color: 'black', boxShadow: 10 }}>
                 Hola! {user?.name}
             </Typography>
             <Card
@@ -110,8 +131,8 @@ function UserProfile({ name, benefits }) {
                                         style={{ color: 'red' }}
                                         onClick={() => {
                                             console.log(output.id)
-                                            setIdSalida(output.id)
                                             handleRemove(output.id)
+                                            setIdSalida(output.id)
                                             refetchSalidas()
                                         }}
                                     >
