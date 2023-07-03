@@ -100,7 +100,7 @@ function UserProfile({ name, benefits }) {
                 alignItems: 'center',
             }}
         >
-            <Typography variant="h4" fontFamily="sans-serif" sx={{ mb: 2, mt: 2, color: 'black', boxShadow: 10 }}>
+            <Typography variant="h4" fontFamily="sans-serif" sx={{ mb: 2, mt: 2, color: 'black' }}>
                 Hola! {user?.name}
             </Typography>
             <Card
