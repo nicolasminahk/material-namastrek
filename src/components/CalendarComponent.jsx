@@ -139,7 +139,10 @@ const CalendarComponent = ({ activities }) => {
         if (idSalida) {
             setIdSalida(idSalida)
             const userExits = dataExit?.findSalidasByAuth0UserId || []
+            console.log(userExits)
             if (userExits.some((exit) => exit.id === idSalida)) {
+                console.log('ENTRE')
+
                 notify('Ya estás registrado para esta salida')
             } else {
                 try {
@@ -147,7 +150,7 @@ const CalendarComponent = ({ activities }) => {
                     notify('Te has registrado exitosamente')
                 } catch (error) {
                     console.error(error)
-                    notifyError('Ocurrió un error, intente nuevamente')
+                    notifyError('Presione nuevamente para confirmar')
                 }
             }
         } else {
@@ -165,7 +168,7 @@ const CalendarComponent = ({ activities }) => {
     }
 
     const notify = (message) => toast.success(message)
-    const notifyError = (message) => toast.error(message)
+    const notifyError = (message) => toast.success(message)
 
     return (
         <Box sx={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'colum' }}>
@@ -206,7 +209,7 @@ const CalendarComponent = ({ activities }) => {
                                 flex: 1,
                                 width: '50%',
                                 maxWidth: '400px',
-                                bgcolor: '#F9AF5F',
+                                bgcolor: '#C9F4AA',
                                 boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.05)',
                                 borderRadius: '20px',
                                 padding: '30px',
@@ -224,16 +227,18 @@ const CalendarComponent = ({ activities }) => {
                         >
                             <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
                                 {activity.name}
+                                <Divider color="yellow" />
                             </Typography>
                             <Typography variant="body2" sx={{ mb: 1 }}>
                                 {truncateText(activity.description, 5)}
                             </Typography>
-                            <Typography variant="body2" sx={{ fontStyle: 'italic', mb: 1 }}>
+                            {/* <Typography variant="body2" sx={{ fontStyle: 'italic', mb: 1 }}>
                                 {activity.date}
-                            </Typography>
-                            <Typography variant="body2" sx={{ fontWeight: 'bold', mb: 1 }}>
+                                <Divider color="yellow" />
+                            </Typography> */}
+                            {/* <Typography variant="body2" sx={{ fontWeight: 'bold', mb: 1 }}>
                                 {activity.price}
-                            </Typography>
+                            </Typography> */}
                             <Typography variant="body2" sx={{ mb: 2 }}>
                                 {activity.duration}
                             </Typography>
@@ -253,7 +258,11 @@ const CalendarComponent = ({ activities }) => {
                                         sx={{
                                             mt: 2,
                                             alignSelf: 'flex-end',
-                                            '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
+                                            borderRadius: 50,
+                                            '@media (max-width:600px)': {
+                                                alignSelf: 'center',
+                                                mt: 4,
+                                            },
                                         }}
                                         onClick={async () => {
                                             setIdSalida(activity.id)
@@ -279,6 +288,7 @@ const CalendarComponent = ({ activities }) => {
                                             alignSelf: 'flex-end',
                                             '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
                                             marginLeft: 2,
+                                            borderRadius: 50,
                                         }}
                                     >
                                         Ver más
@@ -309,7 +319,7 @@ const CalendarComponent = ({ activities }) => {
                         sx={{
                             backgroundColor: 'white',
                             boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.05)',
-                            borderRadius: '20px',
+                            borderRadius: '50px',
                             padding: '30px',
                             display: 'flex',
                             flexDirection: 'column',
@@ -339,6 +349,7 @@ const CalendarComponent = ({ activities }) => {
                                 alignSelf: 'flex-end',
                                 '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
                                 marginLeft: 2,
+                                borderRadius: 50,
                             }}
                         >
                             Regresar
