@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { gql, useQuery, useMutation } from '@apollo/client'
-import { Box, Button, List, ListItem, TextField, Typography } from '@mui/material'
+import { Box, Button, Divider, List, ListItem, TextField, Typography } from '@mui/material'
+import CancelIcon from '@mui/icons-material/Cancel'
 
 const ALL_BENEFICIOS = gql`
     query Beneficios {
@@ -87,7 +88,6 @@ const AdminBenefit = () => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Typography variant="h6">Beneficios</Typography>
             <List>
                 {data?.allBeneficios.map((beneficio) => {
                     return (
@@ -98,7 +98,7 @@ const AdminBenefit = () => {
                                         {beneficio.name}
                                     </Typography>
                                     <Button onClick={() => handleDelete(beneficio.id)} style={{ color: 'red' }}>
-                                        Eliminar
+                                        <CancelIcon style={{ color: 'red' }} />
                                     </Button>
                                 </ListItem>
                             </List>
@@ -106,22 +106,24 @@ const AdminBenefit = () => {
                     )
                 })}
             </List>
-            <div style={{ marginTop: 20 }}>
+            <div style={{ marginTop: 20, marginBottom: 20 }}>
                 <Typography variant="h6">Nuevo Beneficio</Typography>
                 <TextField
                     value={formState.name}
                     onChange={handleNameChange}
                     label="Nombre"
                     variant="outlined"
-                    margin="dense"
+                    margin="normal"
+                    fullWidth
                 />
                 <TextField
                     value={formState.description}
                     onChange={handleDescriptionChange}
                     label="Descripción"
                     variant="outlined"
-                    margin="dense"
-                    multiline
+                    margin="normal"
+                    fullWidth
+                    // multiline
                     rows={4}
                 />
                 <Button onClick={handleSubmit} variant="contained" color="primary" style={{ marginTop: 10 }}>
