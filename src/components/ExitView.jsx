@@ -177,6 +177,7 @@ function ExitView({ name, description, image, price, date, id, linkImage }) {
                                 sx={{
                                     mt: 2,
                                     alignSelf: 'flex-end',
+                                    borderRadius: 50,
                                     '@media (max-width:600px)': { alignSelf: 'center', mt: 4 },
                                 }}
                                 onClick={() => {
