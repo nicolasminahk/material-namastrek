@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Typography, TextField, Button, Box } from '@material-ui/core'
 import { gql, useQuery, useMutation } from '@apollo/client'
 import { Divider, List, ListItem } from '@mui/material'
+import CancelIcon from '@mui/icons-material/Cancel'
 
 const ALL_TIPS = gql`
     query Tips {
@@ -82,7 +83,7 @@ const AdminProfile = () => {
                                     {tip.name}
                                 </Typography>
                                 <Button onClick={() => handleDelete(tip.id)} style={{ color: 'red' }}>
-                                    Eliminar
+                                    <CancelIcon style={{ color: 'red' }} />
                                 </Button>
                             </ListItem>
                         </List>
