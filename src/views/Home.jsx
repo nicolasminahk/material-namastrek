@@ -59,7 +59,15 @@ const Home = () => {
 
     return (
         <>
-            <Box sx={{ backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39)', marginTop: '-40px' }}>
+            <Box
+                sx={{
+                    backgroundImage: `url(${process.env.PUBLIC_URL}/fondo2.png)`,
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                    marginTop: '-40px',
+                }}
+            >
                 <Navbar />
                 <Box
                     sx={{
@@ -69,7 +77,8 @@ const Home = () => {
                     <Typography
                         variant="h4"
                         sx={{
-                            color: '#E5F6E5',
+                            // color: '#E5F6E5',
+                            color: 'black',
                             fontWeight: 'bold',
                             textAlign: 'center',
                             marginTop: '2rem',
