@@ -364,55 +364,81 @@ const AdminExit = () => {
                     sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1, paddingBottom: 2 }}
                     label="Nombre"
                     value={formState.name}
+                    margin="normal"
+                    fullWidth
                     onChange={handleNameChange}
                 />
+                <Divider />
                 <TextField
                     variant="outlined"
                     sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1 }}
                     label="Descripción"
                     value={formState.description}
+                    margin="normal"
+                    fullWidth
                     onChange={handleDescriptionChange}
                 />
+                <Divider />
+
                 <TextField
                     variant="outlined"
                     sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1 }}
                     label="Precio"
                     value={formState.price}
+                    margin="normal"
+                    fullWidth
                     onChange={handlePriceChange}
                 />
+                <Divider />
+
                 <TextField
                     variant="outlined"
                     sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1 }}
                     label="Duración"
                     value={formState.duration}
+                    margin="normal"
+                    fullWidth
                     onChange={handleDurationChange}
                 />
+                <Divider />
+
                 <TextField
                     variant="outlined"
                     sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1 }}
                     label="Fecha"
                     value={formState.date}
+                    margin="normal"
+                    fullWidth
                     onChange={handleDateChange}
                 />
+                <Divider />
+
                 <TextField
                     variant="outlined"
                     sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1 }}
                     label="Link de Fotos"
                     value={formState.linkImage}
+                    margin="normal"
+                    fullWidth
                     onChange={handleLinkImageChange}
                 />
+                <Divider />
+
                 <TextField
                     label="Output Image"
                     type="file"
                     InputLabelProps={{
                         shrink: true,
                     }}
+                    margin="normal"
+                    fullWidth
                     onChange={handleFileInputChange}
                     sx={{ mr: 2, paddingBottom: 2 }}
                 />
                 <Button variant="contained" color="primary" onClick={handleFileUpload}>
                     Upload Image
                 </Button>
+                <Divider sx={{ m: 1 }} />
                 <Button variant="contained" sx={{ marginTop: 2 }} onClick={handleFormSubmit}>
                     Subir
                 </Button>
