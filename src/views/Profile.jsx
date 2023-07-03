@@ -20,6 +20,12 @@ const UserProfileContainer = styled(Box)(({ theme }) => ({
     backgroundImage: 'linear-gradient(to bottom right, #8BC34A, #CDDC39)',
     animation: 'fadeIn 1s ease-in-out',
     animationFillMode: 'forwards',
+    backgroundImage: `url(${process.env.PUBLIC_URL}/fondo.jpg)`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    animation: 'fadeIn 1s ease-in-out',
+    animationFillMode: 'forwards',
 }))
 
 const FIND_DATA_BY_AUTHUSERID = gql`
