@@ -61,7 +61,7 @@ const Home = () => {
         <>
             <Box
                 sx={{
-                    backgroundImage: `url(${process.env.PUBLIC_URL}/fondo2.png)`,
+                    backgroundImage: `url(${process.env.PUBLIC_URL}/fondo3.png)`,
                     backgroundPosition: 'center',
                     backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
@@ -89,7 +89,7 @@ const Home = () => {
                             paddingTop: '80px',
                         }}
                     >
-                        Busca tu mejor <br /> Aventura!
+                        {/* Busca tu mejor <br /> Aventura! */}
                     </Typography>
                 </Box>
                 <CalendarComponent activities={data?.allSalidas} />
