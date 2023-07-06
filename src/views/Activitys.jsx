@@ -34,6 +34,10 @@ const Activitys = () => {
                     justifyContent: 'center',
                     pt: 8,
                     minHeight: '100vh',
+                    backgroundImage: `url(${process.env.PUBLIC_URL}/fondo4.png)`,
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
                 }}
             >
                 <Typography variant="h3" sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold', paddingTop: '25px' }}>
@@ -46,6 +50,7 @@ const Activitys = () => {
                         maxWidth: '600px',
                         bgcolor: '#FFFFFF',
                         boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.05)',
+
                         borderRadius: '10px',
                         padding: '30px',
                         mb: 8,
