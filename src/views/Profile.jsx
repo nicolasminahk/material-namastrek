@@ -69,10 +69,10 @@ const Profile = () => {
                                 borderColor: 'red',
                             }}
                         >
-                            <Button onClick={() => navigate('/form')} style={{ color: 'white' }}>
+                            <Button onClick={() => navigate('/form')} style={{ color: 'black' }}>
                                 Formulario
                             </Button>
-                            <ListAltIcon style={{ color: 'white' }} />
+                            <ListAltIcon style={{ color: 'black' }} />
                         </Box>
                     </>
                 )}
