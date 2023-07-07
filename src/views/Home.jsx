@@ -61,7 +61,7 @@ const Home = () => {
         <>
             <Box
                 sx={{
-                    backgroundImage: `url(${process.env.PUBLIC_URL}/fondo3.png)`,
+                    backgroundImage: `url(${process.env.PUBLIC_URL}/fondo7.jpg)`,
                     backgroundPosition: 'center',
                     backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
