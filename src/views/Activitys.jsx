@@ -41,7 +41,7 @@ const Activitys = () => {
                 }}
             >
                 <Typography variant="h3" sx={{ color: '#3F704D', mb: 6, fontWeight: 'bold', paddingTop: '25px' }}>
-                    Salidas
+                    salidas
                 </Typography>
                 <Box
                     sx={{
