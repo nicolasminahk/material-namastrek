@@ -34,7 +34,7 @@ const Activitys = () => {
                     justifyContent: 'center',
                     pt: 8,
                     minHeight: '100vh',
-                    backgroundImage: `url(${process.env.PUBLIC_URL}/fondo4.png)`,
+                    // backgroundImage: `url(${process.env.PUBLIC_URL}/fondo3.png)`,
                     backgroundPosition: 'center',
                     backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
