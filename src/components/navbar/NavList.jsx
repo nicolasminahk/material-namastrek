@@ -6,6 +6,7 @@ import LoyaltyIcon from '@mui/icons-material/Loyalty'
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
+import InstagramIcon from '@mui/icons-material/Instagram'
 import BuildIcon from '@mui/icons-material/Build'
 import { useNavigate } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
@@ -71,6 +72,23 @@ const NavList = () => {
                     <IconButton aria-label="WhatsApp" onClick={() => window.open(process.env.REACT_APP_WAME)}>
                         <WhatsApp />
                         <ListItemText primary="Contactanos!" />
+                    </IconButton>
+                </ListItem>
+                <ListItem>
+                    <IconButton
+                        aria-label="Facebook"
+                        onClick={() => window.open('https://www.facebook.com/namastrekk')}
+                        sx={{ mr: 1 }}
+                    >
+                        <Facebook />
+                    </IconButton>
+                    <IconButton
+                        aria-label="Facebook"
+                        onClick={() => window.open('https://www.instagram.com/namastrek/')}
+                        sx={{ mr: 1 }}
+                        size="large"
+                    >
+                        <InstagramIcon />
                     </IconButton>
                 </ListItem>
             </nav>
