@@ -112,7 +112,7 @@ function UserProfile({ name, benefits }) {
                     flexDirection: 'column',
                 }}
             >
-                <CardContent style={{ display: 'flex', flexDirection: 'row' }}>
+                <CardContent style={{ display: 'flex', flexDirection: 'column' }}>
                     <Typography variant="h5" sx={{ mb: 2, color: 'green', margin: 2 }}>
                         Tus Salidas
                     </Typography>
@@ -121,11 +121,9 @@ function UserProfile({ name, benefits }) {
                         {dataSalidas?.findSalidasByAuth0UserId.map((output, index) => (
                             <div key={index}>
                                 <ListItem>
-                                    <Typography variant="body1" style={{ color: 'white' }}>
+                                    <Typography variant="body1" style={{ color: 'white', marginRight: 13 }}>
                                         {output.name}
                                     </Typography>
-                                </ListItem>
-                                <ListItem>
                                     <Typography variant="body1">{output.date}</Typography>
                                     <Button
                                         style={{ color: 'red' }}
