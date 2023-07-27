@@ -1,6 +1,7 @@
 import React from 'react'
 import { Typography, Box, IconButton } from '@mui/material'
 import { Facebook, WhatsApp } from '@mui/icons-material'
+import InstagramIcon from '@mui/icons-material/Instagram'
 
 function Footer() {
     return (
@@ -34,6 +35,14 @@ function Footer() {
                 </IconButton>
                 <IconButton aria-label="WhatsApp" onClick={() => window.open(process.env.REACT_APP_WAME)}>
                     <WhatsApp />
+                </IconButton>
+                <IconButton
+                    aria-label="Instagram"
+                    onClick={() => window.open('https://www.instagram.com/namastrek/')}
+                    sx={{ mr: 1 }}
+                    size="large"
+                >
+                    <InstagramIcon />
                 </IconButton>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
