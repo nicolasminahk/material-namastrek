@@ -61,13 +61,37 @@ const Home = () => {
         <>
             <Box
                 sx={{
-                    backgroundImage: `url(${process.env.PUBLIC_URL}/fondoAnimado.gif)`,
+                    backgroundImage: `url(${process.env.PUBLIC_URL}/fondoTextura.png)`,
                     backgroundPosition: 'center',
                     backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
                     marginTop: '-40px',
                 }}
             >
+                {/* <Box
+                sx={{
+                    backgroundImage: `url(${process.env.PUBLIC_URL}/fondoTextura.png)`,
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    minHeight: '100vh', // Asegura que el contenedor ocupe el 100% de la altura de la pantalla
+                    display: 'flex', // Utiliza flexbox para ajustar el contenido verticalmente
+                    flexDirection: 'column', // Ajusta el contenido verticalmente
+                    justifyContent: 'center', // Centra verticalmente el contenido
+                    alignItems: 'center', // Centra horizontalmente el contenido
+                    // Ajusta el tamaño y posición de la imagen de fondo para vista web
+                    '@media (min-width: 768px)': {
+                        backgroundSize: 'cover', // Tamaño normal de la imagen para vista web
+                        backgroundPosition: 'center top', // Ajusta la posición de la imagen centrada verticalmente y alineada en la parte superior
+                    },
+                    // Ajusta el tamaño y posición de la imagen de fondo para vista móvil
+                    '@media (max-width: 767px)': {
+                        backgroundSize: 'cover', // Tamaño normal de la imagen para vista móvil
+                        backgroundPosition: 'center bottom', // Ajusta la posición de la imagen centrada verticalmente y alineada en la parte inferior
+                        height: '100%', // Ocupa toda la altura del contenedor en vista móvil
+                        width: '100%', // Ocupa todo el ancho del contenedor en vista móvil
+                    },
+                }}
+            > */}
                 <Navbar />
                 <Box
                     sx={{
