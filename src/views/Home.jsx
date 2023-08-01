@@ -61,7 +61,7 @@ const Home = () => {
         <>
             <Box
                 sx={{
-                    backgroundImage: `url(${process.env.PUBLIC_URL}/fondoAnimado.gif)`,
+                    backgroundImage: `url(${process.env.PUBLIC_URL}/fondoFinal.gif)`,
                     backgroundPosition: 'center',
                     backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
