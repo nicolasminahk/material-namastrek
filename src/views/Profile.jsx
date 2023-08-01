@@ -51,7 +51,7 @@ const Profile = () => {
             auth0UserId: userDepure,
         },
     })
-    // console.log(data?.findDataByAuth0UserId)
+    console.log(data?.findDataByAuth0UserId)
     return (
         <>
             <Navbar />
@@ -70,7 +70,7 @@ const Profile = () => {
                             }}
                         >
                             <Button onClick={() => navigate('/form')} style={{ color: 'black' }}>
-                                Formulario
+                                Formularios
                             </Button>
                             <ListAltIcon style={{ color: 'black' }} />
                         </Box>
