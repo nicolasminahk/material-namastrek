@@ -370,15 +370,6 @@ const AdminExit = () => {
                     onChange={handleNameChange}
                 />
                 <Divider />
-                {/* <TextField
-                    variant="outlined"
-                    sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1 }}
-                    label="Descripción"
-                    value={formState.description}
-                    margin="normal"
-                    fullWidth
-                    onChange={handleDescriptionChange}
-                /> */}
                 <TextareaAutosize
                     rowsMin={3}
                     placeholder="Descripción"
@@ -392,13 +383,6 @@ const AdminExit = () => {
                         margin: 1,
                         fontFamily: 'unset',
                     }}
-                    // sx={{
-                    //     backgroundColor: '#f1f1f1',
-                    //     border: '1px solid #ccc',
-                    //     padding: '8px',
-                    //     width: '100%',
-                    //     fontSize: '14px',
-                    // }}
                 />
                 <Divider />
 
