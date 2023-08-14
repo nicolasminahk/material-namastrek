@@ -12,6 +12,7 @@ import {
     Drawer,
     ListItemText,
     IconButton,
+    TextareaAutosize,
 } from '@mui/material'
 import { gql, useQuery, useMutation } from '@apollo/client'
 import CheckIcon from '@mui/icons-material/Check'
@@ -369,7 +370,7 @@ const AdminExit = () => {
                     onChange={handleNameChange}
                 />
                 <Divider />
-                <TextField
+                {/* <TextField
                     variant="outlined"
                     sx={{ bgcolor: 'f1f1f1', borderRadius: 2, margin: 1 }}
                     label="Descripción"
@@ -377,6 +378,27 @@ const AdminExit = () => {
                     margin="normal"
                     fullWidth
                     onChange={handleDescriptionChange}
+                /> */}
+                <TextareaAutosize
+                    rowsMin={3}
+                    placeholder="Descripción"
+                    value={formState.description}
+                    onChange={handleDescriptionChange}
+                    style={{
+                        height: '109px',
+                        overflow: ' hidden',
+                        width: '100%',
+                        borderRadius: '4px',
+                        margin: 1,
+                        fontFamily: 'unset',
+                    }}
+                    // sx={{
+                    //     backgroundColor: '#f1f1f1',
+                    //     border: '1px solid #ccc',
+                    //     padding: '8px',
+                    //     width: '100%',
+                    //     fontSize: '14px',
+                    // }}
                 />
                 <Divider />
 
