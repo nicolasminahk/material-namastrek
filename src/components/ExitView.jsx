@@ -151,7 +151,11 @@ function ExitView({ name, description, image, price, date, id, linkImage }) {
                         </Typography>
                         <Divider />
 
-                        <Typography variant="body2" sx={{ mb: 2, color: 'green', fontSize: 'italic' }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ mb: 2, color: 'green', fontSize: 'italic' }}
+                            style={{ whiteSpace: 'pre-line' }}
+                        >
                             {description}
                         </Typography>
                         <Typography variant="body1" sx={{ mb: 2, color: 'green', fontSize: 'italic' }}>
